@@ -34,6 +34,7 @@ This project simulates a complete event management workflow entirely on the fron
 
 ## 📁 Project Structure
 
+```bash
 Event-Planning-System/
 │
 ├── src/
@@ -54,12 +55,12 @@ Event-Planning-System/
 │   │   │   ├── events/
 │   │   │   │   ├── list/        # All events table
 │   │   │   │   ├── details/
-│   │   │   │   ├── overview/
-│   │   │   │   ├── guests/
-│   │   │   │   ├── tasks/
-│   │   │   │   ├── expenses/
-│   │   │   │   ├── feedback/
-│   │   │   │   └── reports/
+│   │   │   │   │   ├── overview/
+│   │   │   │   │   ├── guests/
+│   │   │   │   │   ├── tasks/
+│   │   │   │   │   ├── expenses/
+│   │   │   │   │   ├── feedback/
+│   │   │   │   │   └── reports/
 │   │   │   └── settings/
 │   │   │
 │   │   ├── shared/
@@ -80,22 +81,3 @@ Event-Planning-System/
 ├── angular.json                 # Angular build configuration
 ├── package.json                 # Project dependencies
 └── README.md                    # Project documentation
-
-
----
-
-## ⚙️ Installation
-
-```bash
-# 1️⃣ Clone repository
-git clone https://github.com/ITI-Angular-Project/Event-Planning-System.git
-cd Event-Planning-System
-
-# 2️⃣ Install dependencies
-npm install
-
-# 3️⃣ Start development server
-ng serve
-
-
-Open http://localhost:4200/
