@@ -46,21 +46,23 @@ Event-Planning-System/
 │   │   │   └── utils/           # Helper functions, constants
 │   │   │
 │   │   ├── layouts/             # App layouts (Navbar, Sidebar, Container)
-│   │   │   ├── main-layout/
-│   │   │   └── auth-layout/
+│   │   │   ├── public-layout/                  # Navbar + Footer layout for main site
+│   │   │   └── dashboard-layout/               # Sidebar + Header for admin/organizer dashboard
 │   │   │
-│   │   ├── pages/
-│   │   │   ├── auth/            # Login / Register (mock)
-│   │   │   ├── dashboard/       # Overview cards & charts
+│   ├── pages/
+│   │   ├── public/                         # Main website pages (Home, About, Contact)
+│   │   │   ├── home/
+│   │   │   ├── about/
+│   │   │   ├── contact/
+│   │   │   └── auth/                       # Login/Register (for guests or organizers)
+│   │   │
+│   │   ├── dashboard/                      # Organizer/Admin area
+│   │   │   ├── home/                       # Dashboard main overview (stats, charts)
 │   │   │   ├── events/
-│   │   │   │   ├── list/        # All events table
-│   │   │   │   ├── details/
-│   │   │   │   │   ├── overview/
-│   │   │   │   │   ├── guests/
-│   │   │   │   │   ├── tasks/
-│   │   │   │   │   ├── expenses/
-│   │   │   │   │   ├── feedback/
-│   │   │   │   │   └── reports/
+│   │   │   │   ├── events-list.component.ts
+│   │   │   │   ├── event-details/
+│   │   │   ├── reports/
+│   │   │   ├── users/
 │   │   │   └── settings/
 │   │   │
 │   │   ├── shared/
