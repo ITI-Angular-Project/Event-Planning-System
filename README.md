@@ -73,7 +73,7 @@ Event-Planning-System/
 │   │
 │   ├── assets/                  # Images, icons, JSON data
 │   ├── environments/            # Environment configs
-│   ├── styles.scss              # Global styles + Tailwind imports
+│   ├── styles.css              # Global styles + Tailwind imports
 │   └── main.ts                  # Bootstrap application
 │
 ├── tailwind.config.js           # Tailwind configuration
