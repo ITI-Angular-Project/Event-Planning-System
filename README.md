@@ -37,49 +37,50 @@ This project simulates a complete event management workflow entirely on the fron
 Event-Planning-System/
 │
 ├── src/
-│ ├── app/
-│ │ ├── core/
-│ │ │ ├── models/ # Interfaces (Event, Task, Guest, Expense, Feedback)
-│ │ │ ├── services/ # Data & Storage Services using Signals
-│ │ │ ├── guards/ # Route guards (Auth, Role-based)
-│ │ │ └── utils/ # Helper functions, constants
-│ │ │
-│ │ ├── layouts/ # Main layouts (Navbar, Sidebar, Container)
-│ │ │ ├── main-layout/
-│ │ │ └── auth-layout/
-│ │ │
-│ │ ├── pages/
-│ │ │ ├── auth/ # Login / Register (mock)
-│ │ │ ├── dashboard/ # Overview cards & charts
-│ │ │ ├── events/
-│ │ │ │ ├── list/ # All events table
-│ │ │ │ └── details/
-│ │ │ │ ├── overview/
-│ │ │ │ ├── guests/
-│ │ │ │ ├── tasks/
-│ │ │ │ ├── expenses/
-│ │ │ │ ├── feedback/
-│ │ │ │ └── reports/
-│ │ │ └── settings/
-│ │ │
-│ │ ├── shared/
-│ │ │ ├── components/ # Reusable UI (Modal, Table, Chart, Toast, ProgressBar)
-│ │ │ ├── directives/
-│ │ │ └── pipes/
-│ │ │
-│ │ ├── app.routes.ts # Application routing configuration
-│ │ └── app.config.ts # App bootstrap configuration (Zoneless)
-│ │
-│ ├── assets/ # Images, icons, JSON data
-│ ├── environments/ # Environment configs
-│ ├── styles.scss # Global styles + Tailwind imports
-│ └── main.ts # Bootstrap application
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── models/          # Interfaces (Event, Task, Guest, Expense, Feedback)
+│   │   │   ├── services/        # Data & Storage Services using Signals
+│   │   │   ├── guards/          # Route guards (Auth, Role-based)
+│   │   │   └── utils/           # Helper functions, constants
+│   │   │
+│   │   ├── layouts/             # App layouts (Navbar, Sidebar, Container)
+│   │   │   ├── main-layout/
+│   │   │   └── auth-layout/
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── auth/            # Login / Register (mock)
+│   │   │   ├── dashboard/       # Overview cards & charts
+│   │   │   ├── events/
+│   │   │   │   ├── list/        # All events table
+│   │   │   │   ├── details/
+│   │   │   │   ├── overview/
+│   │   │   │   ├── guests/
+│   │   │   │   ├── tasks/
+│   │   │   │   ├── expenses/
+│   │   │   │   ├── feedback/
+│   │   │   │   └── reports/
+│   │   │   └── settings/
+│   │   │
+│   │   ├── shared/
+│   │   │   ├── components/      # Reusable UI (Modal, Table, Chart, Toast, ProgressBar)
+│   │   │   ├── directives/
+│   │   │   └── pipes/
+│   │   │
+│   │   ├── app.routes.ts        # Application routing configuration
+│   │   └── app.config.ts        # App bootstrap configuration (Zoneless)
+│   │
+│   ├── assets/                  # Images, icons, JSON data
+│   ├── environments/            # Environment configs
+│   ├── styles.scss              # Global styles + Tailwind imports
+│   └── main.ts                  # Bootstrap application
 │
-├── tailwind.config.js # Tailwind configuration
-├── postcss.config.js # PostCSS config
-├── angular.json # Angular build configuration
-├── package.json # Project dependencies
-└── README.md # This file
+├── tailwind.config.js           # Tailwind configuration
+├── postcss.config.js            # PostCSS configuration
+├── angular.json                 # Angular build configuration
+├── package.json                 # Project dependencies
+└── README.md                    # Project documentation
+
 
 
 ---
