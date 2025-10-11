@@ -1,59 +1,101 @@
-# EventPlanningSystem
+# 🎯 Event Planning System (Frontend Only)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+A role-based **Event Planning & Management System** built with **Angular 20 (Zoneless)** and **TailwindCSS**.  
+This project simulates a complete event management workflow entirely on the frontend using `localStorage` and mock data — with full CRUD functionality, dashboards, and analytics.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Features
+
+- 🔐 Role-based access (Organizer / Guest / Admin)
+- 🗓️ Event creation, editing, filtering, and auto-status updates
+- 👥 Guest invitations & feedback
+- ✅ Task assignment & progress tracking
+- 💰 Expense tracking with charts and totals
+- 📊 Dashboard analytics (Events, Guests, Expenses, Ratings)
+- 🌗 Light/Dark theme
+- 💾 Data stored locally (no backend required)
+- 🧱 Responsive UI using **TailwindCSS**
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| **Framework** | Angular 20 (Standalone Components, Zoneless) |
+| **Styling** | TailwindCSS + SCSS |
+| **Charts** | Chart.js / ng2-charts |
+| **Storage** | localStorage / mock JSON data |
+| **Language** | TypeScript |
+| **Build Tool** | Angular CLI 20 |
+
+---
+
+## 📁 Project Structure
+
+Event-Planning-System/
+│
+├── src/
+│ ├── app/
+│ │ ├── core/
+│ │ │ ├── models/ # Interfaces (Event, Task, Guest, Expense, Feedback)
+│ │ │ ├── services/ # Data & Storage Services using Signals
+│ │ │ ├── guards/ # Route guards (Auth, Role-based)
+│ │ │ └── utils/ # Helper functions, constants
+│ │ │
+│ │ ├── layouts/ # Main layouts (Navbar, Sidebar, Container)
+│ │ │ ├── main-layout/
+│ │ │ └── auth-layout/
+│ │ │
+│ │ ├── pages/
+│ │ │ ├── auth/ # Login / Register (mock)
+│ │ │ ├── dashboard/ # Overview cards & charts
+│ │ │ ├── events/
+│ │ │ │ ├── list/ # All events table
+│ │ │ │ └── details/
+│ │ │ │ ├── overview/
+│ │ │ │ ├── guests/
+│ │ │ │ ├── tasks/
+│ │ │ │ ├── expenses/
+│ │ │ │ ├── feedback/
+│ │ │ │ └── reports/
+│ │ │ └── settings/
+│ │ │
+│ │ ├── shared/
+│ │ │ ├── components/ # Reusable UI (Modal, Table, Chart, Toast, ProgressBar)
+│ │ │ ├── directives/
+│ │ │ └── pipes/
+│ │ │
+│ │ ├── app.routes.ts # Application routing configuration
+│ │ └── app.config.ts # App bootstrap configuration (Zoneless)
+│ │
+│ ├── assets/ # Images, icons, JSON data
+│ ├── environments/ # Environment configs
+│ ├── styles.scss # Global styles + Tailwind imports
+│ └── main.ts # Bootstrap application
+│
+├── tailwind.config.js # Tailwind configuration
+├── postcss.config.js # PostCSS config
+├── angular.json # Angular build configuration
+├── package.json # Project dependencies
+└── README.md # This file
+
+
+---
+
+## ⚙️ Installation
 
 ```bash
+# 1️⃣ Clone repository
+git clone https://github.com/ITI-Angular-Project/Event-Planning-System.git
+cd Event-Planning-System
+
+# 2️⃣ Install dependencies
+npm install
+
+# 3️⃣ Start development server
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Open http://localhost:4200/
