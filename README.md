@@ -82,7 +82,6 @@ Event-Planning-System/
 └── README.md                    # Project documentation
 
 
-
 ---
 
 ## ⚙️ Installation
