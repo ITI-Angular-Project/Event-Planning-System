@@ -24,7 +24,7 @@ This project simulates a complete event management workflow entirely on the fron
 | Layer | Technology |
 |-------|-------------|
 | **Framework** | Angular 20 (Standalone Components, Zoneless) |
-| **Styling** | TailwindCSS + SCSS |
+| **Styling** | TailwindCSS |
 | **Charts** | Chart.js / ng2-charts |
 | **Storage** | localStorage / mock JSON data |
 | **Language** | TypeScript |
