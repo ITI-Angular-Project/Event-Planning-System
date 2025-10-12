@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import { HomeDashboard } from '../../pages/dashboard/home/home-dashboard';
+import { RouterOutlet } from '@angular/router';
+import { Sidebar } from '../../shared/components/sidebar/sidebar';
+import { ThemeService } from '../../core/services/themeService/theme-service';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [HomeDashboard],
+  imports: [RouterOutlet, Sidebar],
   templateUrl: './dashboard-layout.html',
-  styleUrl: './dashboard-layout.css'
+  styleUrl: './dashboard-layout.css',
 })
 export class DashboardLayout {
+  constructor(public theme: ThemeService) {}
 
+  get themeSignal() {
+    return this.theme.theme;
+  }
 }
