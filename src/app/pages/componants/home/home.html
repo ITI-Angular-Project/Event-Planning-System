@@ -1,0 +1,46 @@
+<section
+  class="relative overflow-hidden py-16 flex flex-col items-center transition-colors duration-500
+  bg-white text-black dark:bg-black dark:text-white"
+>
+  <swiper-container
+    autoplay="true"
+    class="w-[95%] h-[400px] my-10 flex py-5 items-center justify-center overflow-hidden"
+    slides-per-view="7"
+    space-between="10"
+    autoplay-delay="300"
+    autoplay-disable-on-interaction="false"
+    speed="3000"
+    loop="true"
+    grab-cursor="true"
+    breakpoints='{
+      "320": { "slidesPerView": 1, "spaceBetween": 10 },
+      "480": { "slidesPerView": 2, "spaceBetween": 10 },
+      "768": { "slidesPerView": 3, "spaceBetween": 15 },
+      "1024": { "slidesPerView": 4, "spaceBetween": 20 },
+      "1280": { "slidesPerView": 5, "spaceBetween": 25 },
+      "1536": { "slidesPerView": 6, "spaceBetween": 30 },
+      "1920": { "slidesPerView": 7, "spaceBetween": 35 }
+    }'
+  >
+    @for (speaker of speakers; track speaker) {
+      <swiper-slide
+        #animate
+        class="fade-in flex justify-center items-center rounded-xl overflow-hidden shadow-lg transition-transform duration-700 hover:scale-105"
+      >
+        <img
+          [src]="speaker"
+          alt="Speaker"
+          class="object-cover w-[300px] h-[380px] md:w-[350px] md:h-[400px] rounded-xl"
+        />
+      </swiper-slide>
+    }
+  </swiper-container>
+
+  <h1
+    #animate
+    class="fade-in anton-regular text-center text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-wide py-8
+    bg-gradient-to-t from-white/70 to-transparent dark:from-black/70 dark:to-transparent w-full transition-colors duration-500"
+  >
+    CONFERENCES · LECTURES · WORKSHOPS
+  </h1>
+</section>
