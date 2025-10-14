@@ -1,0 +1,20 @@
+<app-table
+  [title]="'Users'"
+  [subtitle]="'Manage system users and permissions'"
+  [columns]="usersColumns"
+  [data]="usersData"
+  [createButtonText]="'Add User'"
+  [showFilters]="true"
+  [showPagination]="true"
+  [filters]="usersFilters"
+  [pageSize]="25"
+  [currentPage]="1"
+  [totalItems]="usersData.length"
+  (create)="onCreateUser()"
+  (view)="onViewUser($event)"
+  (edit)="onEditUser($event)"
+  (delete)="onDeleteUser($event)"
+  (search)="onSearchUsers($event)"
+  (filterChange)="onFilterUsers($event)"
+  (pageChange)="onPageChange($event)">
+</app-table>

@@ -1,0 +1,20 @@
+<app-table
+  [title]="'Expenses'"
+  [subtitle]="'Track and manage event expenses and budgets'"
+  [columns]="expensesColumns"
+  [data]="expensesData"
+  [createButtonText]="'Add Expense'"
+  [showFilters]="true"
+  [showPagination]="true"
+  [filters]="expensesFilters"
+  [pageSize]="20"
+  [currentPage]="1"
+  [totalItems]="expensesData.length"
+  (create)="onCreateExpense()"
+  (view)="onViewExpense($event)"
+  (edit)="onEditExpense($event)"
+  (delete)="onDeleteExpense($event)"
+  (search)="onSearchExpenses($event)"
+  (filterChange)="onFilterExpenses($event)"
+  (pageChange)="onPageChange($event)">
+</app-table>

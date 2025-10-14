@@ -5,4 +5,3 @@ import { App } from './app/app';
 register();
 bootstrapApplication(App, appConfig)
   .catch((err) => console.error(err));
-

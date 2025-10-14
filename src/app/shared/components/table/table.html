@@ -1,0 +1,249 @@
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden max-w-[270px] sm:max-w-[540px] md:max-w-[650px] lg:max-w-full mx-auto">
+  <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white table-title">{{ title }}</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 table-subtitle">{{ subtitle }}</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div class="relative w-full sm:w-64 flex justify-center items-center">
+          <input
+            type="text"
+            placeholder="Search..."
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+            (input)="onSearch($event)"
+          />
+          <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+
+        <button
+          (click)="onCreate()"
+          class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors text-nowrap"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          {{ createButtonText }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50" *ngIf="showFilters">
+    <div class="flex flex-col sm:flex-row gap-4">
+      <div class="flex flex-wrap gap-3">
+        <select
+          *ngFor="let filter of filters"
+          class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          (change)="onFilterChange(filter.key, $event)"
+        >
+          <option value="">{{ filter.label }}</option>
+          <option *ngFor="let option of filter.options" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <button
+        (click)="clearFilters()"
+        class="inline-flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto table-container">
+    <table class="w-full min-w-full table-min-width">
+      <thead class="bg-gray-50 dark:bg-gray-700/50">
+        <tr>
+          <th
+            *ngFor="let column of columns"
+            class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap"
+            [class.text-center]="column.align === 'center'"
+            [class.text-right]="column.align === 'right'"
+          >
+            {{ column.label }}
+          </th>
+          <th class="px-3 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">
+            Actions
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+        <tr *ngFor="let item of pagedData; trackBy: trackByFn" class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+          <td
+            *ngFor="let column of columns"
+            class="px-3 sm:px-6 py-3 sm:py-4 text-sm table-cell-text"
+            [class.whitespace-nowrap]="column.type !== 'text'"
+            [class.text-center]="column.align === 'center'"
+            [class.text-right]="column.align === 'right'"
+          >
+            <ng-container [ngSwitch]="column.type">
+              <span *ngSwitchCase="'text'" class="text-gray-900 dark:text-white">
+                {{ getNestedValue(item, column.key) }}
+              </span>
+
+              <span
+                *ngSwitchCase="'badge'"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [ngClass]="getBadgeClass(item, column.key)"
+              >
+                {{ getNestedValue(item, column.key) }}
+              </span>
+
+              <div *ngSwitchCase="'avatar'" class="flex items-center">
+                <div class="flex-shrink-0 h-8 w-8">
+                  <div class="h-8 w-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
+                    <span class="text-xs font-medium text-white">
+                      {{ getAvatarText(item, column.key) }}
+                    </span>
+                  </div>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    {{ getNestedValue(item, column.key) }}
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'date'" class="text-sm text-gray-900 dark:text-white">
+                <div>{{ getFormattedDate(item, column.key) }}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400" *ngIf="column.showTime">
+                  {{ getFormattedTime(item, column.key) }}
+                </div>
+              </div>
+
+              <span *ngSwitchCase="'number'" class="text-sm text-gray-900 dark:text-white">
+                {{ getNestedValue(item, column.key) | number }}
+              </span>
+
+              <span *ngSwitchCase="'currency'" class="text-sm text-gray-900 dark:text-white">
+                ${{ getNestedValue(item, column.key) | number:'1.2-2' }}
+              </span>
+
+              <span
+                *ngSwitchCase="'status'"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [ngClass]="getStatusClass(item, column.key)"
+              >
+                <span class="w-1.5 h-1.5 rounded-full mr-1.5" [ngClass]="getStatusDotClass(item, column.key)"></span>
+                {{ getNestedValue(item, column.key) }}
+              </span>
+
+              <div *ngSwitchDefault class="text-gray-900 dark:text-white">
+                {{ getNestedValue(item, column.key) }}
+              </div>
+            </ng-container>
+          </td>
+
+          <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
+            <div class="flex items-center justify-end gap-1 sm:gap-2">
+              <button
+                (click)="onView(item)"
+                class="text-primary hover:text-primary/80 p-1 sm:p-1.5 rounded transition-colors"
+                title="View Details"
+              >
+                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+
+              <button
+                (click)="onEdit(item)"
+                class="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 p-1 sm:p-1.5 rounded transition-colors"
+                title="Edit"
+              >
+                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+
+              <button
+                (click)="onDelete(item)"
+                class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200 p-1 sm:p-1.5 rounded transition-colors"
+                title="Delete"
+              >
+                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="data.length === 0" class="text-center py-12">
+    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+    </svg>
+    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No {{ title.toLowerCase() }}</h3>
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new {{ title.toLowerCase().slice(0, -1) }}.</p>
+    <div class="mt-6">
+      <button
+        (click)="onCreate()"
+        class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+      >
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        {{ createButtonText }}
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50" *ngIf="showPagination && totalPages > 1">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+        Showing <span class="font-medium">{{ (currentPage - 1) * pageSize + 1 }}</span> to
+        <span class="font-medium">{{ Math.min(currentPage * pageSize, totalItems) }}</span> of
+        <span class="font-medium">{{ totalItems }}</span> results
+      </div>
+
+      <div class="flex items-center gap-1 sm:gap-2">
+        <button
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="px-2 sm:px-3 py-1 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          Previous
+        </button>
+
+        <div class="flex gap-1">
+          <button
+            *ngFor="let page of getPageNumbers()"
+            (click)="goToPage(page)"
+            class="px-2 sm:px-3 py-1 text-xs sm:text-sm border rounded-lg transition-colors"
+            [class.bg-primary]="page === currentPage"
+            [class.text-white]="page === currentPage"
+            [class.border-primary]="page === currentPage"
+            [class.bg-white]="page !== currentPage"
+            [class.dark:bg-gray-700]="page !== currentPage"
+            [class.text-gray-700]="page !== currentPage"
+            [class.dark:text-gray-300]="page !== currentPage"
+            [class.border-gray-300]="page !== currentPage"
+            [class.dark:border-gray-600]="page !== currentPage"
+            [class.hover:bg-gray-50]="page !== currentPage"
+            [class.dark:hover:bg-gray-600]="page !== currentPage"
+          >
+            {{ page }}
+          </button>
+        </div>
+
+        <button
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="px-2 sm:px-3 py-1 text-xs sm:text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

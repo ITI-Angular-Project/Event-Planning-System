@@ -1,6 +1,23 @@
+@import 'tailwindcss';
+/* @import '@tailwindcss/forms'; */
+@import 'swiper/swiper-bundle.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 
-@import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #615fff;
+  --color-secondary: #10b981;
+  --font-family-sans: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 transition-colors duration-300 ease-in-out font-family-sans tracking-[0.1em];
+}
+
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}
 
 /* global custom animations */
 @layer utilities {
@@ -37,25 +54,8 @@
   }
 }
 
-@import 'swiper/swiper-bundle.css';
-@import '@fortawesome/fontawesome-free/css/all.min.css';
-
 .anton-regular {
-  font-family: "Anton", sans-serif;
+  font-family: 'Anton', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
-
-
-/* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
-
-body {
-  @apply bg-gray-50 text-gray-900 transition-colors duration-300 ease-in-out;
-}
-
-.dark body {
-  @apply bg-gray-900 text-gray-100 transition-colors duration-300 ease-in-out;
-}
-

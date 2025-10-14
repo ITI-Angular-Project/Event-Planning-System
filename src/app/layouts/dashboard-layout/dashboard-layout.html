@@ -1,48 +1,31 @@
-<div class="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-  <app-sidebar></app-sidebar>
+<div class="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300 overflow-hidden">
+  <app-sidebar [collapsed]="isCollapsed()" (toggle)="toggleSidebar()"></app-sidebar>
 
-  <main class="flex-1 ml-64 transition-all duration-300">
-    <header class="shadow-sm sticky top-0 z-40 pb-3 dark:border-b border-gray-600">
+  <main
+    class="flex-1 transition-all duration-300"
+    [class.ml-64]="!isCollapsed()"
+    [class.ml-20]="isCollapsed()"
+  >
+    <header
+      class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-40 pb-3 border-b border-gray-200 dark:border-gray-700 transition-all duration-300"
+    >
       <div class="px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-4 flex-1">
-          <h2 class="text-2xl font-bold">Dashboard</h2>
-          <button
+          <h2 class="text-xl md:text-2xl font-bold">Dashboard</h2>
+          <!-- <button
             (click)="theme.toggle()"
-            class="p-2 rounded bg-white dark:bg-gray-900 hover:bg-gray-300 dark:hover:bg-gray-700 transition"
+            class="p-2 rounded text-primary dark:text-primary hover:bg-gray-200 dark:hover:bg-gray-700 transition"
           >
-            @if (themeSignal() === 'light') {
-            <span>🌙 Dark</span>
+            @if (theme.theme() === 'light') {
+              <span>🌙 Dark</span>
             } @else {
-            <span>☀️ Light</span>
+              <span>☀️ Light</span>
             }
-          </button>
-        </div>
-
-        <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
-          <div class="relative w-full">
-            <input
-              type="text"
-              placeholder="Search events, tasks, attendees..."
-              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            />
-            <svg
-              class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </div>
+          </button> -->
         </div>
 
         <div class="flex items-center gap-4">
-          <button class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+          <button class="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -53,21 +36,8 @@
             </svg>
             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
-
-          <button class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              ></path>
-            </svg>
-            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-
           <button
-            class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            class="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <div
               class="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center font-bold text-white text-sm"
