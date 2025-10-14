@@ -2,10 +2,16 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --color-primary: #615fff;
+  --color-secondary: #10b981;
+  --font-family-sans: 'Helvetica Neue', Arial, sans-serif;
+}
+
 body {
-  @apply bg-gray-50 text-gray-900 transition-colors duration-300 ease-in-out;
+  @apply bg-gray-50 text-gray-900 transition-colors duration-300 ease-in-out font-family-sans tracking-[0.1em];
 }
 
 .dark body {
-  @apply bg-gray-900 text-gray-100 transition-colors duration-300 ease-in-out;
+  @apply bg-gray-900 text-gray-100;
 }

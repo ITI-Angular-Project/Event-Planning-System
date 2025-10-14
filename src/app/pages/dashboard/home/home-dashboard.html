@@ -1,1 +1,43 @@
-<p>home-dashboard works!</p>
+<div class="p-6 space-y-8">
+  <!-- Header -->
+  <div class="flex justify-between items-center flex-wrap">
+    <h2 class="text-xl md:text-3xl font-bold">Overview</h2>
+    <button
+      class="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-lg transition ml-auto sm:mt-0 mt-5"
+      (click)="loadDashboardData()"
+    >
+      🔄 Refresh
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Total Events -->
+    <app-stat-card title="Total Events" [value]="stats().totalEvents" ></app-stat-card>
+
+    <!-- Upcoming Events -->
+    <app-stat-card title="Upcoming Events" [value]="stats().upcomingEvents" color="text-blue-500" ></app-stat-card>
+
+    <!-- Completed Events -->
+    <app-stat-card title="Completed Events" [value]="stats().completedEvents" color="text-green-500" ></app-stat-card>
+
+    <!-- Total Guests -->
+    <app-stat-card title="Total Guests" [value]="stats().totalGuests" color="text-purple-500" ></app-stat-card>
+
+    <!-- Total Expenses -->
+    <app-stat-card title="Total Expenses" [value]="stats().totalExpenses | currency: 'USD'" color="text-amber-500" ></app-stat-card>
+
+    <!-- Average Feedback -->
+    <app-stat-card title="Average Feedback" [value]="'⭐ ' + stats().avgFeedback" color="text-yellow-500" ></app-stat-card>
+  </div>
+
+  <!-- Optional: Future chart section -->
+  <div class="mt-10">
+    <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Insights (coming soon)</h3>
+    <div
+      class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg h-64 flex items-center justify-center text-gray-500"
+    >
+      📊 Charts & Analytics Placeholder
+    </div>
+  </div>
+</div>

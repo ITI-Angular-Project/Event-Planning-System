@@ -1,1 +1,20 @@
-<p>events-list works!</p>
+<app-table
+  [title]="'Events'"
+  [subtitle]="'Manage and track all your events'"
+  [columns]="eventsColumns"
+  [data]="eventsData"
+  [createButtonText]="'Create Event'"
+  [showFilters]="true"
+  [showPagination]="true"
+  [filters]="eventsFilters"
+  [pageSize]="10"
+  [currentPage]="1"
+  [totalItems]="eventsData.length"
+  (create)="onCreateEvent()"
+  (view)="onViewEvent($event)"
+  (edit)="onEditEvent($event)"
+  (delete)="onDeleteEvent($event)"
+  (search)="onSearchEvents($event)"
+  (filterChange)="onFilterEvents($event)"
+  (pageChange)="onPageChange($event)">
+</app-table>
