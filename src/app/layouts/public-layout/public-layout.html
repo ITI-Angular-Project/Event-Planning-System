@@ -1,1 +1,9 @@
-<p>public-layout works!</p>
+<app-loader></app-loader>
+@if(!loaderLoading()){
+  <app-navbar></app-navbar>
+  <app-home></app-home>
+  <app-roles-section></app-roles-section>
+  <app-event-video-section></app-event-video-section>
+  <app-speakers></app-speakers>
+  <app-footer></app-footer>
+}
