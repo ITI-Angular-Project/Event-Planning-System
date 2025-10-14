@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-public-layout',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './public-layout.html',
-  styleUrl: './public-layout.css'
+  styleUrls: ['./public-layout.css']
 })
-export class PublicLayout {
-
-}
+export class PublicLayout {}
