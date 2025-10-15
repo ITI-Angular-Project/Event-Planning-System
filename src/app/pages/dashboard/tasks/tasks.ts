@@ -3,7 +3,6 @@ import { Table, TableColumn } from '../../../shared/components/table/table';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../../core/models/tasks';
 
-
 @Component({
   selector: 'app-tasks',
   imports: [CommonModule, Table],
@@ -24,10 +23,9 @@ export class Tasks implements OnInit {
       key: 'status',
       label: 'Status',
       options: [
-        { value: 'pending', label: 'Pending' },
+        { value: 'up-coming', label: 'UpComing' },
         { value: 'in-progress', label: 'In Progress' },
         { value: 'completed', label: 'Completed' },
-        { value: 'overdue', label: 'Overdue' },
       ],
     },
     {
@@ -37,6 +35,7 @@ export class Tasks implements OnInit {
         { value: 'Low', label: 'Low' },
         { value: 'medium', label: 'Medium' },
         { value: 'high', label: 'High' },
+        { value: 'critical', label: 'Critical' },
       ],
     },
   ];
@@ -76,24 +75,22 @@ export class Tasks implements OnInit {
     // Apply search
     if (this.searchQuery) {
       const query = this.searchQuery.toLowerCase();
-      filtered = filtered.filter(task =>
-        task.title.toLowerCase().includes(query) ||
-        task.assignedTo.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (task) =>
+          task.title.toLowerCase().includes(query) || task.assignedTo.toLowerCase().includes(query)
       );
     }
 
-    console.log(filtered);
-
-    // Apply filters
-    Object.keys(this.activeFilters).forEach(key => {
+    Object.keys(this.activeFilters).forEach((key) => {
       const filterValue = this.activeFilters[key];
       if (filterValue) {
-        filtered = filtered.filter(task => task[key as keyof Task] === filterValue);
-        console.log(this.activeFilters);
+        filtered = filtered.filter((task) => {
+          const taskValue = String(task[key as keyof Task] || '').toLowerCase();
+          return taskValue === filterValue;
+        });
       }
     });
 
-    console.log(filtered);
     this.totalItems = filtered.length;
     this.tasksData = filtered;
   }
@@ -106,10 +103,10 @@ export class Tasks implements OnInit {
     const newTask: Task = {
       id: Date.now().toString(),
       title: 'New Task',
-      assignedTo: 'Unassigned' ,
+      assignedTo: 'Unassigned',
       dueDate: new Date().toISOString(),
       priority: 'medium',
-      status: 'pending'
+      status: 'pending',
     };
 
     this.allTasks.unshift(newTask);
@@ -130,7 +127,7 @@ export class Tasks implements OnInit {
 
   onDeleteTask(task: Task) {
     if (confirm(`Are you sure you want to delete "${task.title}"?`)) {
-      this.allTasks = this.allTasks.filter(t => t.id !== task.id);
+      this.allTasks = this.allTasks.filter((t) => t.id !== task.id);
       this.saveTasks();
       this.applyFiltersAndSearch();
     }
@@ -142,9 +139,15 @@ export class Tasks implements OnInit {
     this.applyFiltersAndSearch();
   }
 
-  onFilterTasks(filters: { [key: string]: any }) {
-    this.activeFilters = filters;
-    this.currentPage = 1; // Reset to first page
+  onFilterTasks(filter: { key: string; value: string }) {
+    if (filter.key === '__clearAll__') {
+      this.activeFilters = {};
+    } else if (filter.key && filter.value) {
+      this.activeFilters[filter.key] = filter.value.toLowerCase();
+    } else {
+      delete this.activeFilters[filter.key];
+    }
+    this.currentPage = 1;
     this.applyFiltersAndSearch();
   }
 
@@ -163,7 +166,7 @@ export class Tasks implements OnInit {
         assignedTo: 'John Doe',
         dueDate: '2025-10-20',
         priority: 'high',
-        status: 'in-progress'
+        status: 'in-progress',
       },
       {
         id: '2',
@@ -171,7 +174,7 @@ export class Tasks implements OnInit {
         assignedTo: 'Jane Smith',
         dueDate: '2025-10-15',
         priority: 'medium',
-        status: 'pending'
+        status: 'pending',
       },
       // Add more default tasks as needed
     ];

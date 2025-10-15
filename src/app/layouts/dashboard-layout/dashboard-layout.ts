@@ -11,7 +11,7 @@ import { ThemeService } from '../../core/services/themeService/theme-service';
 })
 export class DashboardLayout {
   constructor(public theme: ThemeService) {}
-    isCollapsed = signal(false);
+    isCollapsed = signal(JSON.parse(localStorage.getItem('sideBarCollabse')!));
 
   get themeSignal() {
     return this.theme.theme;
@@ -19,5 +19,6 @@ export class DashboardLayout {
 
   toggleSidebar() {
     this.isCollapsed.update(v => !v);
+    localStorage.setItem('sideBarCollabse', JSON.stringify(this.isCollapsed()))
   }
 }
