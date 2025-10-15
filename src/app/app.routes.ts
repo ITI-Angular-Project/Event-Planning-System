@@ -13,20 +13,27 @@ import { EventDetails } from './pages/dashboard/events/event-details/event-detai
 import { Login } from './pages/log-reg/login/login';
 import { Register } from './pages/log-reg/register/register';
 
+// Pages - Public (الجديدة)
+import { About } from './pages/about/about';
+import { ContactComponent } from './pages/contact/contact';
+
 // Other Pages
 import { NotFound } from './pages/not-found/not-found';
 
 export const routes: Routes = [
-
+  // Public Layout
   {
     path: '',
     component: PublicLayout,
     children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, // redirect default to login
       { path: 'login', component: Login },
       { path: 'register', component: Register },
+      // إضافة About و Contact هنا
+      { path: 'about', component: About },
+      { path: 'contact', component: ContactComponent },
     ],
   },
-
 
   // Dashboard Layout
   {
