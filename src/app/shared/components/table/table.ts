@@ -1,17 +1,18 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableColumn, TableFilter } from '../../../core/models/table.types';
+import { FormsModule } from '@angular/forms';
 
 export type { TableColumn, TableFilter } from '../../../core/models/table.types';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
-export class Table {
+export class Table implements OnInit {
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() columns: TableColumn[] = [];
@@ -32,10 +33,15 @@ export class Table {
   @Output() filterChange = new EventEmitter<{ key: string; value: string }>();
   @Output() pageChange = new EventEmitter<number>();
 
+  selectedFilters: { [key: string]: string | null } = {};
   Math = Math;
 
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.pageSize);
+  }
+
+  ngOnInit() {
+    this.filters.forEach((f) => (this.selectedFilters[f.key] = null));
   }
 
   // Event handlers
@@ -64,15 +70,8 @@ export class Table {
   }
 
   clearFilters(): void {
-    this.filters.forEach((filter) => {
-      const selectElement = document.querySelector(
-        `[data-filter="${filter.key}"]`
-      ) as HTMLSelectElement;
-      if (selectElement) {
-        selectElement.value = '';
-      }
-    });
-    this.filterChange.emit({ key: '', value: '' });
+    Object.keys(this.selectedFilters).forEach((key) => (this.selectedFilters[key] = null));
+    this.filterChange.emit({ key: '__clearAll__', value: '' });
   }
 
   goToPage(page: number): void {
@@ -149,27 +148,47 @@ export class Table {
   }
 
   getStatusClass(item: any, key: string): string {
-    const value = this.getNestedValue(item, key);
-    const statusClasses: { [key: string]: string } = {
-      Active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      Inactive: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
-      Pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-      Completed: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-      Cancelled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-    };
-    return statusClasses[value] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+    const value = String(this.getNestedValue(item, key)).toLowerCase();
+
+    switch (value) {
+      case 'completed':
+        return 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300';
+      case 'in-progress':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 pulse-dot';
+      case 'up-coming':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300';
+      case 'cancelled':
+      case 'canceled':
+        return 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/40 dark:text-gray-300';
+    }
+  }
+
+  formatStatusLabel(status: string): string {
+    if (!status) return '';
+    return status
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 
   getStatusDotClass(item: any, key: string): string {
-    const value = this.getNestedValue(item, key);
-    const dotClasses: { [key: string]: string } = {
-      Active: 'bg-green-400',
-      Inactive: 'bg-gray-400',
-      Pending: 'bg-yellow-400',
-      Completed: 'bg-blue-400',
-      Cancelled: 'bg-red-400',
-    };
-    return dotClasses[value] || 'bg-gray-400';
+    const value = String(this.getNestedValue(item, key)).toLowerCase();
+
+    switch (value) {
+      case 'completed':
+        return 'bg-green-500';
+      case 'in-progress':
+        return 'bg-blue-500';
+      case 'up-coming':
+        return 'bg-yellow-500';
+      case 'cancelled':
+      case 'canceled':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-400';
+    }
   }
 
   trackByFn(index: number, item: any): any {

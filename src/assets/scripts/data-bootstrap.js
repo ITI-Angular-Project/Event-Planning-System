@@ -59,21 +59,41 @@ if (!localStorage.getItem('events')) {
   // ---------- EVENTS ----------
   let events =
     JSON.parse(localStorage.getItem('events')) ||
-    Array.from({ length: 180 }, (_, i) => ({
-      id: i + 1,
-      name: `Event ${i + 1}`,
-      description: `This is event ${i + 1} description.`,
-      category: ['Wedding', 'Conference', 'Birthday', 'Concert', 'Workshop'][i % 5],
-      location: ['Cairo', 'Alex', 'Giza', 'Mansoura', 'Luxor'][i % 5],
-      startDate: `2025-10-${10 + i}`,
-      endDate: `2025-10-${11 + i}`,
-      createdBy: (i % 2) + 2,
-      guestIds: [],
-      taskIds: [],
-      expenseIds: [],
-      feedbackIds: [],
-      status: 'Upcoming',
-    }));
+    Array.from({ length: 180 }, (_, i) => {
+      const category = ['Wedding', 'Conference', 'Birthday', 'Concert', 'Workshop'][i % 5];
+      const location = ['Cairo', 'Alex', 'Giza', 'Mansoura', 'Luxor'][i % 5];
+      const categoryImages = {
+        Wedding:
+          'https://upload.wikimedia.org/wikipedia/commons/8/80/Wedding_reception_in_Sri_Lanka.jpg',
+        Conference:
+          'https://upload.wikimedia.org/wikipedia/commons/1/1e/Tech_conference_audience.jpg',
+        Birthday: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Birthday_party_table.jpg',
+        Concert: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Concert_in_progress.jpg',
+        Workshop: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Workshop_training_event.jpg',
+      };
+      const base = new Date(2025, 9, 10 + i); // month index 9 = October
+      const startDate = base.toISOString().split('T')[0];
+      const endDate = new Date(base.getTime() + 86400000).toISOString().split('T')[0];
+
+      return {
+        id: i + 1,
+        name: `Event ${i + 1}`,
+        description: `This is event ${i + 1} description.`,
+        category: category,
+        location: location,
+        image: categoryImages[category],
+        // startDate: `2025-10-${day}`,
+        startDate: startDate,
+        endDate: endDate,
+        // endDate: `2025-10-${nextDay}`,
+        createdBy: (i % 2) + 2,
+        guestIds: [],
+        taskIds: [],
+        expenseIds: [],
+        feedbackIds: [],
+        status: 'up-coming',
+      };
+    });
 
   // ---------- GUESTS ----------
   let guests = [];
@@ -90,7 +110,7 @@ if (!localStorage.getItem('events')) {
         name: `Guest ${guestId}`,
         email: `guest${guestId}@eps.com`,
         phone: `0100${String(guestId).padStart(6, '0')}`,
-        status: ['Invited', 'Accepted', 'Declined', 'Pending'][Math.floor(Math.random() * 4)],
+        status: ['invited', 'accepted', 'declined', 'pending'][Math.floor(Math.random() * 4)],
         feedbackId: null,
       });
       ids.push(guestId);
@@ -115,9 +135,11 @@ if (!localStorage.getItem('events')) {
         title: `Task ${taskId}`,
         description: `Details for task ${taskId}`,
         assignedTo: ['Organizer One', 'Admin', 'Staff', 'Volunteer'][i % 4],
-        priority: ['Low', 'Medium', 'High', 'Critical'][Math.floor(Math.random() * 4)],
+        priority: ['low', 'medium', 'high', 'critical'][Math.floor(Math.random() * 4)],
         deadline: `2025-10-${12 + (i % 5)}`,
-        status: ['Not Started', 'In Progress', 'Completed'][Math.floor(Math.random() * 3)],
+        status: ['up-coming', 'in-progress', 'completed', 'cancelled'][
+          Math.floor(Math.random() * 3)
+        ],
         comments: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -196,8 +218,8 @@ if (!localStorage.getItem('events')) {
   // ---------- DASHBOARD SUMMARY ----------
   function calculateDashboardStats() {
     const totalEvents = events.length;
-    const completed = events.filter((e) => e.status === 'Completed').length;
-    const upcoming = events.filter((e) => e.status === 'Upcoming').length;
+    const completed = events.filter((e) => e.status === 'completed').length;
+    const upcoming = events.filter((e) => e.status === 'up-coming').length;
     const totalGuests = guests.length;
     const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
     const avgFeedback =
@@ -214,9 +236,9 @@ if (!localStorage.getItem('events')) {
     const today = new Date();
     const start = new Date(ev.startDate);
     const end = new Date(ev.endDate);
-    if (today < start) ev.status = 'Upcoming';
-    else if (today >= start && today <= end) ev.status = 'In Progress';
-    else ev.status = 'Completed';
+    if (today < start) ev.status = 'up-coming';
+    else if (today >= start && today <= end) ev.status = 'in-progress';
+    else ev.status = 'completed';
     return ev;
   });
 

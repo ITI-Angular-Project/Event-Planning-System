@@ -11,5 +11,5 @@ export interface Event {
   taskIds: [number];
   expenseIds: [number];
   feedbackIds: [number];
-  status: 'Upcoming' | 'InProgress' | 'Completed' | 'Cancelled';
+  status: 'up-coming' | 'in-progress' | 'completed' | 'cancelled';
 }

@@ -13,7 +13,7 @@ import { User } from '../../../core/models/users';
 export class Sidebar {
   @Input() collapsed = false;
   @Output() toggle = new EventEmitter<void>();
-  isCollapsed = signal(false);
+  isCollapsed = signal(JSON.parse(localStorage.getItem('sideBarCollabse')!));
 
   loggedInUser: User = JSON.parse(localStorage.getItem('loggedUser') || '{}');
 
