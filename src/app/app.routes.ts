@@ -21,15 +21,19 @@ import { Register } from './pages/log-reg/register/register';
 
 // Other Pages
 import { NotFound } from './pages/not-found/not-found';
+import { ContactComponent } from './pages/contact/contact';
+import { About } from './pages/about/about';
 
 export const routes: Routes = [
 
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
   {
     path: '',
     component: PublicLayout,
     children: [
-      { path: 'login', component: Login },
-      { path: 'register', component: Register },
+      {path: 'contact', component: ContactComponent},
+      {path: 'about', component: About}
     ],
   },
 
