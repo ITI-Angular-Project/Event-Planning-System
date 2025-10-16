@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Event } from '../../../../core/models/events';
+import { DataService } from '../../../../core/services/dataService/data-service';
 
 @Component({
   selector: 'app-event-details',
@@ -17,13 +18,17 @@ export class EventDetails implements OnInit {
   eventGuests: any[] = [];
   daysRemaining: number = 0;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private dataService: DataService
+  ) {}
 
   ngOnInit(): void {
     this.eventId = Number(this.route.snapshot.paramMap.get('id'));
 
-    const events = JSON.parse(localStorage.getItem('events') || '[]');
-    const guests = JSON.parse(localStorage.getItem('guests') || '[]');
+    const events = this.dataService.events();
+    const guests = this.dataService.guests();
     this.allGuests = guests;
 
     this.event = events.find((e: any) => e.id === this.eventId);
@@ -39,13 +44,11 @@ export class EventDetails implements OnInit {
       return;
     }
 
-    // ✅ 4. Map guest IDs → guest objects
     this.eventGuests = this.event.guestIds
       .map((gid: number) => this.allGuests.find((g) => g.id === gid))
       .filter((g: any) => !!g);
   }
 
-  // 🧩 Helpers
   getInitials(name: string): string {
     if (!name) return '??';
     return name

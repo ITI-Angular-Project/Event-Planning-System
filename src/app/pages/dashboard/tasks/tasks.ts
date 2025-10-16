@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Table, TableColumn } from '../../../shared/components/table/table';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../../core/models/tasks';
+import { DataService } from '../../../core/services/dataService/data-service';
 
 @Component({
   selector: 'app-tasks',
@@ -10,6 +11,8 @@ import { Task } from '../../../core/models/tasks';
   styleUrl: './tasks.css',
 })
 export class Tasks implements OnInit {
+  constructor(private dataService: DataService) {}
+
   tasksColumns: TableColumn[] = [
     { key: 'title', label: 'Task Title', type: 'text' },
     { key: 'assignedTo', label: 'Assigned To', type: 'avatar' },
@@ -60,13 +63,13 @@ export class Tasks implements OnInit {
   }
 
   private loadTasks() {
-    const storedTasks = localStorage.getItem('tasks');
-    this.allTasks = storedTasks ? JSON.parse(storedTasks) : this.getDefaultTasks();
+    const storedTasks = this.dataService.tasks();
+    this.allTasks = storedTasks.reverse();
     this.applyFiltersAndSearch();
   }
 
   private saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(this.allTasks));
+    this.dataService.updateTask(this.allTasks);
   }
 
   private applyFiltersAndSearch() {

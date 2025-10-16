@@ -60,7 +60,7 @@ if (!localStorage.getItem('events')) {
   let events =
     JSON.parse(localStorage.getItem('events')) ||
     Array.from({ length: 180 }, (_, i) => {
-      const category = ['Wedding', 'Conference', 'Birthday', 'Concert', 'Workshop'][i % 5];
+      const category = ['wedding', 'conference', 'birthday', 'concert', 'workshop'][i % 5];
       const location = ['Cairo', 'Alex', 'Giza', 'Mansoura', 'Luxor'][i % 5];
       const categoryImages = {
         Wedding:

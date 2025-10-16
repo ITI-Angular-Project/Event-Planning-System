@@ -62,8 +62,8 @@
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Description</label>
       <input
         type="text"
-        [(ngModel)]="newEvent.descrition"
-        name="descrition"
+        [(ngModel)]="newEvent.description"
+        name="description"
         required
         class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm"
       />
@@ -149,14 +149,14 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Status</label>
-      <select
-        [(ngModel)]="editingEvent.status"
-        name="editStatus"
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Description</label>
+      <input
+        type="text"
+        [(ngModel)]="editingEvent.description"
+        name="editDescription"
+        required
         class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm"
-      >
-        <option *ngFor="let s of eventsFilters[0].options" [value]="s.value">{{ s.label }}</option>
-      </select>
+      />
     </div>
 
     <div>
