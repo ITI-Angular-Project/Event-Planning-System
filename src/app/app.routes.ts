@@ -22,18 +22,45 @@ import { Register } from './pages/log-reg/register/register';
 // Other Pages
 import { NotFound } from './pages/not-found/not-found';
 
-export const routes: Routes = [
+// Pages - log-reg
+import { Login } from './pages/log-reg/login/login';
+import { Register } from './pages/log-reg/register/register';
 
+// Pages - Public (الجديدة)
+import { About } from './pages/about/about';
+import { ContactComponent } from './pages/contact/contact';
+
+// Other Pages
+import { NotFound } from './pages/not-found/not-found';
+
+export const routes: Routes = [
+<<<<<<< HEAD
+  // Public Layout
+=======
+
+>>>>>>> 8bf8bbaeca9e4fd275861afc10520be61635adda
   {
     path: '',
     component: PublicLayout,
     children: [
+<<<<<<< HEAD
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, // redirect default to login
+      { path: 'login', component: Login },
+      { path: 'register', component: Register },
+      // إضافة About و Contact هنا
+      { path: 'about', component: About },
+      { path: 'contact', component: ContactComponent },
+    ],
+  },
+
+=======
       { path: 'login', component: Login },
       { path: 'register', component: Register },
     ],
   },
 
 
+>>>>>>> 8bf8bbaeca9e4fd275861afc10520be61635adda
   // Dashboard Layout
   {
     path: 'dashboard',

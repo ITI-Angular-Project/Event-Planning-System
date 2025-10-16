@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from '../../shared/components/sidebar/sidebar';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar'; // غير الاسم
 import { ThemeService } from '../../core/services/themeService/theme-service';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [RouterOutlet, Sidebar],
+  imports: [RouterOutlet, SidebarComponent], // غير الاسم هنا
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.css',
 })
