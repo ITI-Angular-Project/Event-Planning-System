@@ -1,32 +1,9 @@
-<<<<<<< HEAD
-<!-- src/app/shared/components/sidebar/sidebar.html -->
-<aside
-  [class]="isCollapsed() ? 'w-20' : 'w-64'"
-  class="bg-gradient-to-b from-purple-900 to-indigo-900 dark:from-purple-900/5 dark:to-indigo-900/5 text-white h-screen fixed left-0 top-0 transition-all duration-500 ease-in-out shadow-2xl z-50 flex flex-col"
->
-  <div
-    class="p-6 flex items-center justify-between border-b border-purple-700/50 dark:border-purple-300/20"
-  >
-    <div
-      [class]="isCollapsed() ? 'hidden' : 'flex items-center gap-3'"
-      class="transition-all duration-300"
-    >
-      <div
-        class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center shadow-lg"
-      >
-=======
 <aside class="bg-gradient-to-b from-purple-900 to-indigo-900 dark:from-purple-900/5 dark:to-indigo-900/5 text-white h-screen fixed left-0 top-0 transition-all duration-500 ease-in-out shadow-2xl z-50 flex flex-col" [class]="isCollapsed() ? 'w-20' : 'w-64'">
   <div class="p-6 flex items-center justify-between border-b border-purple-700/50 dark:border-purple-300/20">
     <div class="transition-all duration-300" [class]="isCollapsed() ? 'hidden' : 'flex items-center gap-3'">
       <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center shadow-lg">
->>>>>>> 8bf8bbaeca9e4fd275861afc10520be61635adda
         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-          ></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
         </svg>
       </div>
       <div>
@@ -37,67 +14,14 @@
 
     <button class="p-2 hover:bg-purple-800 rounded-lg transition-colors duration-200" (click)="toggleSidebar()" [class.mx-auto]="isCollapsed()">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          [attr.d]="isCollapsed() ? 'M13 5l7 7-7 7M5 5l7 7-7 7' : 'M11 19l-7-7 7-7m8 14l-7-7 7-7'"
-        ></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="isCollapsed() ? 'M13 5l7 7-7 7M5 5l7 7-7 7' : 'M11 19l-7-7 7-7m8 14l-7-7 7-7'"></path>
       </svg>
     </button>
   </div>
 
-  <nav class="flex-1 px-4 py-6 overflow-y-auto">
+  <nav class="flex-1 px-4 py-6">
     <ul class="space-y-2">
       @for (item of menuItems; track item.route) {
-<<<<<<< HEAD
-      <li>
-        <a
-          [routerLink]="item.route"
-          routerLinkActive="bg-purple-700 shadow-lg"
-          [routerLinkActiveOptions]="{ exact: true }"
-          [class]="isCollapsed() ? 'justify-center' : ''"
-          class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-purple-800 transition-all duration-200 group relative"
-        >
-          <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              [attr.d]="item.icon"
-            ></path>
-          </svg>
-
-          <span
-            [class]="isCollapsed() ? 'hidden' : 'block'"
-            class="font-medium transition-all duration-300"
-          >
-            {{ item.label }}
-          </span>
-
-          @if (item.badge && !isCollapsed()) {
-          <span class="ml-auto bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-            {{ item.badge }}
-          </span>
-          } @if (item.badge && isCollapsed()) {
-          <span
-            class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"
-          >
-            {{ item.badge }}
-          </span>
-          } @if (isCollapsed()) {
-          <div
-            class="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-xl z-50"
-          >
-            {{ item.label }}
-            <div
-              class="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900"
-            ></div>
-          </div>
-          }
-        </a>
-      </li>
-=======
         <li>
           <a class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-purple-800 transition-all duration-200 group relative" [routerLink]="item.route" routerLinkActive="bg-purple-700 shadow-lg" [routerLinkActiveOptions]="{exact: true}" [class]="isCollapsed() ? 'justify-center' : ''">
             <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,43 +51,19 @@
             }
           </a>
         </li>
->>>>>>> 8bf8bbaeca9e4fd275861afc10520be61635adda
       }
     </ul>
   </nav>
 
   <div class="p-4 border-t border-purple-700/50 dark:border-purple-300/20">
-<<<<<<< HEAD
-    <div
-      class="flex items-center gap-3 p-3 hover:bg-purple-800 rounded-lg transition-colors duration-200 cursor-pointer"
-    >
-      <div
-        class="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center font-bold flex-shrink-0"
-      >
-        JD
-=======
     <div class="flex items-center gap-3 p-3 hover:bg-purple-800 rounded-lg transition-colors duration-200  cursor-default">
       <div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center font-bold flex-shrink-0">
         OG
->>>>>>> 8bf8bbaeca9e4fd275861afc10520be61635adda
       </div>
       <div class="flex-1 min-w-0" [class]="isCollapsed() ? 'hidden' : 'block'">
         <p class="font-medium truncate">{{ loggedInUser.name }}</p>
         <p class="text-xs text-purple-300 truncate">{{ loggedInUser.email }}</p>
       </div>
-<<<<<<< HEAD
-      @if (!isCollapsed()) {
-      <svg class="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        ></path>
-      </svg>
-      }
-=======
->>>>>>> 8bf8bbaeca9e4fd275861afc10520be61635adda
     </div>
   </div>
 </aside>
