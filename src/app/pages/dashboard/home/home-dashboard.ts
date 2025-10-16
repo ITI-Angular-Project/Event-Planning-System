@@ -55,8 +55,8 @@ export class HomeDashboard implements OnInit {
     }
 
     const totalEvents: number = filteredEvents.length;
-    const upcomingEvents: number = filteredEvents.filter((e: any) => e.status === 'Upcoming').length;
-    const completedEvents: number = filteredEvents.filter((e: any) => e.status === 'Completed').length;
+    const upcomingEvents: number = filteredEvents.filter((e: any) => e.status === 'up-coming').length;
+    const completedEvents: number = filteredEvents.filter((e: any) => e.status === 'completed').length;
     const totalGuests: number = filteredGuests.length;
     const totalExpenses: number = filteredExpenses.reduce((sum: number, e: any) => sum + e.amount, 0);
     const avgFeedback: number =

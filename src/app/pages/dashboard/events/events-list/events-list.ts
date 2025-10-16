@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Modal } from '../../../../shared/components/modal/modal';
 import { ToastService } from '../../../../core/services/toastService/toast-service';
 import { AuthService } from '../../../../core/services/authService/auth';
+import { DataService } from '../../../../core/services/dataService/data-service';
 
 @Component({
   selector: 'app-events-list',
@@ -81,9 +82,9 @@ export class EventsList implements OnInit {
     setInterval(() => this.updateEventStatuses(), 1000);
   }
 
-  constructor(private router: Router, private toast: ToastService, private auth: AuthService) {
+  constructor(private router: Router, private toast: ToastService, private auth: AuthService, private dataService: DataService) {
     const loggedUser = this.auth.getLoggedUser();
-    const events = JSON.parse(localStorage.getItem('events') || '[]');
+    const events = dataService.events();
     const filtered =
       loggedUser?.role === 'organizer'
         ? events.filter((e: any) => e.createdBy === loggedUser?.id)
@@ -169,7 +170,7 @@ export class EventsList implements OnInit {
   }
 
   saveEvents() {
-    localStorage.setItem('events', JSON.stringify(this.originalEventsData));
+    this.dataService.updateEvents(this.originalEventsData)
   }
 
   cancelEdit(): void {
