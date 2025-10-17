@@ -1,9 +1,8 @@
 <app-loader></app-loader>
 @if(!loaderLoading()){
   <app-navbar></app-navbar>
-  <app-home></app-home>
-  <app-roles-section></app-roles-section>
-  <app-event-video-section></app-event-video-section>
-  <app-speakers></app-speakers>
+  <div class="mt-18">
+    <router-outlet></router-outlet>
+  </div>
   <app-footer></app-footer>
 }

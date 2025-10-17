@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Loader } from "../../pages/componants/loader/loader";
-import { Navbar } from "../../pages/componants/navbar/navbar";
-import { Home } from "../../pages/componants/home/home";
-import { RolesSection } from "../../pages/componants/roles-section/roles-section";
-import { EventVideoSection } from "../../pages/componants/event-video-section/event-video-section";
-import { Speakers } from "../../pages/componants/speakers/speakers";
-import { Footer } from "../../pages/componants/footer/footer";
+import { Loader } from "../../shared/components/loader/loader";
+import { Home } from "../../pages/main-page/home/home";
+import { RolesSection } from "../../pages/main-page/roles-section/roles-section";
+import { EventVideoSection } from "../../pages/main-page/event-video-section/event-video-section";
+import { Speakers } from "../../pages/main-page/speakers/speakers";
+import { Footer } from "../../shared/components/footer/footer";
+import { Navbar } from '../../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-public-layout',

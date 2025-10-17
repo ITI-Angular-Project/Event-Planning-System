@@ -3,18 +3,19 @@
 >
   <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
     <!-- Logo -->
-    <div
+    <a
+      routerLink="/"
       class="grid grid-flow-col grid-rows-2 gap-0 items-center text-center space-x-1 uppercase font-bold text-black dark:text-white tracking-tight"
     >
       <span>Co<span class="text-orange-500">nn</span>ect</span>
       <span class="dark:text-white text-black">Sphere</span>
-    </div>
+    </a>
 
     <!-- Desktop Menu -->
     <ul
       class="hidden md:flex items-center space-x-10 text-sm font-semibold text-zinc-700 dark:text-zinc-200 uppercase"
     >
-      <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Events</li>
+      <a routerLink="/events-page" class="hover:text-black dark:hover:text-white cursor-pointer transition">Events</a>
       <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Speakers</li>
       <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Networking</li>
       <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Contact Us</li>
@@ -38,11 +39,11 @@
 
       <!-- Dark Mode Toggle -->
       <button
-        (click)="toggleTheme()"
-        class="text-zinc-700 dark:text-zinc-200 hover:text-orange-500 transition"
+        (click)="theme.toggle()"
+        class="text-zinc-700 dark:text-zinc-200 cursor-pointer hover:scale-100 transition"
         title="Toggle theme"
       >
-        @if (!isDarkMode) {
+        @if (themeSignal() === 'light') {
           <!-- Sun Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -89,7 +90,7 @@
       <ul
         class="flex flex-col space-y-4 text-zinc-700 dark:text-zinc-200 uppercase text-sm font-semibold"
       >
-        <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Events</li>
+        <a routerLink="events-page" class="hover:text-black dark:hover:text-white cursor-pointer transition">Events</a>
         <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Speakers</li>
         <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Networking</li>
         <li class="hover:text-black dark:hover:text-white cursor-pointer transition">Contact Us</li>
