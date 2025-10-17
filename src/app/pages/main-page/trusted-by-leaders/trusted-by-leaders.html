@@ -1,0 +1,31 @@
+<section
+  class="relative w-full min-h-[140vh] flex flex-col items-center justify-center bg-black text-white overflow-hidden"
+>
+  <h2 class="text-5xl font-extrabold uppercase mb-24 tracking-tight">
+    Trusted By Leaders
+  </h2>
+
+  <!-- Logos Container -->
+  <div #logosContainer class="absolute inset-0 overflow-hidden">
+    <div
+      *ngFor="let logo of logos"
+      class="logo-item absolute flex items-center justify-center rounded-full border border-white/30 text-white/80 text-4xl w-32 h-32 backdrop-blur-sm"
+    >
+      {{ logo }}
+    </div>
+  </div>
+
+  <!-- Blue Centered CTA -->
+  <div
+    class="relative z-20 bg-blue-600 text-white text-center w-96 h-96 rounded-full flex flex-col items-center justify-center shadow-2xl"
+  >
+    <p class="text-lg font-bold uppercase px-6">
+      PUT YOUR BRAND ON THE GLOBAL STAGE
+    </p>
+    <button
+      class="mt-4 bg-white text-blue-600 font-semibold px-5 py-2 rounded-full hover:bg-blue-100 transition"
+    >
+      COLLABORATE
+    </button>
+  </div>
+</section>
