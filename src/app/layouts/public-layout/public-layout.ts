@@ -1,13 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Navbar } from "../../pages/componants/navbar/navbar";
-import { Footer } from "../../pages/componants/footer/footer";
 import { RouterOutlet } from '@angular/router';
+import { Loader } from "../../shared/components/loader/loader";
+import { Navbar } from "../../shared/components/navbar/navbar";
+import { Footer } from "../../shared/components/footer/footer";
 
 @Component({
   selector: 'app-public-layout',
   standalone: true,
-  imports: [CommonModule, Navbar, Footer, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, Loader, Navbar, Footer],
   templateUrl: './public-layout.html',
   styleUrls: ['./public-layout.css']
 })

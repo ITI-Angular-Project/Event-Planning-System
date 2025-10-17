@@ -7,6 +7,7 @@ import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
 // Pages - Dashboard
 import { HomeDashboard } from './pages/dashboard/home/home-dashboard';
 import { EventsList } from './pages/dashboard/events/events-list/events-list';
+
 import { EventDetails } from './pages/dashboard/events/event-details/event-details';
 import { Tasks } from './pages/dashboard/tasks/tasks';
 import { Guests } from './pages/dashboard/guests/guests';
@@ -21,6 +22,9 @@ import { Register } from './pages/log-reg/register/register';
 
 // Other Pages
 import { NotFound } from './pages/not-found/not-found';
+import { MainPage } from './pages/main-page/main-page';
+import { EventsPage } from './pages/events-page/events-page';
+import { EventDetails as HomeEvent}  from './pages/event-details/event-details';
 import { ContactComponent } from './pages/contact/contact';
 import { About } from './pages/about/about';
 
@@ -32,6 +36,9 @@ export const routes: Routes = [
     path: '',
     component: PublicLayout,
     children: [
+      {path: '' , component:MainPage},
+      {path:'events-page' , component:EventsPage},
+      {path:"details/:id", component:HomeEvent},
       {path: 'contact', component: ContactComponent},
       {path: 'about', component: About}
     ],

@@ -1,0 +1,60 @@
+<div
+  class="group bg-white border border-gray-200 rounded-2xl shadow-md
+         dark:bg-[#0a0a0a] dark:border-gray-800
+         hover:shadow-2xl hover:-translate-y-1
+         transition-all duration-500 overflow-hidden"
+>
+  <!-- 🟠 Image -->
+  <img
+    class="rounded-t-2xl w-full h-60 object-cover group-hover:scale-105 transition-transform duration-500"
+    [src]="event.image || randomImg()"
+    alt="Event cover"
+  />
+
+  <!-- 🟠 Event Body -->
+  <div class="p-5 space-y-3">
+    <div class="flex justify-between items-center">
+      <span
+        class="bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full
+               dark:bg-orange-600 dark:text-white"
+      >
+        {{ event.category }}
+      </span>
+
+      <span class="text-xs text-gray-500 dark:text-gray-400 flex items-center">
+        <i class="fa-regular fa-clock mr-1"></i> {{ event.startDate }}
+      </span>
+    </div>
+
+    <h5
+      class="text-lg font-bold tracking-tight text-gray-900
+             dark:text-gray-100 group-hover:text-orange-500
+             transition-colors duration-300"
+    >
+      {{ event.title }}
+    </h5>
+
+    <p
+      class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3"
+    >
+      {{ event.description }}
+    </p>
+
+    <div class="flex justify-between items-center pt-3">
+      <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+        <i class="fa-solid fa-location-dot text-orange-500"></i>
+        {{ event.location }}
+      </p>
+
+      <a
+        routerLink="/details/{{ event.id }}"
+        class="px-3 py-2 border border-orange-500 text-orange-500 bg-transparent
+               text-sm font-semibold rounded-lg shadow-sm
+               hover:bg-orange-500 hover:text-white hover:shadow-lg hover:scale-105
+               transition-all duration-300"
+      >
+        View Details
+      </a>
+    </div>
+  </div>
+</div>
