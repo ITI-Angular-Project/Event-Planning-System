@@ -1,1 +1,116 @@
-<p>profile works!</p>
+<div class="p-6 space-y-6">
+  <!-- Title -->
+  <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">My Profile</h2>
+
+  <!-- Profile Card -->
+  <div
+    class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 flex flex-col sm:flex-row gap-6 items-center"
+  >
+    <!-- Info -->
+    <div class="flex-1 w-full">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-sm text-gray-500 dark:text-gray-400">Name</label>
+
+          @if (editMode) {
+          <input
+            [ngModel]="user().name"
+            (ngModelChange)="updateField('name', $event)"
+            class="w-full mt-1 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600"
+          />} @else {
+          <p class="text-lg font-medium text-gray-800 dark:text-gray-100">
+            {{ user().name }}
+          </p>
+          }
+        </div>
+
+        <div>
+          <label class="text-sm text-gray-500 dark:text-gray-400">Email</label>
+          @if (editMode) {
+          <input
+            [ngModel]="user().email"
+            (ngModelChange)="updateField('email', $event)"
+            class="w-full mt-1 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600"
+          />}@else {
+          <p class="text-lg font-medium text-gray-800 dark:text-gray-100">
+            {{ user().email }}
+          </p>
+          }
+        </div>
+
+        <div>
+          <label class="text-sm text-gray-500 dark:text-gray-400">Password</label>
+          @if (editMode) {
+          <input
+            [ngModel]="user().password"
+            (ngModelChange)="updateField('password', $event)"
+            type="password"
+            class="w-full mt-1 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600"
+          />} @else {
+          <p class="text-lg font-medium text-gray-800 dark:text-gray-100">************</p>
+          }
+        </div>
+
+        <div>
+          <label class="text-sm text-gray-500 dark:text-gray-400">Phone</label>
+          @if (editMode) {
+          <input
+            [ngModel]="user().phone"
+            (ngModelChange)="updateField('phone', $event)"
+            class="w-full mt-1 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600"
+          />} @else {
+          <p class="text-lg font-medium text-gray-800 dark:text-gray-100">{{ user().phone }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="text-sm text-gray-500 dark:text-gray-400">Role</label>
+          <p class="text-lg font-medium text-gray-800 dark:text-gray-100">{{ user().role }}</p>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-3 mt-6">
+        <button
+          (click)="toggleEdit()"
+          class="px-4 py-2 text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+        >
+          {{ editMode ? 'Cancel' : 'Edit Profile' }}
+        </button>
+
+        @if (editMode) {
+        <button
+          (click)="saveProfile()"
+          class="px-4 py-2 text-sm font-medium bg-primary text-white rounded-md hover:bg-primary/90"
+        >
+          Save</button
+        >}
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 w-full sm:w-1/2 lg:w-1/3 mx-auto sm:mx-0">
+    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Settings</h3>
+
+    <div class="flex items-center justify-between">
+      <label for="dark" class="text-gray-700 dark:text-gray-300">Dark Mode</label>
+      <label class="inline-flex items-center cursor-pointer">
+        <input
+          id="dark"
+          type="checkbox"
+          class="sr-only peer"
+          [checked]="theme() === 'dark'"
+          (change)="toggleTheme()"
+        />
+        <div
+          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer dark:bg-gray-600 peer-checked:bg-primary relative transition"
+        >
+          <div
+            class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 ease-in-out peer-checked:translate-x-5"
+          ></div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
