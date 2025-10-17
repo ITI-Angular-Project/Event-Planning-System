@@ -3,7 +3,7 @@
 }
 <aside
   id="app-sidebar"
-  class="bg-gradient-to-b from-purple-900 to-indigo-900 dark:from-purple-900/5 dark:to-indigo-900/5 text-white fixed inset-y-0 left-0 z-50 flex flex-col shadow-2xl transform transition-transform duration-300 ease-in-out md:static md:translate-x-0 md:h-auto"
+  class="bg-gradient-to-b from-purple-900 to-indigo-900 dark:from-purple-900/5 dark:to-indigo-900/5 text-white fixed inset-y-0 left-0 z-50 flex flex-col shadow-2xl transform transition-all duration-500 ease-in-out md:static md:translate-x-0 md:h-auto"
   [class.w-64]="!isCollapsed()"
   [class.w-20]="isCollapsed()"
   [class.-translate-x-full]="!mobileOpen"
@@ -103,7 +103,7 @@
 
   <div class="p-4 border-t border-purple-700/50 dark:border-purple-300/20">
     <div
-      class="flex items-center gap-3 p-3 hover:bg-purple-800 rounded-lg transition-colors duration-200 cursor-default"
+      class="flex justify-center items-center gap-3 p-3 hover:bg-purple-800 rounded-lg transition-colors duration-200 cursor-default"
     >
       <div
         class="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center font-bold flex-shrink-0"
