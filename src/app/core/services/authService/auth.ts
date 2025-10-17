@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  role: string;
-}
+import { User } from '../../models/users';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private usersKey = 'users';
@@ -49,7 +41,7 @@ export class AuthService {
   // ===== User Register =====
   registerUser(userData: Omit<User, 'id'>): boolean {
     const users = this.getAllUsers();
-    if (users.some(u => u.email === userData.email)) {
+    if (users.some((u) => u.email === userData.email)) {
       return false;
     }
 
@@ -68,7 +60,7 @@ export class AuthService {
   login(email: string, password: string): boolean {
     const users = this.getAllUsers();
     const encPass = this.encryptText(password);
-    const user = users.find(u => u.email === email && u.password === encPass);
+    const user = users.find((u) => u.email === email && u.password === encPass);
     if (user) {
       localStorage.setItem(this.loggedKey, JSON.stringify(user));
       return true;

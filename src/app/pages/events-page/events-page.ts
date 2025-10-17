@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ievents } from '../../core/models/ievents';
 import { EventsService } from '../../core/services/events-service/events-service';
@@ -9,19 +9,19 @@ import { Events } from "../events/events";
   standalone: true,
   imports: [FormsModule, Events],
   templateUrl: './events-page.html',
-  styleUrl: './events-page.css',
+  styleUrls: ['./events-page.css'], // ✅ fixed
 })
-
-export class EventsPage {
+export class EventsPage implements OnInit {
   searchTerm: string = '';
   selectedCategory: string = '';
   selectedStatus: string = '';
   filteredEvents: Ievents[] = [];
+  events: Ievents[] = [];
 
-  events:Ievents[]=[];
-  constructor(serevent:EventsService) {
-    this.events=serevent.events;
-    // show all events initially
+  constructor(private eventService: EventsService) {} // ✅ fixed
+
+  ngOnInit(): void {
+    this.events = this.eventService.events;
     this.filteredEvents = [...this.events];
   }
 
@@ -35,32 +35,32 @@ export class EventsPage {
     return Array.from(new Set(this.events.map(e => e.status)));
   }
 
- // 🔍 Live search function
+  // 🔍 Live search function
 
   filterEvents(): void {
-    const term = this.searchTerm.toLowerCase();
-    const category = this.selectedCategory.toLowerCase();
-    const status = this.selectedStatus.toLowerCase();
+  const term = this.searchTerm.toLowerCase();
+  const category = this.selectedCategory.toLowerCase();
+  const status = this.selectedStatus.toLowerCase();
 
-    this.filteredEvents = this.events.filter((ev) => {
-      const matchesSearch =
-        ev.title.toLowerCase().includes(term) ||
-        ev.location.toLowerCase().includes(term) ||
-        ev.description?.toLowerCase().includes(term);
+  this.filteredEvents = this.events.filter((ev) => {
+    const title = ev.name?.toLowerCase() ?? '';
+    const location = ev.location?.toLowerCase() ?? '';
+    const description = ev.description?.toLowerCase() ?? '';
+    const evCategory = ev.category?.toLowerCase() ?? '';
+    const evStatus = ev.status?.toLowerCase() ?? '';
 
-      const matchesCategory =
-        !category || ev.category.toLowerCase() === category;
+    const matchesSearch =
+      title.includes(term) ||
+      location.includes(term) ||
+      description.includes(term);
 
-      const matchesStatus = !status || ev.status.toLowerCase() === status;
+    const matchesCategory =
+      !category || evCategory === category;
 
-      return matchesSearch && matchesCategory && matchesStatus;
-    });
-  }
+    const matchesStatus =
+      !status || evStatus === status;
 
-  resolved(e:any){
-    console.log("eis : ",e);
-    alert(e);
-
-  }
-
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+}
 }

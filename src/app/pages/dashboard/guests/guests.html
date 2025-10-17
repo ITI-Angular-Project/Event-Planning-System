@@ -1,0 +1,20 @@
+<app-table
+  [title]="'Guests'"
+  [subtitle]="'Manage event attendees and guest lists'"
+  [columns]="guestsColumns"
+  [data]="guestsData"
+  [createButtonText]="'Add Guest'"
+  [showFilters]="true"
+  [showPagination]="true"
+  [filters]="guestsFilters"
+  [pageSize]="15"
+  [currentPage]="1"
+  [totalItems]="guestsData.length"
+  (create)="onCreateGuest()"
+  (view)="onViewGuest($event)"
+  (edit)="onEditGuest($event)"
+  (delete)="onDeleteGuest($event)"
+  (search)="onSearchGuests($event)"
+  (filterChange)="onFilterGuests($event)"
+  (pageChange)="onPageChange($event)">
+</app-table>

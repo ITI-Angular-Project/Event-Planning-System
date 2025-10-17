@@ -1,11 +1,16 @@
 export interface Ievents {
   id: number;
-  title: string;
+  name: string;
+  description: string;
   category: string;
-  date: string;
   location: string;
-  organizer: string;
-  status: 'Upcoming' | 'Ongoing' | 'Ended';
-  image?: string;
-  description?: string;
+  startDate: string;   // You can use Date if you parse it later
+  endDate: string;
+  createdBy: number;
+  guestIds: number[];
+  taskIds: number[];
+  expenseIds: number[];
+  feedbackIds: number[];
+  status: string;
+  image?: string;    // 🖼️ Added for image URLs (local or remote)
 }

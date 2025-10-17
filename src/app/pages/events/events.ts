@@ -9,13 +9,20 @@ import { RouterLink } from '@angular/router';
   styleUrl: './events.css'
 })
 export class Events {
+events_images:string[]=[];
 @Input() event:Ievents|any;
 @Output() myAdd = new EventEmitter<string>() //send msg to parent component
   addToCart(){
     this.myAdd.emit("added");
   }
-
+  i:number=0
   constructor(){
-    console.log(this.event);
+    for(this.i;this.i<7;this.i++){
+      this.events_images.push(`/assets/events/${this.i+1}.jpg`)
+    }
+  }
+  randomImg(){
+    const random = Math.floor(Math.random() * this.events_images.length);
+    return this.events_images[random];
   }
 }
