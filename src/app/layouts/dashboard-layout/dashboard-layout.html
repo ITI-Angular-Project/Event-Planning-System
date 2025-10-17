@@ -1,31 +1,44 @@
-<div class="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300 overflow-hidden">
-  <app-sidebar [collapsed]="isCollapsed()" (toggle)="toggleSidebar()"></app-sidebar>
+<div
+  class="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300 overflow-hidden"
+>
+  <app-sidebar
+    [collapsed]="isCollapsed()"
+    (toggle)="toggleSidebar()"
+    [mobileOpen]="isMobileOpen()"
+    (mobileOpenChange)="isMobileOpen.set($event)"
+    (requestClose)="closeMobileSidebar()"
+  ></app-sidebar>
 
-  <main
-    class="flex-1 transition-all duration-300"
-    [class.ml-64]="!isCollapsed()"
-    [class.ml-20]="isCollapsed()"
-  >
+  <main class="flex-1 transition-all duration-300 ml-0">
     <header
       class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-40 pb-3 border-b border-gray-200 dark:border-gray-700 transition-all duration-300"
     >
       <div class="px-6 py-4 flex items-center justify-between">
+        <button
+          class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          (click)="toggleMobileSidebar()"
+          aria-label="Open sidebar"
+          aria-controls="app-sidebar"
+          [attr.aria-expanded]="isMobileOpen()"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+
         <div class="flex items-center gap-4 flex-1">
           <h2 class="text-xl md:text-2xl font-bold">Dashboard</h2>
-          <!-- <button
-            (click)="theme.toggle()"
-            class="p-2 rounded text-primary dark:text-primary hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-          >
-            @if (theme.theme() === 'light') {
-              <span>🌙 Dark</span>
-            } @else {
-              <span>☀️ Light</span>
-            }
-          </button> -->
         </div>
 
         <div class="flex items-center gap-4">
-          <button class="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+          <button
+            class="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+          >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -36,6 +49,7 @@
             </svg>
             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
+
           <button
             class="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >

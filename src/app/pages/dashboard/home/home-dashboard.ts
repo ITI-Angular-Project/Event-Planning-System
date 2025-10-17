@@ -1,11 +1,11 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { StatCard } from '../../../shared/components/stat-card/stat-card';
-import { LoggedUser } from '../../../core/models/logged-user';
 import { Event } from '../../../core/models/events';
 import { Guest } from '../../../core/models/guests';
 import { Expense } from '../../../core/models/expenses';
 import { Feedback } from '../../../core/models/feedback';
+import { User } from '../../../core/models/users';
 
 @Component({
   selector: 'app-home-dashboard',
@@ -23,7 +23,7 @@ export class HomeDashboard implements OnInit {
     avgFeedback: 0,
   });
 
-  loggedUser!: LoggedUser;
+  loggedUser!: User;
 
   ngOnInit(): void {
     this.loggedUser = JSON.parse(localStorage.getItem('loggedUser') || '{}');

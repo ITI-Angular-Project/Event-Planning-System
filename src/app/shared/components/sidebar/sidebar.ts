@@ -6,17 +6,27 @@ import { User } from '../../../core/models/users';
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
   @Input() collapsed = false;
+  @Input() mobileOpen = false;
   @Output() toggle = new EventEmitter<void>();
-  isCollapsed = signal(JSON.parse(localStorage.getItem('sideBarCollabse')!));
+  @Output() requestClose = new EventEmitter<void>();
+  @Output() mobileOpenChange = new EventEmitter<boolean>();
+
+  isCollapsed() {
+    return this.collapsed;
+  }
+  closeMobile() {
+    this.mobileOpenChange.emit(false);
+    this.requestClose.emit();
+  }
 
   loggedInUser: User = JSON.parse(localStorage.getItem('loggedUser') || '{}');
-
 
   menuItems: MenuItem[] = [
     {
@@ -61,9 +71,4 @@ export class Sidebar {
       route: '/dashboard/profile',
     },
   ];
-
-  toggleSidebar() {
-    this.isCollapsed.set(!this.isCollapsed());
-    this.toggle.emit();
-  }
 }
