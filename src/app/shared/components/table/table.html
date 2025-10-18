@@ -177,6 +177,7 @@
 
           <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
             <div class="flex items-center justify-end gap-1 sm:gap-2">
+              @if (showView) {
               <button
                 (click)="onView(item)"
                 class="text-primary hover:text-primary/80 p-1 sm:p-1.5 rounded transition-colors"
@@ -202,6 +203,7 @@
                   ></path>
                 </svg>
               </button>
+              }
 
               <button
                 (click)="onEdit(item)"

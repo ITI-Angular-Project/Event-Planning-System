@@ -82,7 +82,12 @@ export class EventsList implements OnInit {
     setInterval(() => this.updateEventStatuses(), 1000);
   }
 
-  constructor(private router: Router, private toast: ToastService, private auth: AuthService, private dataService: DataService) {
+  constructor(
+    private router: Router,
+    private toast: ToastService,
+    private auth: AuthService,
+    private dataService: DataService
+  ) {
     const loggedUser = this.auth.getLoggedUser();
     const events = dataService.events();
     const filtered =
@@ -112,11 +117,42 @@ export class EventsList implements OnInit {
   }
 
   saveNewEvent(): void {
-    if (!this.newEvent.name || !this.newEvent.category || !this.newEvent.location) {
-      this.toast.show('warning', 'Please fill all required fields!');
+    const name = (this.newEvent.name || '').trim();
+
+    if (!name ||
+      !this.newEvent.category ||
+      !this.newEvent.location ||
+      !this.newEvent.startDate ||
+      !this.newEvent.endDate) {
+      this.toast.show('warning', 'Please fill all required fields!', 3000);
       return;
     }
 
+    const start = new Date(this.newEvent.startDate);
+    const end = new Date(this.newEvent.endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      this.toast.show('error', 'Invalid date format.', 3000);
+      return;
+    }
+
+    if (start >= end) {
+      this.toast.show('error', 'Start date must be before end date.', 3000);
+      return;
+    }
+
+    const duplicate = this.originalEventsData.some(
+      (e) => e.name.trim().toLowerCase() === name.toLowerCase()
+    );
+
+    if (duplicate) {
+      this.toast.show(
+        'error',
+        `An event named "${name}" already exists. Please use a different name.`,
+        3000
+      );
+      return;
+    }
     const eventToAdd = {
       id: this.eventsData()[0].id + 1,
       ...this.newEvent,
@@ -152,14 +188,48 @@ export class EventsList implements OnInit {
   }
 
   saveEditedEvent(): void {
-    if (!this.editingEvent.name || !this.editingEvent.category || !this.editingEvent.location) {
-      this.toast.show('warning', 'Please fill all required fields!');
+    const name = (this.editingEvent.name || '').trim();
+
+    // Required fields
+    if (
+      !name ||
+      !this.editingEvent.category ||
+      !this.editingEvent.location ||
+      !this.editingEvent.startDate ||
+      !this.editingEvent.endDate
+    ) {
+      this.toast.show('warning', 'Please fill all required fields!', 3000);
       return;
     }
 
+    // Check date order
+    const start = new Date(this.editingEvent.startDate);
+    const end = new Date(this.editingEvent.endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      this.toast.show('error', 'Invalid date format.', 3000);
+      return;
+    }
+
+    if (start >= end) {
+      this.toast.show('error', 'Start date must be before end date.', 3000);
+      return;
+    }
+
+    // Prevent duplicate event name (except self)
+    const duplicate = this.originalEventsData.some(
+      (e) => e.name.trim().toLowerCase() === name.toLowerCase() && e.id !== this.editingEvent.id
+    );
+
+    if (duplicate) {
+      this.toast.show('error', `Another event named "${name}" already exists.`, 3000);
+      return;
+    }
+
+    // Update event
     const index = this.originalEventsData.findIndex((e) => e.id === this.editingEvent.id);
     if (index !== -1) {
-      this.originalEventsData[index] = { ...this.editingEvent };
+      this.originalEventsData[index] = { ...this.editingEvent, name };
       this.saveEvents();
       this.applyFilters();
       this.toast.show('success', `Event "${this.editingEvent.name}" updated successfully!`);
@@ -170,7 +240,7 @@ export class EventsList implements OnInit {
   }
 
   saveEvents() {
-    this.dataService.updateEvents(this.originalEventsData)
+    this.dataService.updateEvents(this.originalEventsData);
   }
 
   cancelEdit(): void {
@@ -180,6 +250,10 @@ export class EventsList implements OnInit {
 
   // ✅ DELETE
   onDeleteEvent(event: any): void {
+    if ((event?.status ?? '').toLowerCase() === 'completed') {
+      this.toast.show('warning', 'Completed events cannot be deleted.', 3000);
+      return;
+    }
     this.selectedEvent = event;
     this.showDeleteModal = true;
   }

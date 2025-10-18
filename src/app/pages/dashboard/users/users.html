@@ -2,19 +2,128 @@
   [title]="'Users'"
   [subtitle]="'Manage system users and permissions'"
   [columns]="usersColumns"
-  [data]="usersData"
+  [data]="filteredUsers()"
   [createButtonText]="'Add User'"
   [showFilters]="true"
   [showPagination]="true"
   [filters]="usersFilters"
   [pageSize]="25"
-  [currentPage]="1"
-  [totalItems]="usersData.length"
+  [currentPage]="currentPage"
+  [totalItems]="filteredUsers().length"
   (create)="onCreateUser()"
-  (view)="onViewUser($event)"
+  [showView]="false"
   (edit)="onEditUser($event)"
   (delete)="onDeleteUser($event)"
   (search)="onSearchUsers($event)"
   (filterChange)="onFilterUsers($event)"
-  (pageChange)="onPageChange($event)">
+  (pageChange)="onPageChange($event)"
+>
 </app-table>
+
+<!-- Create / Edit User Modal -->
+@if (showUserModal) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/50" (click)="closeModal()"></div>
+
+    <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl w-11/12 max-w-lg p-6">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          {{ editingUser ? 'Edit User' : 'Create User' }}
+        </h3>
+        <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400" (click)="closeModal()">✕</button>
+      </div>
+
+      <form (ngSubmit)="saveUser()" autocomplete="off" class="grid grid-cols-1 gap-3">
+        <div>
+          <label class="block text-sm font-medium mb-1">Full name</label>
+          <input
+            [(ngModel)]="userForm.name"
+            name="name"
+            placeholder="Full name"
+            class="px-3 py-2 rounded border w-full bg-gray-50 dark:bg-gray-700"
+            required
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Email</label>
+          <input
+            [(ngModel)]="userForm.email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            class="px-3 py-2 rounded border w-full bg-gray-50 dark:bg-gray-700"
+            autocomplete="email"
+            required
+          />
+          <p class="text-xs text-gray-500 mt-1">Must be unique.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Phone</label>
+          <input
+            [(ngModel)]="userForm.phone"
+            name="phone"
+            type="tel"
+            placeholder="01XXXXXXXXX"
+            class="px-3 py-2 rounded border w-full bg-gray-50 dark:bg-gray-700"
+            autocomplete="tel"
+            required
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Role</label>
+          <select
+            [(ngModel)]="userForm.role"
+            name="role"
+            class="px-3 py-2 rounded border w-full bg-gray-50 dark:bg-gray-700"
+            required
+          >
+            <option value="admin">Admin</option>
+            <option value="organizer">Organizer</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">
+            {{ editingUser ? 'Password (leave empty to keep)' : 'Password' }}
+          </label>
+          <input
+            [(ngModel)]="userForm.password"
+            name="password"
+            type="password"
+            placeholder="{{ editingUser ? 'Leave empty to keep current password' : 'Set a password' }}"
+            class="px-3 py-2 rounded border w-full bg-gray-50 dark:bg-gray-700"
+            [attr.autocomplete]="editingUser ? 'new-password' : 'new-password'"
+            [required]="!editingUser"
+          />
+        </div>
+
+        @if (formError) {
+          <div class="text-sm text-red-600 mt-2">{{ formError }}</div>
+        }
+
+        <div class="mt-4 flex items-center justify-end gap-2">
+          <button type="button" (click)="closeModal()" class="px-3 py-2 rounded bg-gray-200 dark:bg-gray-700">
+            Cancel
+          </button>
+          <button type="submit" class="px-3 py-2 rounded bg-indigo-600 text-white">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+<!-- Delete Confirmation Modal using your reusable <app-modal> -->
+<app-modal
+  [show]="showDeleteModal"
+  title="Confirm Deletion"
+  [message]="'Are you sure you want to delete ' + (userToDelete?.name || 'this user') + '?'"
+  confirmText="Delete"
+  cancelText="Cancel"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+></app-modal>

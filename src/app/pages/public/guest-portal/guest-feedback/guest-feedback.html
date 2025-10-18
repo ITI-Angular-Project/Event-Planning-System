@@ -1,0 +1,19 @@
+<div class="mt-6">
+  @if (canLeave()) {
+  <label class="block text-sm font-medium mb-1">Leave feedback</label>
+  <textarea
+    class="textarea w-full"
+    rows="4"
+    [ngModel]="text()"
+    (ngModelChange)="text.set($event)"
+  ></textarea>
+  <button class="btn mt-2" (click)="save()">Save</button>
+
+  @if (saved()) {
+  <div class="text-green-700 text-sm mt-2">Thanks! Your feedback was saved.</div>
+  } } @else {
+  <div class="text-sm text-gray-600">
+    Feedback will be available after the event ends and only if you accepted the invitation.
+  </div>
+  }
+</div>
