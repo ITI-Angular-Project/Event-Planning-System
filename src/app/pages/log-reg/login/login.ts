@@ -21,32 +21,58 @@ export class Login {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    this.errorMsg = '';
-    this.successMsg = '';
+  this.errorMsg = '';
+  this.successMsg = '';
 
-    if (!this.email || !this.password) {
-      this.errorMsg = 'Please enter both email and password.';
-      return;
-    }
+  // ===== Basic Validation =====
+  if (!this.email || !this.password) {
+    this.errorMsg = 'Please enter both email and password.';
+    return;
+  }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.email)) {
-      this.errorMsg = 'Invalid email format.';
-      return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(this.email)) {
+    this.errorMsg = 'Invalid email format.';
+    return;
+  }
 
-    this.isLoading = true;
+  this.isLoading = true;
 
+  try {
     setTimeout(() => {
-      const success = this.authService.login(this.email.trim().toLowerCase(), this.password);
+      const success = this.authService.login(this.email.trim().toLowerCase(), this.password.trim());
       this.isLoading = false;
 
       if (success) {
-        this.successMsg = 'Login successful! Redirecting...';
-        setTimeout(() => this.router.navigate(['/dashboard']), 1500);
+        const loggedUser = this.authService.getLoggedUser();
+
+        if (!loggedUser) {
+          this.errorMsg = 'Login failed: user not found.';
+          return;
+        }
+
+        this.successMsg = '✅ Login successful! Redirecting...';
+        console.log('Logged User:', loggedUser);
+
+        // redirect based on role
+        setTimeout(() => {
+          if (loggedUser.role === 'guest') {
+            this.router.navigate(['/home']);
+          } else if (loggedUser.role === 'organizer') {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        }, 1200);
+
       } else {
-        this.errorMsg = 'Incorrect email or password.';
+        this.errorMsg = '❌ Incorrect email or password.';
       }
-    }, 1000);
+    }, 800);
+  } catch (err) {
+    console.error('Login error:', err);
+    this.isLoading = false;
+    this.errorMsg = 'Unexpected error occurred during login.';
   }
+}
 }
