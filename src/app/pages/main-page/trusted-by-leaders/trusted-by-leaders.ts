@@ -86,7 +86,7 @@ export class TrustedByLeaders implements AfterViewInit {
   const engine = Matter.Engine.create();
 const world = engine.world;
 // استخدم engine.gravity بدل world.gravity
-engine.gravity.y = 2.5; // 👈 تسارع سقوط أسرع
+engine.gravity.y = 2.3; // 👈 تسارع سقوط أسرع
 
     // الجدران (أسفل + جانبي)
     const wallThickness = 100;
