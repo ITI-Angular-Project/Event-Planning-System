@@ -210,9 +210,6 @@ if (!localStorage.getItem('events')) {
     notifications: true,
   };
 
-  // ---------- CURRENT LOGGED USER ----------
-  let loggedUser = JSON.parse(localStorage.getItem('loggedUser')) || users[1]; // Organizer One by default
-
   // ---------- DASHBOARD SUMMARY ----------
   function calculateDashboardStats() {
     const totalEvents = events.length;

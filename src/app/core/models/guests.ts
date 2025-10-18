@@ -6,4 +6,9 @@ export interface Guest {
   phone: string;
   feedbackId: number | null;
   status: 'Invited' | 'Accepted' | 'Declined' | 'Pending';
+
+  inviteToken?: string;
+  invitedAt?: string;
+  respondedAt?: string;
+  registrationDate?: string;
 }

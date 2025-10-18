@@ -24,31 +24,34 @@ import { Register } from './pages/log-reg/register/register';
 import { NotFound } from './pages/not-found/not-found';
 import { MainPage } from './pages/main-page/main-page';
 import { EventsPage } from './pages/events-page/events-page';
-import { EventDetails as HomeEvent}  from './pages/event-details/event-details';
+import { EventDetails as HomeEvent } from './pages/event-details/event-details';
 import { ContactComponent } from './pages/contact/contact';
 import { About } from './pages/about/about';
+import { GuestInvite } from './pages/public/guest-portal/guest-invite/guest-invite';
+import { authPageGuard, dashboardGuard } from './core/guards/auth/auth-guard';
 
 export const routes: Routes = [
-
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
+  { path: 'login', component: Login, canMatch: [authPageGuard]},
+  { path: 'register', component: Register, canMatch: [authPageGuard]},
   {
     path: '',
     component: PublicLayout,
     children: [
-      {path: '' , component:MainPage},
-      {path:'events-page' , component:EventsPage},
-      {path:"details/:id", component:HomeEvent},
-      {path: 'contact', component: ContactComponent},
-      {path: 'about', component: About}
+      { path: '', component: MainPage },
+      { path: 'events-page', component: EventsPage },
+      { path: 'details/:id', component: HomeEvent },
+      { path: 'contact', component: ContactComponent },
+      { path: 'about', component: About },
+      { path: 'guest/invite/:token', component: GuestInvite },
     ],
   },
-
 
   // Dashboard Layout
   {
     path: 'dashboard',
     component: DashboardLayout,
+    canMatch: [dashboardGuard],
+    canActivateChild: [dashboardGuard],
     children: [
       {
         path: '',
