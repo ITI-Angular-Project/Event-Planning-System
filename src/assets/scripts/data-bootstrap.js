@@ -63,15 +63,15 @@ if (!localStorage.getItem('events')) {
       const category = ['wedding', 'conference', 'birthday', 'concert', 'workshop'][i % 5];
       const location = ['Cairo', 'Alex', 'Giza', 'Mansoura', 'Luxor'][i % 5];
       const categoryImages = {
-        Wedding:
-          'https://upload.wikimedia.org/wikipedia/commons/8/80/Wedding_reception_in_Sri_Lanka.jpg',
-        Conference:
-          'https://upload.wikimedia.org/wikipedia/commons/1/1e/Tech_conference_audience.jpg',
-        Birthday: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Birthday_party_table.jpg',
-        Concert: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Concert_in_progress.jpg',
-        Workshop: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Workshop_training_event.jpg',
+        wedding:
+          'https://img.freepik.com/free-photo/full-shot-happy-couple-with-flowers_23-2149956396.jpg?t=st=1760709544~exp=1760713144~hmac=6d8664ec4d0b320b2c13364ffaac9df6fcdeb22771faf473455307896d205b8f&w=1480',
+        conference:
+          'https://img.freepik.com/free-photo/people-taking-part-high-protocol-event_23-2150951249.jpg?t=st=1760709622~exp=1760713222~hmac=d97536cce3f4c1b967efe3c9e1149bd01e5254067d2f9e260f4030aa90d48606&w=1480',
+        birthday: 'https://img.freepik.com/free-photo/delicious-birthday-cake-with-candles_23-2150734992.jpg?t=st=1760709663~exp=1760713263~hmac=a6396f69577795d70a03f4f6f4d8d8eb135c6ef242ab3990b1e6462bb50472f6&w=1480',
+        concert: 'https://img.freepik.com/free-photo/glowing-stage-light-illuminates-cheering-rock-fans-generated-by-ai_188544-37983.jpg?t=st=1760709718~exp=1760713318~hmac=fa14c81ab2402242f2121e3df2cff58eed3ccfdd75d37943affaeb3ccc705697&w=1480',
+        workshop: 'https://img.freepik.com/premium-photo/interview-round-table-discussion-business-convention-presentation-audience_561846-1659.jpg?w=1480',
       };
-      const base = new Date(2025, 9, 10 + i); // month index 9 = October
+      const base = new Date(2025, 9, 10 + i);
       const startDate = base.toISOString().split('T')[0];
       const endDate = new Date(base.getTime() + 86400000).toISOString().split('T')[0];
 
@@ -82,10 +82,8 @@ if (!localStorage.getItem('events')) {
         category: category,
         location: location,
         image: categoryImages[category],
-        // startDate: `2025-10-${day}`,
         startDate: startDate,
         endDate: endDate,
-        // endDate: `2025-10-${nextDay}`,
         createdBy: (i % 2) + 2,
         guestIds: [],
         taskIds: [],

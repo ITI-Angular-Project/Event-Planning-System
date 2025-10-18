@@ -1,0 +1,68 @@
+<div
+  class="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] text-gray-900 dark:text-white transition-colors duration-500"
+>
+  <div class="container mx-auto px-6 py-12">
+    <!-- 🔍 Search & Filters -->
+    <form
+      class="flex flex-wrap justify-center gap-4 items-center bg-white dark:bg-[#0a0a0a] p-5 rounded-2xl shadow-lg max-w-4xl mx-auto mb-12 border border-gray-200 dark:border-gray-800 transition-all duration-500"
+    >
+      <!-- 🟠 Category Filter -->
+      <div class="relative">
+        <select
+          [(ngModel)]="selectedCategory"
+          (change)="filterEvents()"
+          name="category"
+          class="block w-48 rounded-xl border-gray-300 text-gray-700 text-sm focus:ring-orange-500 focus:border-orange-500 bg-gray-50 dark:bg-[#1a1a1a] dark:text-white dark:border-gray-700 p-2.5 transition-colors duration-300"
+        >
+          <option value="">All Categories</option>
+          @for (cat of uniqueCategories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- 🟠 Status Filter -->
+      <div class="relative">
+        <select
+          [(ngModel)]="selectedStatus"
+          (change)="filterEvents()"
+          name="status"
+          class="block w-40 rounded-xl border-gray-300 text-gray-700 text-sm focus:ring-orange-500 focus:border-orange-500 bg-gray-50 dark:bg-[#1a1a1a] dark:text-white dark:border-gray-700 p-2.5 transition-colors duration-300"
+        >
+          <option value="">All Status</option>
+          @for (status of uniqueStatus; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- 🟠 Search Input -->
+      <div class="relative flex-grow max-w-xs">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="filterEvents()"
+          name="search"
+          placeholder="Search by name..."
+          class="w-full rounded-xl border-gray-300 text-gray-700 text-sm focus:ring-orange-500 focus:border-orange-500 bg-gray-50 dark:bg-[#1a1a1a] dark:text-white dark:border-gray-700 p-2.5 pl-4 transition-colors duration-300"
+        />
+        <button
+          type="button"
+          (click)="filterEvents()"
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-colors duration-200"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+    </form>
+
+    <!-- 🟠 Event Cards Grid -->
+    <div
+      class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-500"
+    >
+      @for (card of filteredEvents; track card.id) {
+        <app-events [event]="card"></app-events>
+      }
+    </div>
+  </div>
+</div>
