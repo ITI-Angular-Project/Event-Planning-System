@@ -57,12 +57,65 @@
     </form>
 
     <!-- 🟠 Event Cards Grid -->
-    <div
-      class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-500"
+    <!-- Events List -->
+<div class="grid justify-center sm:grid-cols-2 lg:grid-cols-4 gap-3">
+  @for (event of paginatedEvents; track event.id) {
+    <app-events [event]="event"></app-events>
+  }
+</div>
+
+<!-- Pagination -->
+<div class="flex justify-center items-center gap-2 mt-10 select-none">
+  <button
+    class="px-3 py-1 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+    (click)="goToPage(currentPage - 1)"
+    [disabled]="currentPage === 1"
+  >
+    ‹
+  </button>
+
+  @if (paginationRange[0] > 1) {
+    <button
+      class="px-3 py-1 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+      (click)="goToPage(1)"
     >
-      @for (card of filteredEvents; track card.id) {
-        <app-events [event]="card"></app-events>
-      }
-    </div>
+      1
+    </button>
+    <span class="text-gray-400">...</span>
+  }
+
+  @for (page of paginationRange; track page) {
+    <button
+      class="px-3 py-1 rounded-md transition-colors"
+      [class.bg-orange-500]="page === currentPage"
+      [class.text-white]="page === currentPage"
+      [class.bg-gray-200]="page !== currentPage"
+      [class.dark:bg-gray-700]="page !== currentPage"
+      [class.hover:bg-gray-300]="page !== currentPage"
+      [class.dark:hover:bg-gray-600]="page !== currentPage"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+  }
+
+  @if (paginationRange[paginationRange.length - 1] < totalPages) {
+    <span class="text-gray-400">...</span>
+    <button
+      class="px-3 py-1 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+      (click)="goToPage(totalPages)"
+    >
+      {{ totalPages }}
+    </button>
+  }
+
+  <button
+    class="px-3 py-1 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+    (click)="goToPage(currentPage + 1)"
+    [disabled]="currentPage === totalPages"
+  >
+    ›
+  </button>
+</div>
   </div>
 </div>

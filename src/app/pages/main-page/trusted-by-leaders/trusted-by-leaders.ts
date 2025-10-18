@@ -72,7 +72,7 @@ export class TrustedByLeaders implements AfterViewInit {
     // تفعيل الأنيميشن عند الوصول إلى القسم
     ScrollTrigger.create({
       trigger: section,
-      start: 'top 80%',
+      start: 'top 100%',
       onEnter: () => this.startPhysics(container, centerEl),
       once: true, // تشغيل مرة واحدة
     });
@@ -83,9 +83,10 @@ export class TrustedByLeaders implements AfterViewInit {
     const containerHeight = container.clientHeight;
 
     // إعداد Matter.js
-    const engine = Matter.Engine.create();
-    const world = engine.world;
-    world.gravity.y = 1.2; // تسارع سقوط واقعي
+  const engine = Matter.Engine.create();
+const world = engine.world;
+// استخدم engine.gravity بدل world.gravity
+engine.gravity.y = 2.5; // 👈 تسارع سقوط أسرع
 
     // الجدران (أسفل + جانبي)
     const wallThickness = 100;
