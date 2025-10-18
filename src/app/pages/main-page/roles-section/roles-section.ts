@@ -13,38 +13,48 @@ gsap.registerPlugin(ScrollTrigger);
   styleUrls: ['./roles-section.css'],
 })
 export class RolesSection implements AfterViewInit {
-  roles = [
-    {
-      id: 1,
-      title: 'Founders',
-      name: 'Founders',
-      topics: ['Vision', 'Growth', 'Innovation', 'Leadership'],
-      description: 'Entrepreneurs leading innovative digital products.',
-    },
-    {
-      id: 2,
-      title: 'Design Leads',
-      name: 'Design Leads',
-      topics: ['UX Strategy', 'System Thinking', 'AI in Design', 'Design Ops'],
-      description: 'Design leaders focused on scalable systems and better user experiences.',
-    },
-    {
-      id: 3,
-      title: 'Marketers',
-      name: 'Marketers',
-      topics: ['Brand Strategy', 'Creative Ads', 'Campaigns', 'Storytelling'],
-      description: 'Marketing experts crafting meaningful brand connections.',
-    },
-    {
+activeRole: any = null;
+roles = [
+  {
+    id: 1,
+    title: 'Designers',
+    name: 'Creative Designers',
+    topics: ['UX/UI', 'Branding', 'Prototyping'],
+    description: 'Perfect for designers who want to enhance their creativity and showcase their vision through practical workshops and real projects.'
+  },
+  {
+    id: 2,
+    title: 'Developers',
+    name: 'Professional Developers',
+    topics: ['Frontend', 'Backend', 'DevOps'],
+    description: 'Developers will gain hands-on experience with the latest technologies and improve their problem-solving skills through real challenges.'
+  },
+  {
+    id: 3,
+    title: 'Marketers',
+    name: 'Digital Marketers',
+    topics: ['SEO', 'Social Media', 'Brand Growth'],
+    description: 'A great opportunity for marketers to understand digital trends, data-driven strategies, and audience engagement techniques.'
+  },
+  {
       id: 4,
       title: 'Engineers',
       name: 'Engineers',
       topics: ['Front-end', 'Back-end', 'Scalability', 'Automation'],
       description: 'Developers who bring innovation to life through code.',
-    },
-  ];
+    }
+];
 
-  activeRole: any = null;
+activateRole(role: any) {
+  if (this.activeRole?.id === role.id) {
+    this.activeRole = null; // toggle off
+  } else {
+    this.activeRole = role; // show this one
+  }
+}
+
+
+  // activeRole: any = null;
 
   ngAfterViewInit() {
     // Entry animations for the boxes
@@ -74,23 +84,6 @@ export class RolesSection implements AfterViewInit {
     });
   }
 
-  activateRole(role: any) {
-    this.activeRole = role;
-
-    // animate the blue circle (if present)
-    gsap.killTweensOf('#blue-circle'); // safety
-    gsap.fromTo(
-      '#blue-circle',
-      { y: 40, scale: 0.8, opacity: 0 },
-      { y: 0, scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' }
-    );
-
-    gsap.fromTo(
-      '#role-info',
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.6, delay:0 , ease: 'back.out(1.4)' }
-    );
-  }
 
   deactivateRole() {
     // keep activeRole (optional clear) — we'll keep selection until another hovered/clicked
