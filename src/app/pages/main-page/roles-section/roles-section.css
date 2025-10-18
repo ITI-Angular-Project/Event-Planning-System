@@ -1,4 +1,4 @@
-
+/*
 .animate-slide-up {
   animation: slide-up 0.5s ease forwards;
 }
@@ -19,4 +19,18 @@
     transform: translateY(0) scale(1);
   }
 }
+ */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
+.animate-fadeInScale {
+  animation: fadeInScale 0.6s ease-out forwards;
+}

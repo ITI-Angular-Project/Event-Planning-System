@@ -1,7 +1,8 @@
 <section
   class="relative overflow-hidden pb-16 flex flex-col items-center transition-colors duration-500
-  bg-white text-black dark:bg-[#0a0a0a] dark:text-white"
+  bg-white dark:bg-[#0a0a0a] text-black dark:text-white"
 >
+  <!-- 🔹 Swiper Section -->
   <swiper-container
     autoplay="true"
     class="w-[95%] h-[400px] my-10 flex py-5 items-center justify-center overflow-hidden"
@@ -36,29 +37,26 @@
     }
   </swiper-container>
 
+  <!-- 🔹 Title -->
   <h1
     #animate
     class="fade-in anton-regular text-center text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-wide py-8
-    bg-gradient-to-t from-white/70 to-transparent dark:from-black/70 dark:to-transparent w-full transition-colors duration-500"
+    bg-gradient-to-t from-white/70 to-transparent dark:from-[#0a0a0a]/70 dark:to-transparent w-full transition-colors duration-500"
   >
     CONFERENCES · LECTURES · WORKSHOPS
   </h1>
-  <!-- <button
-  class="px-5 py-2.5 border-2 mt-12 border-orange-500 text-orange-500 font-semibold rounded-xl hover:bg-orange-500 hover:text-white transition-all duration-300 hover:shadow-[0_0_10px_rgba(249,115,22,0.7)]"
->
-  SPOT NOW
-</button> -->
-<button
-        class="relative cursor-pointer hidden md:block text-sm font-semibold uppercase border-2 border-orange-500 hover:border-orange-500  dark:hover:border-orange-500  text-orange-500  dark:text-orange-500  px-5 py-2 rounded-md overflow-hidden transition-all duration-500 group"
-      >
-        <span
-          class="absolute inset-0 bg-orange-500  dark:bg-orange-500  translate-x-[-100%] translate-y-[100%] group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-700 ease-out"
-        ></span>
-        <span
-          class="relative z-10 group-hover:text-orange-500  dark:group-hover:text-white transition duration-300"
-        >
-          SPOT NOW
-        </span>
-      </button>
 
+  <!-- 🔹 Button -->
+  <button
+    class="relative cursor-pointer hidden md:block text-sm font-semibold uppercase border-2 border-orange-500 text-orange-500 px-5 py-2 rounded-md overflow-hidden transition-all duration-500 group"
+  >
+    <span
+      class="absolute inset-0 bg-orange-500 translate-x-[-100%] translate-y-[100%] group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-700 ease-out"
+    ></span>
+    <span
+      class="relative z-10 group-hover:text-white transition duration-300"
+    >
+      SPOT NOW
+    </span>
+  </button>
 </section>
