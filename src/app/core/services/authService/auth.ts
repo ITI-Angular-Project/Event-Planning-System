@@ -39,34 +39,45 @@ export class AuthService {
   }
 
   // ===== User Register =====
-  registerUser(userData: Omit<User, 'id'>): boolean {
-    const users = this.getAllUsers();
-    if (users.some((u) => u.email === userData.email)) {
-      return false;
-    }
+registerUser(userData: Omit<User, 'id'>): boolean {
+  const key = userData.role === 'guest' ? 'guests' : 'users';
+  const users: User[] = JSON.parse(localStorage.getItem(key) || '[]');
 
-    const newUser: User = {
-      id: users.length ? users[users.length - 1].id + 1 : 1,
-      ...userData,
-      password: this.encryptText(userData.password),
-    };
+  if (users.some((u) => u.email === userData.email)) {
+    return false;
+  }
 
-    users.push(newUser);
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
+  const newUser: User = {
+    id: users.length ? users[users.length - 1].id + 1 : 1,
+    ...userData,
+    password: this.encryptText(userData.password),
+  };
+
+  users.push(newUser);
+  localStorage.setItem(key, JSON.stringify(users));
+  return true;
+}
+
+// ===== Login =====
+login(email: string, password: string): boolean {
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const guests = JSON.parse(localStorage.getItem('guests') || '[]');
+
+  const allUsers = [...users, ...guests];
+
+  const user = allUsers.find(
+    (u) => u.email === email && this.decryptText(u.password) === password
+  );
+
+  if (user) {
+    localStorage.setItem(this.loggedKey, JSON.stringify(user));
     return true;
   }
 
-  // ===== Login =====
-  login(email: string, password: string): boolean {
-    const users = this.getAllUsers();
-    const encPass = this.encryptText(password);
-    const user = users.find((u) => u.email === email && u.password === encPass);
-    if (user) {
-      localStorage.setItem(this.loggedKey, JSON.stringify(user));
-      return true;
-    }
-    return false;
-  }
+  return false;
+}
+
+
 
   // ===== Helpers =====
   getAllUsers(): User[] {
