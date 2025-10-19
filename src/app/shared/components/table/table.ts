@@ -20,6 +20,7 @@ export class Table implements OnInit {
   @Input() createButtonText: string = 'Create';
   @Input() showFilters: boolean = true;
   @Input() showPagination: boolean = true;
+  @Input() showView: boolean = true;
   @Input() filters: TableFilter[] = [];
   @Input() pageSize: number = 10;
   @Input() currentPage: number = 1;

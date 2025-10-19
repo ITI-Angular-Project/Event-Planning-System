@@ -10,7 +10,7 @@ import { User } from '../../../core/models/users';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.html',
-  styleUrls: ['./register.css']
+  styleUrls: ['./register.css'],
 })
 export class Register {
   name = '';
@@ -53,23 +53,35 @@ export class Register {
     const newUser: Omit<User, 'id'> = {
       name: this.name.trim(),
       email: this.email.trim().toLowerCase(),
-      phone: this.phone,
-      password: this.password,
-      role: this.role
+      phone: this.phone.trim(),
+      password: this.password.trim(),
+      role: (this.role || 'guest').toLowerCase(), // normalized later in AuthService
     };
 
     this.isLoading = true;
 
-    setTimeout(() => {
-      const success = this.authService.registerUser(newUser);
-      this.isLoading = false;
+    try {
+      setTimeout(() => {
+        const success = this.authService.registerUser(newUser);
+        this.isLoading = false;
 
-      if (success) {
-        this.successMsg = 'Account created successfully! Redirecting to login...';
-        setTimeout(() => this.router.navigate(['/login']), 2000);
-      } else {
-        this.errorMsg = 'This email is already registered.';
-      }
-    }, 1000);
+        if (success) {
+          this.successMsg = '✅ Account created successfully! Redirecting to login...';
+
+          //  اختبار سريع: اطبع في الكونسول
+          // console.log('Registered user:', newUser);
+          // console.log('LocalStorage guests:', localStorage.getItem('guests'));
+          // console.log('LocalStorage users:', localStorage.getItem('users'));
+
+          setTimeout(() => this.router.navigate(['/login']), 1500);
+        } else {
+          this.errorMsg = '⚠️ This email is already registered.';
+        }
+      }, 800);
+    } catch (err) {
+      console.error('Registration error:', err);
+      this.isLoading = false;
+      this.errorMsg = 'Unexpected error occurred during registration.';
+    }
   }
 }

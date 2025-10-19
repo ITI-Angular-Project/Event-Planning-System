@@ -12,32 +12,81 @@
 
   <!-- Statistics Cards -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- Total Events -->
-    <app-stat-card title="Total Events" [value]="stats().totalEvents" ></app-stat-card>
-
-    <!-- Upcoming Events -->
-    <app-stat-card title="Upcoming Events" [value]="stats().upcomingEvents" color="text-blue-500" ></app-stat-card>
-
-    <!-- Completed Events -->
-    <app-stat-card title="Completed Events" [value]="stats().completedEvents" color="text-green-500" ></app-stat-card>
-
-    <!-- Total Guests -->
-    <app-stat-card title="Total Guests" [value]="stats().totalGuests" color="text-purple-500" ></app-stat-card>
-
-    <!-- Total Expenses -->
-    <app-stat-card title="Total Expenses" [value]="stats().totalExpenses | currency: 'USD'" color="text-amber-500" ></app-stat-card>
-
-    <!-- Average Feedback -->
-    <app-stat-card title="Average Feedback" [value]="'⭐ ' + stats().avgFeedback" color="text-yellow-500" ></app-stat-card>
+    <app-stat-card title="Total Events" [value]="stats().totalEvents"></app-stat-card>
+    <app-stat-card title="Upcoming Events" [value]="stats().upcomingEvents" color="text-blue-500"></app-stat-card>
+    <app-stat-card title="Completed Events" [value]="stats().completedEvents" color="text-green-500"></app-stat-card>
+    <app-stat-card title="Total Guests" [value]="stats().totalGuests" color="text-purple-500"></app-stat-card>
+    <app-stat-card title="Total Expenses" [value]="stats().totalExpenses | currency:'USD'" color="text-amber-500"></app-stat-card>
+    <app-stat-card title="Average Feedback" [value]="'⭐ ' + stats().avgFeedback" color="text-yellow-500"></app-stat-card>
   </div>
 
-  <!-- Optional: Future chart section -->
-  <div class="mt-10">
-    <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Insights (coming soon)</h3>
-    <div
-      class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg h-64 flex items-center justify-center text-gray-500"
-    >
-      📊 Charts & Analytics Placeholder
+  <!-- Charts -->
+  <div class="mt-10 grid grid-cols-1 xl:grid-cols-3 gap-6">
+    <!-- Pie: Expenses by Category -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg p-4 xl:col-span-1">
+      <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">Expenses by Category</h3>
+
+      @if (expenseCategoryLabels().length) {
+        <div class="relative h-64">
+          <canvas
+            baseChart
+            [type]="'pie'"
+            [data]="expensePieData()"
+            [options]="pieOptions"
+          ></canvas>
+        </div>
+        <div class="text-xs text-gray-500 mt-3">
+          Showing data for:
+          <strong>{{ loggedUser?.role | titlecase }}</strong>
+        </div>
+      } @else {
+        <div class="h-64 flex items-center justify-center text-gray-500">
+          No expenses found for this view.
+        </div>
+      }
+    </div>
+
+    <!-- Bar: Events by Month -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg p-4 xl:col-span-1">
+      <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">Events by Month (last 12)</h3>
+
+      @if (eventsBarData().datasets[0].data.length) {
+        <div class="relative h-64">
+          <canvas
+            baseChart
+            [type]="'bar'"
+            [data]="eventsBarData()"
+            [options]="barOptions"
+          ></canvas>
+        </div>
+      } @else {
+        <div class="h-64 flex items-center justify-center text-gray-500">
+          Not enough event dates to render this chart.
+        </div>
+      }
+    </div>
+
+    <!-- Line: Guest Responses Trend -->
+    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg p-4 xl:col-span-1">
+      <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-200">Guest Responses (last 12 months)</h3>
+
+      @if (responsesLineData().datasets[0].data.length || responsesLineData().datasets[1].data.length) {
+        <div class="relative h-64">
+          <canvas
+            baseChart
+            [type]="'line'"
+            [data]="responsesLineData()"
+            [options]="lineOptions"
+          ></canvas>
+        </div>
+        <div class="text-xs text-gray-500 mt-3">
+          Based on <strong>registrationDate</strong> (invited) and <strong>respondedAt</strong> (accepted).
+        </div>
+      } @else {
+        <div class="h-64 flex items-center justify-center text-gray-500">
+          No guest timeline available yet.
+        </div>
+      }
     </div>
   </div>
 </div>
