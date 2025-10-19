@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Loader } from "../../shared/components/loader/loader";
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, Loader],
+  imports: [CommonModule],
   templateUrl: './about.html',
   styleUrls: []
 })

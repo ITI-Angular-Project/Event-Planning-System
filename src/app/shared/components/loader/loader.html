@@ -1,64 +1,16 @@
-@if (loading()) {
-  <div
-    class="fixed inset-0 flex flex-col items-center justify-center z-50 backdrop-blur-md bg-white/30 dark:bg-black/30 transition-colors duration-500"
-  >
-    <div class="relative w-40 h-40 perspective">
-      <!-- Elegant 3D Spinner -->
-      <div
-        class="absolute inset-0 border-[3px] border-gray-400/50 dark:border-gray-600/50 border-t-gray-900 dark:border-t-white rounded-full animate-spin3D shadow-[0_0_25px_rgba(255,255,255,0.2)]"
-      ></div>
-
-      <!-- Logo Text -->
+@if(loading()){
+  <div class="fixed inset-0 bg-[#0a0a0a] flex flex-col items-center justify-center z-50">
+    <div class="relative w-40 h-40">
+      <!-- الدائرة الدوّارة -->
+      <div class="absolute inset-0 border-4 border-t-orange-500 border-gray-600 rounded-full animate-spin"></div>
+      <!-- العنوان في المنتصف -->
       <h1
-        class="absolute inset-0 flex flex-col items-center justify-center text-center uppercase font-extrabold text-gray-900 dark:text-white tracking-tight transform-style-preserve"
+        class="absolute inset-0 flex flex-col items-center justify-center text-center uppercase font-bold text-white tracking-tight"
       >
-        <span class="text-[1.6rem] leading-tight">Co<span class="text-orange-500 dark:text-orange-300">nn</span>ect</span>
-        <span class="text-[1.6rem] leading-tight">Sphere</span>
+        <span>Co<span class="text-orange-500">nn</span>ect</span>
+        <span>Sphere</span>
       </h1>
     </div>
-
-    <p
-      class="text-gray-800 dark:text-gray-300 text-lg mt-6 tracking-widest font-medium animate-fadeInUp"
-    >
-      Loading...
-    </p>
+    <p class="text-white text-xl mt-4 tracking-wide">Loading...</p>
   </div>
 }
-
-<style>
-  /* Perspective for 3D feel */
-  .perspective {
-    perspective: 1000px;
-  }
-
-  /* 3D Spin rotation */
-  @keyframes spin3D {
-    0% {
-      transform: rotateY(0deg) rotateX(0deg);
-    }
-    100% {
-      transform: rotateY(360deg) rotateX(360deg);
-    }
-  }
-
-  .animate-spin3D {
-    animation: spin3D 2.8s linear infinite;
-    transform-style: preserve-3d;
-  }
-
-  /* Soft fade-in for text */
-  @keyframes fadeInUp {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fadeInUp {
-    animation: fadeInUp 1.2s ease-in-out infinite alternate;
-  }
-</style>

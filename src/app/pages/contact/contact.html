@@ -1,121 +1,76 @@
-<app-loader></app-loader>
-<!-- <app-loader></app-loader> -->
-<div
-  class="min-h-screen w-full flex flex-col items-center bg-white dark:bg-[#0a0a0a] transition-colors duration-700 py-12 px-4 sm:px-6 lg:px-10 font-sans"
->
-  <div class="max-w-6xl mx-auto w-full">
-    <!-- Hero -->
-    <section class="text-center mb-12 fade-in-up">
+<div class="min-h-screen w-full flex flex-col items-center bg-white dark:bg-gray-950 transition-colors duration-500 py-12 px-4 sm:px-6 lg:px-10 font-sans">
+  <div class="max-w-7xl mx-auto w-full">
+    <!-- Hero Section -->
+    <section class="text-center mb-12 animate-slideIn">
       <div class="flex justify-center mb-4">
-        <div
-          class="w-12 h-12 rounded-full bg-orange-500 dark:bg-orange-400 flex items-center justify-center text-white text-xl shadow-md animate-bounce"
-        >
+        <div class="w-12 h-12 rounded-full bg-olive-500 dark:bg-olive-400 flex items-center justify-center text-white text-xl animate-pulse">
           📬
         </div>
       </div>
-      <h1
-        class="anton-regular text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4"
-      >
-        <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500 dark:from-orange-400 dark:to-yellow-500"
-          >Contact</span
-        >
-        Us
+      <h1 class="anton-regular text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-olive-500 to-sky-500 dark:from-olive-400 dark:to-sky-400">Contact</span> Us
       </h1>
-      <p
-        class="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-3xl mx-auto"
-      >
-        Let’s bring your event ideas to life! Reach out anytime — we’re ready to
-        help.
+      <p class="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-3xl mx-auto animate-slideIn" style="animation-delay: 0.1s;">
+        Get ready to plan your amazing event! We are here to make every moment a success.
       </p>
     </section>
 
-    <div class="grid lg:grid-cols-2 gap-10">
+    <div class="grid lg:grid-cols-2 gap-8">
       <!-- Contact Form -->
-      <div
-        class="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-md p-8 hover:shadow-lg transition-all duration-300 fade-in-up"
-      >
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-8 hover:shadow-md transition-all duration-300 animate-slideIn" style="animation-delay: 0.2s;">
         <div class="flex items-center gap-4 mb-6">
-          <div
-            class="w-10 h-10 bg-orange-500 dark:bg-orange-400 rounded-lg flex items-center justify-center text-white text-lg animate-pulse"
-          >
+          <div class="w-10 h-10 bg-olive-500 dark:bg-olive-400 rounded-lg flex items-center justify-center text-white text-lg animate-pulse">
             ✉️
           </div>
           <div>
-            <h2
-              class="anton-regular text-2xl font-bold text-gray-900 dark:text-white"
-            >
-              Send Your Message
-            </h2>
-            <p class="text-gray-500 dark:text-gray-400 text-sm">
-              We reply within 24 hours
-            </p>
+            <h2 class="anton-regular text-2xl font-bold text-gray-900 dark:text-white">Send Your Message</h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">We reply within 24 hours</p>
           </div>
         </div>
 
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-5">
           <!-- Name -->
-          <div>
-            <label
-              for="name"
-              class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Full Name *</label
-            >
+          <div class="space-y-1 animate-slideIn" style="animation-delay: 0.3s;">
+            <label for="name" class="text-sm font-semibold text-gray-900 dark:text-white">Full Name *</label>
             <input
               type="text"
               formControlName="name"
               placeholder="Enter your full name"
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 transition-all duration-300"
+              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-olive-500 dark:focus:ring-olive-400 transition-all duration-300"
             />
-            <p
+            <div
               *ngIf="contactForm.controls['name'].touched && contactForm.controls['name'].invalid"
               class="text-red-500 dark:text-red-400 text-sm mt-1"
             >
-              <span *ngIf="contactForm.controls['name'].errors?.['required']"
-                >Name is required.</span
-              >
-              <span *ngIf="contactForm.controls['name'].errors?.['minlength']"
-                >Minimum 2 characters.</span
-              >
-            </p>
+              <span *ngIf="contactForm.controls['name'].errors?.['required']">Name is required.</span>
+              <span *ngIf="contactForm.controls['name'].errors?.['minlength']">Minimum 2 characters.</span>
+            </div>
           </div>
 
           <!-- Email -->
-          <div>
-            <label
-              for="email"
-              class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Email *</label
-            >
+          <div class="space-y-1 animate-slideIn" style="animation-delay: 0.4s;">
+            <label for="email" class="text-sm font-semibold text-gray-900 dark:text-white">Email *</label>
             <input
               type="email"
               formControlName="email"
               placeholder="your.email@example.com"
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 transition-all duration-300"
+              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-olive-500 dark:focus:ring-olive-400 transition-all duration-300"
             />
-            <p
+            <div
               *ngIf="contactForm.controls['email'].touched && contactForm.controls['email'].invalid"
               class="text-red-500 dark:text-red-400 text-sm mt-1"
             >
-              <span *ngIf="contactForm.controls['email'].errors?.['required']"
-                >Email is required.</span
-              >
-              <span *ngIf="contactForm.controls['email'].errors?.['email']"
-                >Invalid email format.</span
-              >
-            </p>
+              <span *ngIf="contactForm.controls['email'].errors?.['required']">Email is required.</span>
+              <span *ngIf="contactForm.controls['email'].errors?.['email']">Invalid email format.</span>
+            </div>
           </div>
 
           <!-- Subject -->
-          <div>
-            <label
-              for="subject"
-              class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Subject *</label
-            >
+          <div class="space-y-1 animate-slideIn" style="animation-delay: 0.5s;">
+            <label for="subject" class="text-sm font-semibold text-gray-900 dark:text-white">Subject *</label>
             <select
               formControlName="subject"
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 transition-all duration-300"
+              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-olive-500 dark:focus:ring-olive-400 transition-all duration-300"
             >
               <option value="" disabled selected>Select a subject</option>
               <option value="support">Technical Support</option>
@@ -123,178 +78,116 @@
               <option value="partnership">Partnership</option>
               <option value="general">General Inquiry</option>
             </select>
-            <p
+            <div
               *ngIf="contactForm.controls['subject'].touched && contactForm.controls['subject'].invalid"
               class="text-red-500 dark:text-red-400 text-sm mt-1"
             >
               Subject is required.
-            </p>
+            </div>
           </div>
 
           <!-- Message -->
-          <div>
-            <label
-              for="message"
-              class="text-sm font-semibold text-gray-900 dark:text-white"
-              >Message *</label
-            >
+          <div class="space-y-1 animate-slideIn" style="animation-delay: 0.6s;">
+            <label for="message" class="text-sm font-semibold text-gray-900 dark:text-white">Message *</label>
             <textarea
               formControlName="message"
               rows="6"
-              placeholder="Write your message here..."
-              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 transition-all duration-300 resize-none"
+              placeholder="Share the details of your event..."
+              class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-olive-500 dark:focus:ring-olive-400 transition-all duration-300 resize-none"
             ></textarea>
-            <p
+            <div
               *ngIf="contactForm.controls['message'].touched && contactForm.controls['message'].invalid"
               class="text-red-500 dark:text-red-400 text-sm mt-1"
             >
-              <span *ngIf="contactForm.controls['message'].errors?.['required']"
-                >Message is required.</span
-              >
-              <span *ngIf="contactForm.controls['message'].errors?.['minlength']"
-                >Minimum 10 characters.</span
-              >
-            </p>
+              <span *ngIf="contactForm.controls['message'].errors?.['required']">Message is required.</span>
+              <span *ngIf="contactForm.controls['message'].errors?.['minlength']">Minimum 10 characters.</span>
+            </div>
           </div>
 
-          <!-- Submit -->
+          <!-- Submit Button -->
           <button
             type="submit"
             [disabled]="contactForm.invalid || isSubmitting"
-            class="w-full py-3 rounded-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 dark:bg-orange-400 dark:hover:bg-orange-500 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full py-3 rounded-lg font-semibold text-white bg-olive-500 hover:bg-olive-600 dark:bg-olive-400 dark:hover:bg-olive-500 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed animate-pulse animate-slideIn"
+            style="animation-delay: 0.7s;"
           >
             {{ isSubmitting ? 'Sending...' : 'Send Message' }}
           </button>
         </form>
       </div>
 
-      <!-- Info Section -->
-      <div class="space-y-8 fade-in-up">
-        <div
-          class="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-md p-8 hover:shadow-lg transition-all duration-300"
-        >
+      <!-- Contact Info + Stats -->
+      <div class="space-y-8">
+        <!-- Info Card -->
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-8 hover:shadow-md transition-all duration-300 animate-slideIn" style="animation-delay: 0.8s;">
           <div class="flex items-center gap-4 mb-6">
-            <div
-              class="w-10 h-10 bg-orange-500 dark:bg-orange-400 rounded-lg flex items-center justify-center text-white text-lg"
-            >
+            <div class="w-10 h-10 bg-sky-500 dark:bg-sky-400 rounded-lg flex items-center justify-center text-white text-lg animate-pulse">
               📍
             </div>
             <div>
-              <h2
-                class="anton-regular text-2xl font-bold text-gray-900 dark:text-white"
-              >
-                Contact Information
-              </h2>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">
-                Reach us any time
-              </p>
+              <h2 class="anton-regular text-2xl font-bold text-gray-900 dark:text-white">Contact Information</h2>
+              <p class="text-gray-500 dark:text-gray-400 text-sm">Multiple ways to reach us</p>
             </div>
           </div>
 
-          <ul class="space-y-5">
-            <li
-              class="flex items-start gap-4 hover:bg-gray-100 dark:hover:bg-gray-800 p-3 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-300"
-            >
-              <span class="text-orange-500 dark:text-orange-400 text-lg">🏢</span>
+          <div class="space-y-5">
+            <!-- Address -->
+            <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 animate-slideIn" style="animation-delay: 0.9s;">
+              <div class="w-8 h-8 bg-sky-500/20 dark:bg-sky-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span class="text-sky-500 dark:text-sky-400 text-base">🏢</span>
+              </div>
               <div>
-                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
-                  Office
-                </h3>
+                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Office</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">123 Business Area<br />Cairo, Egypt</p>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 animate-slideIn" style="animation-delay: 1s;">
+              <div class="w-8 h-8 bg-sky-500/20 dark:bg-sky-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span class="text-sky-500 dark:text-sky-400 text-base">📞</span>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Phone</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">+20 123 456 7890<br />Mon-Fri, 9am-6pm</p>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 animate-slideIn" style="animation-delay: 1.1s;">
+              <div class="w-8 h-8 bg-sky-500/20 dark:bg-sky-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span class="text-sky-500 dark:text-sky-400 text-base">✉️</span>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Email</h3>
                 <p class="text-gray-500 dark:text-gray-400 text-sm">
-                  123 Business Street, Cairo, Egypt
+                  <a href="mailto:contact@eventplan.com" class="text-sky-500 dark:text-sky-400 hover:text-sky-600 dark:hover:text-sky-300 hover:underline font-medium">contact@eventplan.com</a><br />
+                  Guaranteed fast response
                 </p>
               </div>
-            </li>
-
-            <li
-              class="flex items-start gap-4 hover:bg-gray-100 dark:hover:bg-gray-800 p-3 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-300"
-            >
-              <span class="text-orange-500 dark:text-orange-400 text-lg">📞</span>
-              <div>
-                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
-                  Phone
-                </h3>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">
-                  +20 123 456 7890 <br />Mon–Fri, 9am–6pm
-                </p>
-              </div>
-            </li>
-
-            <li
-              class="flex items-start gap-4 hover:bg-gray-100 dark:hover:bg-gray-800 p-3 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-300"
-            >
-              <span class="text-orange-500 dark:text-orange-400 text-lg">✉️</span>
-              <div>
-                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">
-                  Email
-                </h3>
-                <a
-                  href="mailto:contact@eventplan.com"
-                  class="text-orange-500 dark:text-orange-400 hover:underline text-sm"
-                  >contact@eventplan.com</a
-                >
-              </div>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
 
-        <!-- Stats -->
-        <div
-          class="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-md p-8 hover:shadow-lg transition-all duration-300 fade-in-up"
-        >
-          <h3
-            class="text-xl font-semibold text-gray-900 dark:text-white mb-6"
-          >
-            Why Choose Us?
-          </h3>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <div
-                class="text-2xl font-bold text-orange-500 dark:text-orange-400 mb-1"
-              >
-                24h
-              </div>
-              <p
-                class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide"
-              >
-                Response
-              </p>
+        <!-- Stats Card -->
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-8 hover:shadow-md transition-all duration-300 animate-slideIn" style="animation-delay: 1.2s;">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Why Choose Us?</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center animate-slideIn" style="animation-delay: 1.3s;">
+              <div class="text-2xl font-bold text-olive-500 dark:text-olive-400 mb-2">24h</div>
+              <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide">Response Time</div>
             </div>
-            <div>
-              <div
-                class="text-2xl font-bold text-orange-500 dark:text-orange-400 mb-1"
-              >
-                99%
-              </div>
-              <p
-                class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide"
-              >
-                Satisfaction
-              </p>
+            <div class="text-center animate-slideIn" style="animation-delay: 1.4s;">
+              <div class="text-2xl font-bold text-olive-500 dark:text-olive-400 mb-2">99%</div>
+              <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide">Satisfaction</div>
             </div>
-            <div>
-              <div
-                class="text-2xl font-bold text-orange-500 dark:text-orange-400 mb-1"
-              >
-                150+
-              </div>
-              <p
-                class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide"
-              >
-                Events
-              </p>
+            <div class="text-center animate-slideIn" style="animation-delay: 1.5s;">
+              <div class="text-2xl font-bold text-olive-500 dark:text-olive-400 mb-2">150+</div>
+              <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide">Events</div>
             </div>
-            <div>
-              <div
-                class="text-2xl font-bold text-orange-500 dark:text-orange-400 mb-1"
-              >
-                4.9★
-              </div>
-              <p
-                class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide"
-              >
-                Rating
-              </p>
+            <div class="text-center animate-slideIn" style="animation-delay: 1.6s;">
+              <div class="text-2xl font-bold text-olive-500 dark:text-olive-400 mb-2">4.9★</div>
+              <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide">Rating</div>
             </div>
           </div>
         </div>

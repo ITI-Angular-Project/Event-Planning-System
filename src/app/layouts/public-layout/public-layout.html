@@ -1,7 +1,8 @@
-
+<app-loader></app-loader>
+@if(!loaderLoading()){
   <app-navbar></app-navbar>
   <div class="mt-18">
     <router-outlet></router-outlet>
   </div>
   <app-footer></app-footer>
-
+}
