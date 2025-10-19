@@ -1,0 +1,102 @@
+<div
+  class="min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 p-8 bg-gray-50 dark:bg-[#0a0a0a] transition-all duration-700"
+>
+  @if (event) {
+    <!-- 🟠 Event Image -->
+    <div
+      class="w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-orange-500 transform hover:scale-105 transition-all duration-700"
+    >
+      <img
+        [src]="event.image"
+        [alt]="event.name"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <!-- 🟠 Event Details -->
+    <div class="max-w-xl text-center md:text-left space-y-5">
+      <h2
+        class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white"
+      >
+        {{ event.name }}
+      </h2>
+
+      <h4
+        class="text-lg font-semibold text-orange-500 uppercase tracking-wide"
+      >
+        {{ event.category }}
+      </h4>
+
+      <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[15px]">
+        {{ event.description || 'No description available.' }}
+      </p>
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6 text-gray-800 dark:text-gray-200"
+      >
+        <!-- 🕒 Date -->
+        <div
+          class="bg-white/70 dark:bg-[#111]/80 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-md flex items-center gap-3"
+        >
+          <i class="lucide lucide-calendar text-orange-500 w-5 h-5 shrink-0"></i>
+          <div>
+            <h3 class="text-sm font-bold text-orange-500 mb-1">Date</h3>
+            <p class="text-sm">{{ event.startDate }} | {{ event.endDate }}</p>
+          </div>
+        </div>
+
+        <!-- 📍 Location -->
+        <div
+          class="bg-white/70 dark:bg-[#111]/80 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-md flex items-center gap-3"
+        >
+          <i class="lucide lucide-map-pin text-orange-500 w-5 h-5 shrink-0"></i>
+          <div>
+            <h3 class="text-sm font-bold text-orange-500 mb-1">Location</h3>
+            <p class="text-sm">{{ event.location }}</p>
+          </div>
+        </div>
+
+        <!-- 👤 Status -->
+        <div
+          class="bg-white/70 dark:bg-[#111]/80 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-md flex items-center gap-3"
+        >
+          <i class="lucide lucide-user text-orange-500 w-5 h-5 shrink-0"></i>
+          <div>
+            <h3 class="text-sm font-bold text-orange-500 mb-1">Status</h3>
+            <p class="text-sm">{{ event.status }}</p>
+          </div>
+        </div>
+
+        <!-- 🏷️ Category -->
+        <div
+          class="bg-white/70 dark:bg-[#111]/80 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-md flex items-center gap-3"
+        >
+          <i class="lucide lucide-tag text-orange-500 w-5 h-5 shrink-0"></i>
+          <div>
+            <h3 class="text-sm font-bold text-orange-500 mb-1">Guests</h3>
+            <p class="text-sm">{{ event.guestIds.length}} / 300</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🟠 Register Button -->
+      <button
+        class="relative mt-8 cursor-pointer inline-block text-sm font-semibold uppercase border-2 border-orange-500 text-orange-500 px-6 py-2 rounded-md overflow-hidden transition-all duration-500 group"
+      >
+        <span
+          class="absolute inset-0 bg-orange-500 translate-x-[-100%] translate-y-[100%] group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-700 ease-out"
+        ></span>
+        <span
+          class="relative z-10 group-hover:text-white transition duration-300"
+        >
+          Register Now
+        </span>
+      </button>
+    </div>
+  } @else {
+    <!-- 🕓 Loading or not found -->
+    <div class="text-center text-gray-500 dark:text-gray-300 py-20">
+      <p class="text-lg animate-pulse">Loading event details...</p>
+    </div>
+  }
+</div>

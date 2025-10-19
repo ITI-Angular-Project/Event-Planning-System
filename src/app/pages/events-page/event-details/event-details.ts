@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EventsService } from '../../core/services/events-service/events-service';
-import { Ievents } from '../../core/models/ievents';
-import { DataService } from '../../core/services/dataService/data-service';
-import { AuthService } from '../../core/services/authService/auth';
-import { ToastService } from '../../core/services/toastService/toast-service';
+import { EventsService } from '../../../core/services/events-service/events-service';
+import { DataService } from '../../../core/services/dataService/data-service';
+import { AuthService } from '../../../core/services/authService/auth';
+import { ToastService } from '../../../core/services/toastService/toast-service';
+import { Ievents } from '../../../core/models/ievents';
 
 @Component({
   selector: 'app-event-details',
