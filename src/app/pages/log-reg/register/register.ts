@@ -51,7 +51,6 @@ export class Register {
     return;
   }
 
-<<<<<<< HEAD
     const newUser: Omit<User, 'id'> = {
       name: this.name.trim(),
       email: this.email.trim().toLowerCase(),
@@ -59,7 +58,7 @@ export class Register {
       password: this.password.trim(),
       role: (this.role || 'guest').toLowerCase(),
     };
-=======
+
   const newUser: Omit<User, 'id'> = {
     name: this.name.trim(),
     email: this.email.trim().toLowerCase(),
@@ -67,11 +66,9 @@ export class Register {
     password: this.password.trim(),
     role: this.role.trim().toLowerCase(), // 🔥 مهم جدًا عشان المفتاح يتظبط
   };
->>>>>>> 8fcf8e6a90cedd964dc60ed24c061ad16134f32c
 
   this.isLoading = true;
 
-<<<<<<< HEAD
     try {
       setTimeout(() => {
         const success = this.authService.registerUser(newUser);
@@ -99,7 +96,6 @@ export class Register {
       this.isLoading = false;
       this.errorMsg = 'Unexpected error occurred during registration.';
     }
-=======
   try {
     setTimeout(() => {
       const success = this.authService.registerUser(newUser);
@@ -107,11 +103,6 @@ export class Register {
 
       if (success) {
         this.successMsg = '✅ Account created successfully! Redirecting to login...';
-
-        //  اختبار سريع: اطبع في الكونسول
-        // console.log('Registered user:', newUser);
-        // console.log('LocalStorage guests:', localStorage.getItem('guests'));
-        // console.log('LocalStorage users:', localStorage.getItem('users'));
 
         setTimeout(() => this.router.navigate(['/login']), 1500);
       } else {
@@ -122,7 +113,6 @@ export class Register {
     console.error('Registration error:', err);
     this.isLoading = false;
     this.errorMsg = 'Unexpected error occurred during registration.';
->>>>>>> 8fcf8e6a90cedd964dc60ed24c061ad16134f32c
   }
 }
 }
