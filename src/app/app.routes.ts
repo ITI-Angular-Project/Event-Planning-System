@@ -14,7 +14,7 @@ import { Guests } from './pages/dashboard/guests/guests';
 import { Expenses } from './pages/dashboard/expenses/expenses';
 import { Reports } from './pages/dashboard/reports/reports';
 import { Users } from './pages/dashboard/users/users';
-import { Profile } from './pages/dashboard/profile/profile';
+import { Profile as ProfileDashboard } from './pages/dashboard/profile/profile';
 
 // Pages - log-reg
 import { Login } from './pages/log-reg/login/login';
@@ -29,6 +29,8 @@ import { ContactComponent } from './pages/contact/contact';
 import { About } from './pages/about/about';
 import { GuestInvite } from './pages/public/guest-portal/guest-invite/guest-invite';
 import { authPageGuard, dashboardGuard } from './core/guards/auth/auth-guard';
+import { Profile } from './pages/public/profile/profile';
+import { GuestFeedback } from './pages/public/guest-portal/guest-feedback/guest-feedback';
 
 export const routes: Routes = [
   { path: 'login', component: Login, canMatch: [authPageGuard]},
@@ -42,7 +44,9 @@ export const routes: Routes = [
       { path: 'details/:id', component: HomeEvent },
       { path: 'contact', component: ContactComponent },
       { path: 'about', component: About },
+      { path: 'profile', component: Profile },
       { path: 'guest/invite/:token', component: GuestInvite },
+      { path: 'guest/feedback/:eventId', component: GuestFeedback },
     ],
   },
 
@@ -87,7 +91,7 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        component: Profile,
+        component: ProfileDashboard,
       },
     ],
   },

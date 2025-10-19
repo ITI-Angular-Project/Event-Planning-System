@@ -24,7 +24,7 @@ export class EventsPage implements OnInit {
   constructor(private eventService: EventsService) {}
 
   ngOnInit(): void {
-    this.events = this.eventService.events;
+    this.events = this.eventService.events.reverse();
     this.filteredEvents = [...this.events];
   }
 

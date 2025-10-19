@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/authService/auth';
 
 @Component({
@@ -24,7 +25,7 @@ export class Login {
   fpConfirmPassword = '';
   fpMsg = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   onLogin() {
     this.errorMsg = '';
@@ -61,17 +62,24 @@ export class Login {
 
           this.successMsg = '✅ Login successful! Redirecting...';
           setTimeout(() => {
+            const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+            if (returnUrl) {
+              // preserve full path with query
+              this.router.navigateByUrl(returnUrl);
+              return;
+            }
+
             const role = (loggedUser.role || '').toLowerCase();
             if (role === 'admin' || role === 'organizer') {
               this.router.navigate(['/dashboard']);
             } else {
               this.router.navigate(['/']);
             }
-          }, 1200);
+          }, 300);
         } else {
           this.errorMsg = '❌ Incorrect email or password.';
         }
-      }, 800);
+      }, 200);
     } catch (err) {
       console.error('Login error:', err);
       this.isLoading = false;

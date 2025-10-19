@@ -55,7 +55,7 @@ export class Register {
       email: this.email.trim().toLowerCase(),
       phone: this.phone.trim(),
       password: this.password.trim(),
-      role: (this.role || 'guest').toLowerCase(), // normalized later in AuthService
+      role: (this.role || 'guest').toLowerCase(),
     };
 
     this.isLoading = true;
@@ -66,14 +66,18 @@ export class Register {
         this.isLoading = false;
 
         if (success) {
-          this.successMsg = '✅ Account created successfully! Redirecting to login...';
+          // ✅ Immediately log them in
+          this.authService.login(newUser.email, newUser.password);
 
-          //  اختبار سريع: اطبع في الكونسول
-          // console.log('Registered user:', newUser);
-          // console.log('LocalStorage guests:', localStorage.getItem('guests'));
-          // console.log('LocalStorage users:', localStorage.getItem('users'));
+          this.successMsg = '✅ Account created successfully! Redirecting...';
 
-          setTimeout(() => this.router.navigate(['/login']), 1500);
+          // ✅ Role-based redirect
+          const role = (newUser.role || 'guest').toLowerCase();
+          if (role === 'admin' || role === 'organizer') {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/']);
+          }
         } else {
           this.errorMsg = '⚠️ This email is already registered.';
         }
