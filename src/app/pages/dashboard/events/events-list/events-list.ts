@@ -119,11 +119,13 @@ export class EventsList implements OnInit {
   saveNewEvent(): void {
     const name = (this.newEvent.name || '').trim();
 
-    if (!name ||
+    if (
+      !name ||
       !this.newEvent.category ||
       !this.newEvent.location ||
       !this.newEvent.startDate ||
-      !this.newEvent.endDate) {
+      !this.newEvent.endDate
+    ) {
       this.toast.show('warning', 'Please fill all required fields!', 3000);
       return;
     }
@@ -299,12 +301,7 @@ export class EventsList implements OnInit {
     if (this.searchTerm) {
       filtered = filtered.filter((event) => {
         const term = this.searchTerm;
-        return (
-          event.name.toLowerCase().includes(term) ||
-          event.category.toLowerCase().includes(term) ||
-          event.location.toLowerCase().includes(term) ||
-          event.status.toLowerCase().includes(term)
-        );
+        return event.name.toLowerCase().includes(term);
       });
     }
 
