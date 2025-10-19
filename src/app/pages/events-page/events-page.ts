@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ievents } from '../../core/models/ievents';
 import { EventsService } from '../../core/services/events-service/events-service';
-import { Events } from "./events/events";
-import { Loader } from "../../shared/components/loader/loader";
+import { Events } from "../events/events";
 
 @Component({
   selector: 'app-events-page',
   standalone: true,
-  imports: [FormsModule, Events, Loader],
+  imports: [FormsModule, Events],
   templateUrl: './events-page.html',
   styleUrls: ['./events-page.css'],
 })

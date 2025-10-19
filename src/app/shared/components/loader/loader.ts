@@ -13,6 +13,6 @@ export class Loader implements OnInit {
     // Simulate loading delay (replace with actual data load if needed)
     setTimeout(() => {
       this.loading.set(false);
-    }, 1600); // 2.5s
+    }, 2500); // 2.5s
   }
 }

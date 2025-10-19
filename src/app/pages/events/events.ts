@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Ievents } from '../../../core/models/ievents';
+import { Ievents } from '../../core/models/ievents';
 import { RouterLink } from '@angular/router';
 
 @Component({
