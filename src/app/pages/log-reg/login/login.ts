@@ -31,12 +31,12 @@ export class Login {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {}
 
   onLogin() {
-    this.errorMsg = '';
-    this.successMsg = '';
+  this.errorMsg = '';
+  this.successMsg = '';
 
     // ===== Basic Validation =====
     if (!this.email || !this.password) {
@@ -52,7 +52,7 @@ export class Login {
       return;
     }
 
-    this.isLoading = true;
+  this.isLoading = true;
 
     try {
       setTimeout(() => {
@@ -168,4 +168,5 @@ export class Login {
       this.closeForgotModal();
     }, 1400);
   }
+}
 }

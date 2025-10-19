@@ -57,6 +57,7 @@ export class AuthService {
     return swapped.split('').reverse().join('');
   }
 
+<<<<<<< HEAD
   // ─────────────────────────────────────────────────────────────────────────────
   // Register
   registerUser(userData: Omit<User, 'id'>): boolean {
@@ -101,6 +102,48 @@ export class AuthService {
     }
     return false;
   }
+=======
+  // ===== User Register =====
+registerUser(userData: Omit<User, 'id'>): boolean {
+  const key = userData.role === 'guest' ? 'guests' : 'users';
+  const users: User[] = JSON.parse(localStorage.getItem(key) || '[]');
+
+  if (users.some((u) => u.email === userData.email)) {
+    return false;
+  }
+
+  const newUser: User = {
+    id: users.length ? users[users.length - 1].id + 1 : 1,
+    ...userData,
+    password: this.encryptText(userData.password),
+  };
+
+  users.push(newUser);
+  localStorage.setItem(key, JSON.stringify(users));
+  return true;
+}
+
+// ===== Login =====
+login(email: string, password: string): boolean {
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const guests = JSON.parse(localStorage.getItem('guests') || '[]');
+
+  const allUsers = [...users, ...guests];
+
+  const user = allUsers.find(
+    (u) => u.email === email && this.decryptText(u.password) === password
+  );
+
+  if (user) {
+    localStorage.setItem(this.loggedKey, JSON.stringify(user));
+    return true;
+  }
+
+  return false;
+}
+
+
+>>>>>>> 8fcf8e6a90cedd964dc60ed24c061ad16134f32c
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Helpers
