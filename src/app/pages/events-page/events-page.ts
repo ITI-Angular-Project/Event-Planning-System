@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ievents } from '../../core/models/ievents';
 import { EventsService } from '../../core/services/events-service/events-service';
-import { Events } from "../events/events";
+import { Events } from "./events/events";
+import { Loader } from "../../shared/components/loader/loader";
 
 @Component({
   selector: 'app-events-page',
   standalone: true,
-  imports: [FormsModule, Events],
+  imports: [FormsModule, Events, Loader],
   templateUrl: './events-page.html',
   styleUrls: ['./events-page.css'],
 })
@@ -75,7 +76,7 @@ export class EventsPage implements OnInit {
   get paginationRange(): number[] {
     const total = this.totalPages;
     const current = this.currentPage;
-    const maxVisible = 10;
+    const maxVisible =6;
     const pages: number[] = [];
 
     if (total <= maxVisible) {

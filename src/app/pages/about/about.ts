@@ -1,10 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Loader } from "../../shared/components/loader/loader";
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Loader],
   templateUrl: './about.html',
   styleUrls: []
 })
@@ -29,24 +30,4 @@ export class About {
       image:'assets/devolopers/dev3.jpg'
     }
   ];
-  counter = signal(0);
-  target = 5000;
-  duration = 5000; // in ms
-
-  ngOnInit() {
-    this.animateCounter();
-  }
-
- animateCounter() {
-    const stepTime = 10; // update every 10ms
-    const increment = this.target / (this.duration / stepTime);
-    const timer = setInterval(() => {
-      const nextValue = this.counter() + increment;
-      if (nextValue >= this.target) {
-        this.counter.set(this.target);
-        clearInterval(timer);
-      } else {
-        this.counter.set(nextValue);
-      }
-    }, stepTime);}
 }

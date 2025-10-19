@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EventsService } from '../../core/services/events-service/events-service';
-import { Ievents } from '../../core/models/ievents';
+import { EventsService } from '../../../core/services/events-service/events-service';
+import { Ievents } from '../../../core/models/ievents';
+
 
 @Component({
   selector: 'app-event-details',
@@ -28,7 +29,7 @@ export class EventDetails implements OnInit {
       (e) => e.id === this.eventID
     );
 
-    
+
   }
 }
 
