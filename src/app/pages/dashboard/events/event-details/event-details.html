@@ -232,6 +232,13 @@
               <span class="text-sm text-gray-600 dark:text-gray-400">Days Remaining</span>
               <span class="text-lg font-semibold text-blue-600">{{ daysRemaining }}</span>
             </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-600 dark:text-gray-400">Average Feedback</span>
+              <span class="text-lg font-semibold text-yellow-500">
+                {{ getAverageFeedback(event.id) > 0 ? getAverageFeedback(event.id) : 'No feedback yet' }}
+              </span>
+            </div>
+
           </div>
         </div>
 

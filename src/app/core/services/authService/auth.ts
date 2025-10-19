@@ -5,12 +5,6 @@ import { User } from '../../models/users';
 // Strict roles we actually support in routing/guards:
 export type AppRole = 'admin' | 'organizer' | 'guest';
 
-/**
- * IMPORTANT KEYS:
- * - 'users'       → admin/organizer accounts
- * - 'userGuests'  → guest accounts (separate from event "guests")
- * - 'guests'      → event attendees (DataService). DO NOT put user accounts here.
- */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private usersKey = 'users';
@@ -21,16 +15,12 @@ export class AuthService {
     this.runStorageMigration();
   }
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Role normalization (handles any string → one of AppRole)
   private normalizeRole(r: string | undefined | null): AppRole {
     const v = (r ?? '').toLowerCase().trim();
     if (v === 'admin' || v === 'organizer' || v === 'guest') return v;
     return 'guest';
   }
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Encryption & Decryption
   encryptText(text: string): string {
     if (!text) return '';
     const reversed = text.split('').reverse().join('');
@@ -57,8 +47,6 @@ export class AuthService {
     return swapped.split('').reverse().join('');
   }
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Register
   registerUser(userData: Omit<User, 'id'>): boolean {
     const email = (userData.email ?? '').toLowerCase().trim();
     const role: AppRole = this.normalizeRole(userData.role);
@@ -80,15 +68,12 @@ export class AuthService {
     return true;
   }
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Login
   login(email: string, password: string): boolean {
     const e = (email ?? '').toLowerCase().trim();
 
-    const staff: User[]  = JSON.parse(localStorage.getItem(this.usersKey) || '[]');          // admin/organizer
-    const guests: User[] = JSON.parse(localStorage.getItem(this.guestAccountsKey) || '[]');  // guest accounts
+    const staff: User[]  = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
+    const guests: User[] = JSON.parse(localStorage.getItem(this.guestAccountsKey) || '[]');
 
-    // normalize role for all before comparing/returning
     const all: User[] = [...staff, ...guests].map(u => ({ ...u, role: this.normalizeRole(u.role) }));
 
     const user = all.find(
@@ -101,13 +86,45 @@ export class AuthService {
     }
     return false;
   }
+registerUser(userData: Omit<User, 'id'>): boolean {
+  const key = userData.role === 'guest' ? 'guests' : 'users';
+  const users: User[] = JSON.parse(localStorage.getItem(key) || '[]');
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Helpers
+  if (users.some((u) => u.email === userData.email)) {
+    return false;
+  }
+
+  const newUser: User = {
+    id: users.length ? users[users.length - 1].id + 1 : 1,
+    ...userData,
+    password: this.encryptText(userData.password),
+  };
+
+  users.push(newUser);
+  localStorage.setItem(key, JSON.stringify(users));
+  return true;
+}
+
+login(email: string, password: string): boolean {
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const guests = JSON.parse(localStorage.getItem('guests') || '[]');
+
+  const allUsers = [...users, ...guests];
+
+  const user = allUsers.find(
+    (u) => u.email === email && this.decryptText(u.password) === password
+  );
+
+  if (user) {
+    localStorage.setItem(this.loggedKey, JSON.stringify(user));
+    return true;
+  }
+
+  return false;
+}
   getAllUsers(): User[] {
     const staff: User[]  = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
     const guests: User[] = JSON.parse(localStorage.getItem(this.guestAccountsKey) || '[]');
-    // normalize roles for consumers
     return [...staff, ...guests].map(u => ({ ...u, role: this.normalizeRole(u.role) }));
   }
 
@@ -130,8 +147,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Migration: move any "user-like" objects wrongly stored in 'guests' to 'userGuests'
   private runStorageMigration() {
     try {
       const rawGuests = localStorage.getItem('guests');
@@ -163,7 +178,7 @@ export class AuthService {
         }
 
         localStorage.setItem(this.guestAccountsKey, JSON.stringify(merged));
-        localStorage.setItem('guests', JSON.stringify(trueAttendees)); // keep attendees only
+        localStorage.setItem('guests', JSON.stringify(trueAttendees));
       }
     } catch {
       // ignore migration errors

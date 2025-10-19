@@ -75,6 +75,17 @@ export class EventDetails implements OnInit {
       .filter((g): g is Guest => !!g);
   }
 
+  //add average feedback
+  getAverageFeedback(eventId: number): number {
+  const allFeedback = this.dataService.feedback();
+  const eventFeedback = allFeedback.filter(f => f.eventId === eventId);
+
+  if (eventFeedback.length === 0) return 0;
+
+  const total = eventFeedback.reduce((sum, f) => sum + f.rating, 0);
+  return parseFloat((total / eventFeedback.length).toFixed(1));
+}
+
   getInitials(name: string): string {
     if (!name) return '??';
     return name

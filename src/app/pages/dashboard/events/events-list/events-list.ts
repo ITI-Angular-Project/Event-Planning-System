@@ -117,62 +117,71 @@ export class EventsList implements OnInit {
   }
 
   saveNewEvent(): void {
-    const name = (this.newEvent.name || '').trim();
+  const name = (this.newEvent.name || '').trim();
 
-    if (
-      !name ||
-      !this.newEvent.category ||
-      !this.newEvent.location ||
-      !this.newEvent.startDate ||
-      !this.newEvent.endDate
-    ) {
-      this.toast.show('warning', 'Please fill all required fields!', 3000);
-      return;
-    }
-
-    const start = new Date(this.newEvent.startDate);
-    const end = new Date(this.newEvent.endDate);
-
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      this.toast.show('error', 'Invalid date format.', 3000);
-      return;
-    }
-
-    if (start >= end) {
-      this.toast.show('error', 'Start date must be before end date.', 3000);
-      return;
-    }
-
-    const duplicate = this.originalEventsData.some(
-      (e) => e.name.trim().toLowerCase() === name.toLowerCase()
-    );
-
-    if (duplicate) {
-      this.toast.show(
-        'error',
-        `An event named "${name}" already exists. Please use a different name.`,
-        3000
-      );
-      return;
-    }
-    const eventToAdd = {
-      id: this.eventsData()[0].id + 1,
-      ...this.newEvent,
-      status: 'up-coming',
-      guestsCount: 0,
-      guestIds: [],
-      taskIds: [],
-      expenseIds: [],
-      feedbackIds: [],
-      createdBy: this.auth.getLoggedUser()?.id,
-    };
-
-    this.originalEventsData.push(eventToAdd);
-    this.saveEvents();
-    this.applyFilters();
-    this.showCreateModal = false;
-    this.toast.show('success', 'Event created successfully!');
+  if (
+    !name ||
+    !this.newEvent.category ||
+    !this.newEvent.location ||
+    !this.newEvent.startDate ||
+    !this.newEvent.endDate
+  ) {
+    this.toast.show('warning', 'Please fill all required fields!', 3000);
+    return;
   }
+
+  const start = new Date(this.newEvent.startDate);
+  const end = new Date(this.newEvent.endDate);
+
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    this.toast.show('error', 'Invalid date format.', 3000);
+    return;
+  }
+
+  if (start >= end) {
+    this.toast.show('error', 'Start date must be before end date.', 3000);
+    return;
+  }
+
+  const duplicate = this.originalEventsData.some(
+    (e) => e.name.trim().toLowerCase() === name.toLowerCase()
+  );
+
+  if (duplicate) {
+    this.toast.show(
+      'error',
+      `An event named "${name}" already exists. Please use a different name.`,
+      3000
+    );
+    return;
+  }
+
+  //fix (id)
+  const newId = this.originalEventsData.length
+    ? Math.max(...this.originalEventsData.map(e => e.id)) + 1
+    : 1;
+
+  const eventToAdd = {
+  id: newId,
+  ...this.newEvent,
+  status: 'up-coming',
+  guestsCount: 0,
+  guestIds: [],
+  taskIds: [],
+  expenseIds: [],
+  feedbackIds: [],
+  averageFeedback: 0,
+  createdBy: this.auth.getLoggedUser()?.id,
+};
+
+
+  this.originalEventsData.push(eventToAdd);
+  this.saveEvents();
+  this.applyFilters();
+  this.showCreateModal = false;
+  this.toast.show('success', 'Event created successfully!');
+}
+
 
   cancelCreate(): void {
     this.showCreateModal = false;

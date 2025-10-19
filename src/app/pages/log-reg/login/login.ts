@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/authService/auth';
 import { Loader } from "../../../shared/components/loader/loader";
-
 
 @Component({
   selector: 'app-login',
@@ -20,6 +19,7 @@ export class Login {
   errorMsg = '';
   successMsg = '';
   isLoading = false;
+
   // Forgot password modal state
   showForgotModal = false;
   fpEmail = '';
@@ -27,25 +27,32 @@ export class Login {
   fpConfirmPassword = '';
   fpMsg = '';
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   onLogin() {
-    this.errorMsg = '';
-    this.successMsg = '';
+  this.errorMsg = '';
+  this.successMsg = '';
 
     // ===== Basic Validation =====
     if (!this.email || !this.password) {
       this.errorMsg = 'Please enter both email and password.';
+      this.cdr.detectChanges();
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
       this.errorMsg = 'Invalid email format.';
+      this.cdr.detectChanges();
       return;
     }
 
-    this.isLoading = true;
+  this.isLoading = true;
 
     try {
       setTimeout(() => {
@@ -59,14 +66,16 @@ export class Login {
           const loggedUser = this.authService.getLoggedUser();
           if (!loggedUser) {
             this.errorMsg = 'Login failed: user not found.';
+            this.cdr.detectChanges();
             return;
           }
 
           this.successMsg = '✅ Login successful! Redirecting...';
+          this.cdr.detectChanges();
+
           setTimeout(() => {
             const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
             if (returnUrl) {
-              // preserve full path with query
               this.router.navigateByUrl(returnUrl);
               return;
             }
@@ -80,14 +89,18 @@ export class Login {
           }, 300);
         } else {
           this.errorMsg = '❌ Incorrect email or password.';
+          this.cdr.detectChanges();
         }
       }, 200);
     } catch (err) {
       console.error('Login error:', err);
       this.isLoading = false;
       this.errorMsg = 'Unexpected error occurred during login.';
+      this.cdr.detectChanges();
     }
   }
+
+  // ===== Forgot Password Handlers =====
 
   openForgotModal() {
     this.fpEmail = '';
@@ -95,10 +108,12 @@ export class Login {
     this.fpConfirmPassword = '';
     this.fpMsg = '';
     this.showForgotModal = true;
+    this.cdr.detectChanges();
   }
 
   closeForgotModal() {
     this.showForgotModal = false;
+    this.cdr.detectChanges();
   }
 
   resetPassword() {
@@ -106,14 +121,17 @@ export class Login {
     const email = (this.fpEmail || '').trim().toLowerCase();
     if (!email) {
       this.fpMsg = 'Please enter your email.';
+      this.cdr.detectChanges();
       return;
     }
     if (!this.fpNewPassword || !this.fpConfirmPassword) {
       this.fpMsg = 'Please enter and confirm your new password.';
+      this.cdr.detectChanges();
       return;
     }
     if (this.fpNewPassword !== this.fpConfirmPassword) {
       this.fpMsg = 'Passwords do not match.';
+      this.cdr.detectChanges();
       return;
     }
 
@@ -128,6 +146,7 @@ export class Login {
 
     if (idxUser === -1 && idxGuest === -1) {
       this.fpMsg = 'No account found with that email.';
+      this.cdr.detectChanges();
       return;
     }
 
@@ -143,8 +162,11 @@ export class Login {
     }
 
     this.fpMsg = 'Password updated successfully. You can now login with your new password.';
+    this.cdr.detectChanges();
+
     setTimeout(() => {
       this.closeForgotModal();
     }, 1400);
   }
+}
 }
