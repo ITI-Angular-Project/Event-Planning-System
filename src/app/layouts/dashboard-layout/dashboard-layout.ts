@@ -13,12 +13,9 @@ import { AuthService } from '../../core/services/authService/auth';
   styleUrl: './dashboard-layout.css',
 })
 export class DashboardLayout {
-
   profileOpen = false;
 
-
   @ViewChild('profileMenu', { static: false }) profileMenuRef!: ElementRef<HTMLElement>;
-
 
   private initialCollapse = (() => {
     try {
@@ -32,25 +29,19 @@ export class DashboardLayout {
 
   isMobileOpen = signal(false);
 
-  constructor(
-    public theme: ThemeService,
-    private auth: AuthService,
-    private router: Router
-  ) {}
-
+  constructor(public theme: ThemeService, private auth: AuthService, private router: Router) {}
 
   toggleSidebar() {
-    this.isCollapsed.update(v => !v);
+    this.isCollapsed.update((v) => !v);
     localStorage.setItem('sideBarCollabse', JSON.stringify(this.isCollapsed()));
   }
   toggleMobileSidebar() {
-    this.isMobileOpen.update(v => !v);
+    this.isMobileOpen.update((v) => !v);
   }
   closeMobileSidebar() {
     this.isMobileOpen.set(false);
   }
 
-  
   toggleProfile() {
     this.profileOpen = !this.profileOpen;
   }
@@ -58,11 +49,14 @@ export class DashboardLayout {
     this.profileOpen = false;
     this.router.navigate(['/dashboard/profile']);
   }
+  goToHome() {
+    this.profileOpen = false;
+    this.router.navigate(['/']);
+  }
   logout() {
     this.profileOpen = false;
     this.auth.logout();
   }
-
 
   get loggedUser() {
     return this.auth.getLoggedUser();
@@ -75,7 +69,6 @@ export class DashboardLayout {
     return ((parts[0][0] || '') + (parts[1][0] || '')).toUpperCase();
   }
 
-
   @HostListener('document:click', ['$event'])
   onDocumentClick(evt: MouseEvent) {
     if (!this.profileOpen) return;
@@ -85,7 +78,6 @@ export class DashboardLayout {
       this.profileOpen = false;
     }
   }
-
 
   @HostListener('document:keydown.escape')
   onEscape() {

@@ -41,7 +41,9 @@
             </span>
           </div>
 
-          <h1 class="anton-regular text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1
+            class="anton-regular text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+          >
             {{ event.name }}
           </h1>
 
@@ -99,7 +101,13 @@
         <div
           class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
         >
+<<<<<<< HEAD
           <h2 class="anton-regular text-xl font-semibold text-gray-900 dark:text-white mb-4">About This Event</h2>
+=======
+          <h2 class="anton-regular text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            About This Event
+          </h2>
+>>>>>>> 0d6e2331ad24352ba8de144beac530a7eff46dd6
           <div class="prose prose-gray dark:prose-invert max-w-none">
             <p class="text-gray-600 dark:text-gray-400 mb-4">
               {{ event.description }}
@@ -110,7 +118,13 @@
         <div
           class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
         >
+<<<<<<< HEAD
           <h2 class="anton-regular text-xl font-semibold text-gray-900 dark:text-white mb-6">Event Schedule</h2>
+=======
+          <h2 class="anton-regular text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            Event Schedule
+          </h2>
+>>>>>>> 0d6e2331ad24352ba8de144beac530a7eff46dd6
           <div class="space-y-4">
             <!-- Schedule Item -->
             <div class="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -169,7 +183,13 @@
           class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
         >
           <div class="flex items-center justify-between mb-6">
+<<<<<<< HEAD
             <h2 class="anton-regular text-xl font-semibold text-gray-900 dark:text-white">Guests</h2>
+=======
+            <h2 class="anton-regular text-xl font-semibold text-gray-900 dark:text-white">
+              Guests
+            </h2>
+>>>>>>> 0d6e2331ad24352ba8de144beac530a7eff46dd6
             <span
               class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
             >
@@ -177,20 +197,21 @@
             </span>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-h-[200px] overflow-y-scroll">
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-h-[200px] overflow-y-scroll"
+          >
             <!-- Render each guest -->
-            <div
-              *ngFor="let guest of eventGuests; let i = index"
-              class="flex flex-col items-center"
-            >
+            @for (guest of eventGuests; track $index ) {
+            <div class="flex flex-col items-center">
               <div
                 class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white text-sm mb-2"
-                [ngClass]="'bg-gradient-to-br ' + getAvatarGradient(i)"
+                [ngClass]="'bg-gradient-to-br ' + getAvatarGradient($index)"
               >
                 {{ getInitials(guest.name) }}
               </div>
               <p class="text-xs text-gray-600 dark:text-gray-400 text-center">{{ guest.name }}</p>
             </div>
+            }
           </div>
         </div>
       </div>

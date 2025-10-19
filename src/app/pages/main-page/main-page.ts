@@ -7,6 +7,7 @@ import { TrustedByLeaders } from "./trusted-by-leaders/trusted-by-leaders";
 import { Loader } from "../../shared/components/loader/loader";
 
 
+
 @Component({
   selector: 'app-main-page',
   imports: [Home, RolesSection, EventVideoSection, Speakers, TrustedByLeaders, Loader],

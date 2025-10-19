@@ -4,10 +4,11 @@ import { DataService } from '../../../../core/services/dataService/data-service'
 import { ToastService } from '../../../../core/services/toastService/toast-service';
 import { Guest } from '../../../../core/models/guests';
 import { CommonModule } from '@angular/common';
+import { GuestFeedback } from "../guest-feedback/guest-feedback";
 
 @Component({
   selector: 'app-guest-invite',
-  imports: [CommonModule],
+  imports: [CommonModule, GuestFeedback],
   templateUrl: './guest-invite.html',
   styleUrl: './guest-invite.css'
 })

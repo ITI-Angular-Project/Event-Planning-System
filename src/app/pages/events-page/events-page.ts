@@ -25,7 +25,7 @@ export class EventsPage implements OnInit {
   constructor(private eventService: EventsService) {}
 
   ngOnInit(): void {
-    this.events = this.eventService.events;
+    this.events = this.eventService.events.reverse();
     this.filteredEvents = [...this.events];
   }
 
@@ -76,7 +76,7 @@ export class EventsPage implements OnInit {
   get paginationRange(): number[] {
     const total = this.totalPages;
     const current = this.currentPage;
-    const maxVisible =6;
+    const maxVisible = 10;
     const pages: number[] = [];
 
     if (total <= maxVisible) {
