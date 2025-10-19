@@ -24,7 +24,7 @@ import { Register } from './pages/log-reg/register/register';
 import { NotFound } from './pages/not-found/not-found';
 import { MainPage } from './pages/main-page/main-page';
 import { EventsPage } from './pages/events-page/events-page';
-import { EventDetails as HomeEvent } from './pages/event-details/event-details';
+import { EventDetails as HomeEvent } from './pages/events-page/event-details/event-details';
 import { ContactComponent } from './pages/contact/contact';
 import { About } from './pages/about/about';
 import { GuestInvite } from './pages/public/guest-portal/guest-invite/guest-invite';

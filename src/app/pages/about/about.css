@@ -1,15 +1,52 @@
-  @keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+/* 🌟 Smooth fade-up animation */
+@keyframes fadeInUpSlow {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  @keyframes pulseGlow {
-    0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-    50% { box-shadow: 0 0 10px 5px rgba(99, 102, 241, 0.2); }
-    100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .animate-fadeInUp {
-    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fadeInUpSlow {
+  animation: fadeInUpSlow 1s ease-out both;
+}
+
+/* ☁️ Floating animation for icons */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
   }
-  .animate-pulseGlow {
-    animation: pulseGlow 2s infinite;
+  50% {
+    transform: translateY(-8px);
   }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 💥 Scale-in animation for pop effects */
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.8s ease-out both;
+}
+
+/* Optional: smoother entry for delay-based animations */
+.animate-fadeInUpSlow,
+.animate-scaleIn {
+  animation-fill-mode: both;
+  will-change: opacity, transform;
+}
