@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/authService/auth';
+import { Loader } from "../../../shared/components/loader/loader";
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, Loader],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
