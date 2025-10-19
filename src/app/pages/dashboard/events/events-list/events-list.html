@@ -9,7 +9,7 @@
   [filters]="eventsFilters"
   [pageSize]="10"
   [currentPage]="1"
-  [totalItems]="eventsData.length"
+  [totalItems]="eventsData().length"
   (create)="onCreateEvent()"
   (view)="onViewEvent($event)"
   (edit)="onEditEvent($event)"

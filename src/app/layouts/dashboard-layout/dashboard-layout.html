@@ -1,6 +1,4 @@
-<div
-  class="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300 overflow-hidden"
->
+<div class="flex min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300">
   <app-sidebar
     [collapsed]="isCollapsed()"
     (toggle)="toggleSidebar()"
@@ -9,7 +7,10 @@
     (requestClose)="closeMobileSidebar()"
   ></app-sidebar>
 
-  <main class="flex-1 transition-all duration-300 ml-0">
+  <main
+    class="flex-1 transition-all duration-300"
+    [ngClass]="{ 'md:ml-64': !isCollapsed(), 'md:ml-20': isCollapsed(), 'ml-0': isMobileOpen() }"
+  >
     <header
       class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm sticky top-0 z-40 pb-3 border-b border-gray-200 dark:border-gray-700 transition-all duration-300"
     >
@@ -22,22 +23,18 @@
           [attr.aria-expanded]="isMobileOpen()"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
 
         <div class="flex items-center gap-4 flex-1">
-          <h2 class="text-xl md:text-2xl font-bold">Dashboard</h2>
+          <h2 class="anton-regular text-xl md:text-2xl font-bold">Dashboard</h2>
         </div>
 
         <div class="flex items-center gap-4">
           <button
             class="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            (click)="$event.stopPropagation()"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -50,15 +47,39 @@
             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
 
-          <button
-            class="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-          >
-            <div
-              class="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center font-bold text-white text-sm"
+          <!-- Profile island (avatar + dropdown). We use #profileMenu to detect outside clicks -->
+          <div class="relative" #profileMenu>
+            <button
+              (click)="toggleProfile(); $event.stopPropagation()"
+              class="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              JD
-            </div>
-          </button>
+              <div
+                class="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center font-bold text-white text-sm"
+              >
+                {{ initials }}
+              </div>
+            </button>
+
+            @if (profileOpen) {
+              <div
+                class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg py-1 z-50"
+                (click)="$event.stopPropagation()"
+              >
+                <button
+                  (click)="goToProfile()"
+                  class="block w-full text-left px-4 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-gray-900"
+                >
+                  Profile
+                </button>
+                <button
+                  (click)="logout()"
+                  class="block w-full text-left px-4 py-2 text-sm text-zinc-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-gray-900"
+                >
+                  Logout
+                </button>
+              </div>
+            }
+          </div>
         </div>
       </div>
     </header>

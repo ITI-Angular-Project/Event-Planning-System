@@ -3,4 +3,5 @@ export interface MenuItem {
   label: string;
   route: string;
   badge?: number;
+  roles?: string[];
 }

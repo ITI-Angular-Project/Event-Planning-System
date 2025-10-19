@@ -1,0 +1,31 @@
+<!-- pages/public/guest-portal/guest-invite.component.html -->
+<div class="max-w-xl mx-auto p-6">
+  @if (!error()) {
+  <ng-container>
+    <h1 class="anton-regular text-2xl font-semibold mb-2">You're invited to {{ event()?.name }}</h1>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">{{ event()?.endDate }}</p>
+
+    <div class="mb-4">
+      Hello <strong>{{ guest()?.name || guest()?.email }}</strong>
+    </div>
+    @if (guest()?.status === 'Invited' || guest()?.status === 'Pending'){
+    <div class="space-x-2 mb-6">
+      <button class="px-4 py-2 bg-blue-600 text-white rounded-md" (click)="accept()">Accept</button>
+      <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md" (click)="decline()">
+        Decline
+      </button>
+    </div>
+    } @if (guest()?.status === 'Accepted') {
+    <div class="p-3 rounded bg-green-50 border">✅ You have accepted. See you there!</div>
+    } @else if (guest()?.status === 'Declined') {
+    <div class="p-3 rounded bg-amber-50 border">❌ You have declined. Maybe next time.</div>
+    }
+
+    <!-- Feedback gated below -->
+    <!-- <app-guest-feedback [token]="token"></app-guest-feedback> --> </ng-container
+  >}
+
+  <ng-template #err>
+    <div class="p-4 rounded bg-red-50 border text-red-700">{{ error() }}</div>
+  </ng-template>
+</div>

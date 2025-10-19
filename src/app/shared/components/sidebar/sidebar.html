@@ -3,11 +3,14 @@
 }
 <aside
   id="app-sidebar"
-  class="bg-gradient-to-b from-purple-900 to-indigo-900 dark:from-purple-900/5 dark:to-indigo-900/5 text-white fixed inset-y-0 left-0 z-50 flex flex-col shadow-2xl transform transition-all duration-500 ease-in-out md:static md:translate-x-0 md:h-auto"
+  class="bg-gradient-to-b from-purple-900 to-indigo-900 dark:from-purple-900/5 dark:to-indigo-900/5 text-white hidden md:flex md:flex-col shadow-2xl transform transition-all duration-500 ease-in-out md:fixed md:h-screen"
   [class.w-64]="!isCollapsed()"
   [class.w-20]="isCollapsed()"
-  [class.-translate-x-full]="!mobileOpen"
-  [class.translate-x-0]="mobileOpen"
+  [class.block]="mobileOpen"
+  [class.fixed]="mobileOpen"
+  [class.inset-0]="mobileOpen"
+  [class.z-50]="mobileOpen"
+  [class.hidden]="!mobileOpen"
 >
   <div
     class="p-6 flex items-center justify-between border-b border-purple-700/50 dark:border-purple-300/20"
@@ -26,7 +29,7 @@
         </svg>
       </div>
       <div>
-        <h1 class="text-xl font-bold">EventPlan</h1>
+        <h1 class="anton-regular text-xl font-bold">EventPlan</h1>
         <p class="text-xs text-purple-300">Pro</p>
       </div>
     </div>
@@ -51,6 +54,9 @@
   <nav class="flex-1 px-4 py-6">
     <ul class="space-y-2">
       @for (item of menuItems; track item.route) {
+      @if (item.roles && item.roles.indexOf(loggedInUser.role) === -1) {
+        <!-- skip items not allowed for the current role -->
+      } @else {
       <li>
         <a
           class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-purple-800 transition-all duration-200 group relative"
@@ -97,6 +103,7 @@
           }
         </a>
       </li>
+      }
       }
     </ul>
   </nav>

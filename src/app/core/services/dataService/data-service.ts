@@ -39,7 +39,7 @@ export class DataService {
 
   updateTask(tasks: Task[]) {
     this.tasks.set(tasks);
-    localStorage.setItem('task', JSON.stringify(tasks));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
   updateUsers(users: User[]) {

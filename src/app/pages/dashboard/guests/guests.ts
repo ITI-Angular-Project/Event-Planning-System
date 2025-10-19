@@ -40,7 +40,7 @@ export class Guests {
     }
   ];
 
-  guestsData = JSON.parse(localStorage.getItem('guests') || '[]') ;
+  guestsData = JSON.parse(localStorage.getItem('guests') || '[]').reverse() ;
 
   onCreateGuest(): void {
     console.log('Add new guest');
