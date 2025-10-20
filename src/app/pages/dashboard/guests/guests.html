@@ -3,13 +3,19 @@
   [subtitle]="'Manage event attendees and guest lists'"
   [columns]="guestsColumns"
   [data]="guestsData"
-  [createButtonText]="'Add Guest'"
+
   [showFilters]="true"
-  [showPagination]="true"
   [filters]="guestsFilters"
+
+  [showPagination]="true"
   [pageSize]="15"
   [currentPage]="1"
   [totalItems]="guestsData.length"
+
+  [showActions]="false"
+  [showCreateButton]="false"
+  [showView]="false"
+
   (create)="onCreateGuest()"
   (view)="onViewGuest($event)"
   (edit)="onEditGuest($event)"

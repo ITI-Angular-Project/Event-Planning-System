@@ -135,7 +135,7 @@ if (!localStorage.getItem('events')) {
         assignedTo: ['Organizer One', 'Admin', 'Staff', 'Volunteer'][i % 4],
         priority: ['low', 'medium', 'high', 'critical'][Math.floor(Math.random() * 4)],
         deadline: `2025-10-${12 + (i % 5)}`,
-        status: ['up-coming', 'in-progress', 'completed', 'cancelled'][
+        status: ['not-started', 'in-progress', 'completed', 'cancelled'][
           Math.floor(Math.random() * 3)
         ],
         comments: [],

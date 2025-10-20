@@ -1,20 +1,175 @@
 <app-table
   [title]="'Tasks'"
-  [subtitle]="'Manage and track all your tasks'"
+  [subtitle]="subtitle"
   [columns]="tasksColumns"
   [data]="tasksData"
   [createButtonText]="'Create Task'"
   [showFilters]="true"
   [showPagination]="true"
   [filters]="tasksFilters"
-  [pageSize]="10"
-  [currentPage]="1"
-  [totalItems]="tasksData.length"
+  [pageSize]="pageSize"
+  [currentPage]="currentPage"
+  [totalItems]="totalItems"
   (create)="onCreateTask()"
-  (view)="onViewTask($event)"
+  [showView]="false"
   (edit)="onEditTask($event)"
   (delete)="onDeleteTask($event)"
   (search)="onSearchTasks($event)"
   (filterChange)="onFilterTasks($event)"
   (pageChange)="onPageChange($event)"
 ></app-table>
+
+<!-- Progress bar when filtering by one event -->
+<div
+  *ngIf="progressEnabled"
+  class="mt-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+>
+  <div class="flex items-center justify-between mb-2 text-sm">
+    <div class="font-medium text-gray-800 dark:text-gray-200">
+      {{ progressName }}
+    </div>
+    <div class="text-gray-600 dark:text-gray-400">
+      {{ progressDone }} / {{ progressTotal }} ({{ progressPct }}%)
+    </div>
+  </div>
+  <div class="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded">
+    <div class="h-3 rounded bg-orange-500" [style.width.%]="progressPct"></div>
+  </div>
+</div>
+
+<!-- CREATE MODAL -->
+<app-modal [show]="showCreateModal" (cancel)="cancelCreate()" [title]="'Create Task'">
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Event</label>
+      <select class="w-full input" [(ngModel)]="createForm.eventId">
+        <option *ngFor="let e of events" [ngValue]="e.id">{{ e.name }}</option>
+      </select>
+      <p class="mt-1 text-xs text-gray-500">
+        Event ends:
+        <strong>{{ getEventEnd(createForm.eventId) | date : 'short' }}</strong>
+      </p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Title</label>
+      <input class="w-full input" type="text" [(ngModel)]="createForm.title" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Assigned To</label>
+      <input class="w-full input" type="text" [(ngModel)]="createForm.assignedTo" />
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div>
+        <label class="block text-sm font-medium mb-1">Priority</label>
+        <select class="w-full input" [(ngModel)]="createForm.priority">
+          <option *ngFor="let p of priorityOptions" [ngValue]="p">{{ p }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Status</label>
+        <select class="w-full input" [(ngModel)]="createForm.status">
+          <option *ngFor="let s of statusOptions" [ngValue]="s">{{ s }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Deadline</label>
+        <input
+          class="w-full input"
+          type="datetime-local"
+          [(ngModel)]="createForm.deadline"
+          [attr.max]="getEventEnd(createForm.eventId)"
+        />
+        <p class="mt-1 text-xs text-gray-500">Must be ≤ event end date.</p>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Description</label>
+      <textarea class="w-full input" rows="3" [(ngModel)]="createForm.description"></textarea>
+    </div>
+  </div>
+
+  <div class="mt-6 flex justify-end gap-2">
+    <button class="btn-secondary" (click)="cancelCreate()">Cancel</button>
+    <button class="btn-primary" (click)="saveCreate()">Create</button>
+  </div>
+</app-modal>
+
+<!-- EDIT MODAL -->
+<app-modal [show]="showEditModal" (cancel)="cancelEdit()" [title]="'Edit Task'">
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Event</label>
+      <select class="w-full input" [(ngModel)]="editForm.eventId">
+        <option *ngFor="let e of events" [ngValue]="e.id">{{ e.name }}</option>
+      </select>
+      <p class="mt-1 text-xs text-gray-500">
+        Event ends:
+        <strong>{{ getEventEnd(editForm.eventId) | date : 'short' }}</strong>
+      </p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Title</label>
+      <input class="w-full input" type="text" [(ngModel)]="editForm.title" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Assigned To</label>
+      <input class="w-full input" type="text" [(ngModel)]="editForm.assignedTo" />
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div>
+        <label class="block text-sm font-medium mb-1">Priority</label>
+        <select class="w-full input" [(ngModel)]="editForm.priority">
+          <option *ngFor="let p of priorityOptions" [ngValue]="p">{{ p }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Status</label>
+        <select class="w-full input" [(ngModel)]="editForm.status">
+          <option *ngFor="let s of statusOptions" [ngValue]="s">{{ s }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Deadline</label>
+        <input
+          class="w-full input"
+          type="datetime-local"
+          [(ngModel)]="editForm.deadline"
+          [attr.max]="getEventEnd(editForm.eventId)"
+        />
+        <p class="mt-1 text-xs text-gray-500">Must be ≤ event end date.</p>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Description</label>
+      <textarea class="w-full input" rows="3" [(ngModel)]="editForm.description"></textarea>
+    </div>
+  </div>
+
+  <div class="mt-6 flex justify-end gap-2">
+    <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+    <button class="btn-primary" (click)="saveEdit()">Save Changes</button>
+  </div>
+</app-modal>
+
+<!-- DELETE MODAL -->
+<app-modal
+  [show]="showDeleteModal"
+  [title]="'Confirm Deletion'"
+  [message]="'Are you sure you want to delete ' + (taskToDelete?.title || 'this task') + '?'"
+  [confirmText]="'Delete'"
+  [cancelText]="'Cancel'"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+></app-modal>

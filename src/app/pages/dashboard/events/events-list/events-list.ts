@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Table, TableColumn, TableFilter } from '../../../../shared/components/table/table';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { DataService } from '../../../../core/services/dataService/data-service'
   templateUrl: './events-list.html',
   styleUrl: './events-list.css',
 })
-export class EventsList implements OnInit {
+export class EventsList implements OnInit, OnDestroy {
   // Pagination
   currentPage = 1;
   pageSize = 10;
@@ -59,7 +59,7 @@ export class EventsList implements OnInit {
     },
   ];
 
-  // Data
+  // View data (only what this user can see)
   originalEventsData: any[] = [];
   eventsData = signal<any[]>([]);
 
@@ -78,29 +78,99 @@ export class EventsList implements OnInit {
     endDate: '',
   };
 
-  ngOnInit(): void {
-    setInterval(() => this.updateEventStatuses(), 1000);
-  }
+  private statusTimer: any = null;
 
   constructor(
     private router: Router,
     private toast: ToastService,
     private auth: AuthService,
     private dataService: DataService
-  ) {
-    const loggedUser = this.auth.getLoggedUser();
-    const events = dataService.events();
-    const filtered =
-      loggedUser?.role === 'organizer'
-        ? events.filter((e: any) => e.createdBy === loggedUser?.id)
-        : events;
+  ) {}
 
-    this.originalEventsData = filtered.map((e: any) => ({
+  ngOnInit(): void {
+    // 1) Recompute statuses across the FULL store
+    this.updateEventStatusesInStore();
+    // 2) Load & filter view for current user
+    this.refreshViewFromStore();
+
+    // keep statuses fresh
+    this.statusTimer = setInterval(() => this.updateEventStatusesInStore(true), 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.statusTimer) clearInterval(this.statusTimer);
+  }
+
+  /** Pull full list from store, filter for this user, compute guestsCount, and update view */
+  private refreshViewFromStore(): void {
+    const loggedUser = this.auth.getLoggedUser();
+    const all = this.dataService.events();
+
+    const visible =
+      loggedUser?.role === 'organizer'
+        ? all.filter((e: any) => e.createdBy === loggedUser?.id)
+        : all;
+
+    this.originalEventsData = visible.map((e: any) => ({
       ...e,
       guestsCount: e.guestIds?.length || 0,
     }));
-    this.updateEventStatuses();
-    this.eventsData.set([...this.originalEventsData].reverse());
+
+    // apply search/filters on the refreshed visible set
+    this.applyFilters();
+  }
+
+  /** Merge a set of changed events into the FULL store (preserving others). Also supports adds. */
+  private mergeIntoStore(partialList: any[]): void {
+    const all = this.dataService.events();
+    const map = new Map(partialList.map(e => [e.id, e]));
+
+    // replace existing by id if present, keep the rest
+    const merged = all.map(e => map.get(e.id) ?? e);
+    // add any new (ids not in all)
+    const toAdd = partialList.filter(e => !all.some(a => a.id === e.id));
+    const finalAll = merged.concat(toAdd);
+
+    this.dataService.updateEvents(finalAll);
+  }
+
+  /** Remove one event by id from the FULL store */
+  private deleteFromStore(id: number): void {
+    const all = this.dataService.events().filter(e => e.id !== id);
+    this.dataService.updateEvents(all);
+  }
+
+  /** Recalculate statuses across the FULL store, then refresh view. */
+  private updateEventStatusesInStore(silent = false): void {
+    const all = this.dataService.events();
+    const today = new Date();
+
+    let changed = false;
+    const updated = all.map(event => {
+      if ((event.status ?? '').toLowerCase() === 'cancelled') return event;
+
+      const start = new Date(event.startDate);
+      const end = new Date(event.endDate);
+
+      let newStatus = event.status;
+      if (today < start) newStatus = 'up-coming';
+      else if (today >= start && today <= end) newStatus = 'in-progress';
+      else if (today > end) newStatus = 'completed';
+
+      if (newStatus !== event.status) {
+        changed = true;
+        return { ...event, status: newStatus };
+      }
+      return event;
+    });
+
+    if (changed) {
+      this.dataService.updateEvents(updated);
+      if (!silent) this.toast.show('info', 'Events statuses updated.');
+    }
+
+    // always refresh the visible list after possible store changes
+    this.refreshViewFromStore();
   }
 
   // ✅ CREATE
@@ -117,71 +187,71 @@ export class EventsList implements OnInit {
   }
 
   saveNewEvent(): void {
-  const name = (this.newEvent.name || '').trim();
+    const name = (this.newEvent.name || '').trim();
 
-  if (
-    !name ||
-    !this.newEvent.category ||
-    !this.newEvent.location ||
-    !this.newEvent.startDate ||
-    !this.newEvent.endDate
-  ) {
-    this.toast.show('warning', 'Please fill all required fields!', 3000);
-    return;
-  }
+    if (
+      !name ||
+      !this.newEvent.category ||
+      !this.newEvent.location ||
+      !this.newEvent.startDate ||
+      !this.newEvent.endDate
+    ) {
+      this.toast.show('warning', 'Please fill all required fields!', 3000);
+      return;
+    }
 
-  const start = new Date(this.newEvent.startDate);
-  const end = new Date(this.newEvent.endDate);
+    const start = new Date(this.newEvent.startDate);
+    const end = new Date(this.newEvent.endDate);
 
-  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-    this.toast.show('error', 'Invalid date format.', 3000);
-    return;
-  }
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      this.toast.show('error', 'Invalid date format.', 3000);
+      return;
+    }
 
-  if (start >= end) {
-    this.toast.show('error', 'Start date must be before end date.', 3000);
-    return;
-  }
+    if (start >= end) {
+      this.toast.show('error', 'Start date must be before end date.', 3000);
+      return;
+    }
 
-  const duplicate = this.originalEventsData.some(
-    (e) => e.name.trim().toLowerCase() === name.toLowerCase()
-  );
-
-  if (duplicate) {
-    this.toast.show(
-      'error',
-      `An event named "${name}" already exists. Please use a different name.`,
-      3000
+    const all = this.dataService.events();
+    const duplicate = all.some(
+      (e) => (e.name || '').trim().toLowerCase() === name.toLowerCase()
     );
-    return;
+
+    if (duplicate) {
+      this.toast.show(
+        'error',
+        `An event named "${name}" already exists. Please use a different name.`,
+        3000
+      );
+      return;
+    }
+
+    // robust id (based on FULL store, not visible subset)
+    const newId = all.length ? Math.max(...all.map(e => e.id)) + 1 : 1;
+
+    const eventToAdd = {
+      id: newId,
+      ...this.newEvent,
+      status: 'up-coming',
+      guestsCount: 0,
+      guestIds: [],
+      taskIds: [],
+      expenseIds: [],
+      feedbackIds: [],
+      averageFeedback: 0,
+      createdBy: this.auth.getLoggedUser()?.id,
+    };
+
+    // merge into full store
+    this.mergeIntoStore([eventToAdd]);
+
+    // refresh view from full store
+    this.refreshViewFromStore();
+
+    this.showCreateModal = false;
+    this.toast.show('success', 'Event created successfully!');
   }
-
-  //fix (id)
-  const newId = this.originalEventsData.length
-    ? Math.max(...this.originalEventsData.map(e => e.id)) + 1
-    : 1;
-
-  const eventToAdd = {
-  id: newId,
-  ...this.newEvent,
-  status: 'up-coming',
-  guestsCount: 0,
-  guestIds: [],
-  taskIds: [],
-  expenseIds: [],
-  feedbackIds: [],
-  averageFeedback: 0,
-  createdBy: this.auth.getLoggedUser()?.id,
-};
-
-
-  this.originalEventsData.push(eventToAdd);
-  this.saveEvents();
-  this.applyFilters();
-  this.showCreateModal = false;
-  this.toast.show('success', 'Event created successfully!');
-}
-
 
   cancelCreate(): void {
     this.showCreateModal = false;
@@ -227,9 +297,12 @@ export class EventsList implements OnInit {
       return;
     }
 
-    // Prevent duplicate event name (except self)
-    const duplicate = this.originalEventsData.some(
-      (e) => e.name.trim().toLowerCase() === name.toLowerCase() && e.id !== this.editingEvent.id
+    // Prevent duplicate event name (except self) — check against FULL store
+    const all = this.dataService.events();
+    const duplicate = all.some(
+      (e) =>
+        (e.name || '').trim().toLowerCase() === name.toLowerCase() &&
+        e.id !== this.editingEvent.id
     );
 
     if (duplicate) {
@@ -237,21 +310,16 @@ export class EventsList implements OnInit {
       return;
     }
 
-    // Update event
-    const index = this.originalEventsData.findIndex((e) => e.id === this.editingEvent.id);
-    if (index !== -1) {
-      this.originalEventsData[index] = { ...this.editingEvent, name };
-      this.saveEvents();
-      this.applyFilters();
-      this.toast.show('success', `Event "${this.editingEvent.name}" updated successfully!`);
-    }
+    // Merge just this edited event into the full store
+    const updated = { ...this.editingEvent, name };
+    this.mergeIntoStore([updated]);
+
+    // refresh visible list
+    this.refreshViewFromStore();
+    this.toast.show('success', `Event "${this.editingEvent.name}" updated successfully!`);
 
     this.showEditModal = false;
     this.editingEvent = null;
-  }
-
-  saveEvents() {
-    this.dataService.updateEvents(this.originalEventsData);
   }
 
   cancelEdit(): void {
@@ -271,9 +339,13 @@ export class EventsList implements OnInit {
 
   confirmDelete(): void {
     if (!this.selectedEvent) return;
-    this.originalEventsData = this.originalEventsData.filter((e) => e.id !== this.selectedEvent.id);
-    this.saveEvents();
-    this.applyFilters();
+
+    // Remove from FULL store directly
+    this.deleteFromStore(this.selectedEvent.id);
+
+    // Refresh visible set
+    this.refreshViewFromStore();
+
     this.toast.show('success', `Named ${this.selectedEvent.name} Deleted Success.`);
     this.showDeleteModal = false;
     this.selectedEvent = null;
@@ -302,16 +374,16 @@ export class EventsList implements OnInit {
     this.applyFilters();
   }
 
-  // ✅ FILTER + SEARCH core logic
+  // ✅ FILTER + SEARCH core logic (works on the user-visible copy)
   applyFilters(): void {
     let filtered = [...this.originalEventsData];
 
-    // Search filter
+    // Search filter (you can expand fields if you want)
     if (this.searchTerm) {
-      filtered = filtered.filter((event) => {
-        const term = this.searchTerm;
-        return event.name.toLowerCase().includes(term);
-      });
+      const term = this.searchTerm;
+      filtered = filtered.filter(event =>
+        (event.name || '').toLowerCase().includes(term)
+      );
     }
 
     // Category + Status filters (stackable)
@@ -329,32 +401,5 @@ export class EventsList implements OnInit {
   // PAGINATION
   onPageChange(page: number): void {
     this.currentPage = page;
-  }
-
-  updateEventStatuses(): void {
-    console.log('updating event status');
-    const today = new Date();
-
-    this.originalEventsData = this.originalEventsData.map((event) => {
-      if (event.status === 'cancelled') return event;
-
-      const start = new Date(event.startDate);
-      const end = new Date(event.endDate);
-
-      let newStatus = event.status;
-
-      if (today < start) {
-        newStatus = 'up-coming';
-      } else if (today >= start && today <= end) {
-        newStatus = 'in-progress';
-      } else if (today > end) {
-        newStatus = 'completed';
-      }
-
-      return { ...event, status: newStatus };
-    });
-
-    this.saveEvents();
-    this.applyFilters();
   }
 }

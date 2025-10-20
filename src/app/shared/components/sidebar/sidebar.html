@@ -1,5 +1,5 @@
 @if (mobileOpen) {
-<div class="fixed inset-0 bg-black/40 z-40 md:hidden" (click)="closeMobile()"></div>
+  <div class="fixed inset-0 bg-black/40 z-40 md:hidden" (click)="closeMobile()"></div>
 }
 <aside
   id="app-sidebar"
@@ -54,56 +54,58 @@
   <nav class="flex-1 px-4 py-6">
     <ul class="space-y-2">
       @for (item of menuItems; track item.route) {
-      @if (item.roles && item.roles.indexOf(loggedInUser.role) === -1) {
-        <!-- skip items not allowed for the current role -->
-      } @else {
-      <li>
-        <a
-          class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-purple-800 transition-all duration-200 group relative"
-          [routerLink]="item.route"
-          routerLinkActive="bg-purple-700 shadow-lg"
-          [routerLinkActiveOptions]="{ exact: true }"
-          [class]="isCollapsed() ? 'justify-center' : ''"
-        >
-          <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              [attr.d]="item.icon"
-            ></path>
-          </svg>
+        @if (item.roles && item.roles.indexOf(loggedInUser.role) === -1) {
+          <!-- skip items not allowed for the current role -->
+        } @else {
+          <li>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-purple-800 transition-all duration-200 group relative"
+              [routerLink]="item.route"
+              routerLinkActive="bg-purple-700 shadow-lg"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [class]="isCollapsed() ? 'justify-center' : ''"
+            >
+              <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  [attr.d]="item.icon"
+                ></path>
+              </svg>
 
-          <span
-            class="font-medium transition-all duration-300"
-            [class]="isCollapsed() ? 'hidden' : 'block'"
-          >
-            {{ item.label }}
-          </span>
+              <span
+                class="font-medium transition-all duration-300"
+                [class]="isCollapsed() ? 'hidden' : 'block'"
+              >
+                {{ item.label }}
+              </span>
 
-          @if (item.badge && !isCollapsed()) {
-          <span class="ml-auto bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-            {{ item.badge }}
-          </span>
-          } @if (item.badge && isCollapsed()) {
-          <span
-            class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"
-          >
-            {{ item.badge }}
-          </span>
-          } @if (isCollapsed()) {
-          <div
-            class="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-xl z-50"
-          >
-            {{ item.label }}
-            <div
-              class="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900"
-            ></div>
-          </div>
-          }
-        </a>
-      </li>
-      }
+              @if (item.badge && !isCollapsed()) {
+                <span class="ml-auto bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  {{ item.badge }}
+                </span>
+              }
+              @if (item.badge && isCollapsed()) {
+                <span
+                  class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"
+                >
+                  {{ item.badge }}
+                </span>
+              }
+              @if (isCollapsed()) {
+                <div
+                  class="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap shadow-xl z-50"
+                >
+                  {{ item.label }}
+                  <div
+                    class="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900"
+                  ></div>
+                </div>
+              }
+            </a>
+          </li>
+        }
       }
     </ul>
   </nav>

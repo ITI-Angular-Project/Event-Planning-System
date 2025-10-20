@@ -4,7 +4,9 @@
   <div class="px-4 sm:px-6 py-4 border-b border-gray-200 dark:border-gray-700">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h2 class="anton-regular text-lg font-semibold text-gray-900 dark:text-white table-title">{{ title }}</h2>
+        <h2 class="anton-regular text-lg font-semibold text-gray-900 dark:text-white table-title">
+          {{ title }}
+        </h2>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 table-subtitle">{{ subtitle }}</p>
       </div>
       <div class="flex flex-col sm:flex-row gap-3">
@@ -30,7 +32,9 @@
           </svg>
         </div>
 
+        <!-- Hide create button if showCreateButton=false -->
         <button
+          *ngIf="showCreateButton"
           (click)="onCreate()"
           class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors text-nowrap"
         >
@@ -90,7 +94,10 @@
           >
             {{ column.label }}
           </th>
+
+          <!-- Hide Actions header if showActions=false -->
           <th
+            *ngIf="showActions"
             class="px-3 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap"
           >
             Actions
@@ -102,6 +109,8 @@
         <tr
           *ngFor="let item of pagedData; trackBy: trackByFn"
           class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+            [ngClass]="{ 'ring-1 ring-red-500/40 bg-red-500/5': item.__overdue }"
+
         >
           <td
             *ngFor="let column of columns"
@@ -128,9 +137,9 @@
                   <div
                     class="h-8 w-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center"
                   >
-                    <span class="text-xs font-medium text-white">
-                      {{ getAvatarText(item, column.key) }}
-                    </span>
+                    <span class="text-xs font-medium text-white">{{
+                      getAvatarText(item, column.key)
+                    }}</span>
                   </div>
                 </div>
                 <div class="ml-3">
@@ -140,7 +149,11 @@
                 </div>
               </div>
 
-              <div *ngSwitchCase="'date'" class="text-sm text-gray-900 dark:text-white">
+              <div
+                *ngSwitchCase="'date'"
+                class="text-sm text-gray-900 dark:text-white"
+                [ngClass]="getDateClass(item, column.key)"
+              >
                 <div>{{ getFormattedDate(item, column.key) }}</div>
                 @if (column.showTime) {
                 <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -175,7 +188,11 @@
             </ng-container>
           </td>
 
-          <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm font-medium">
+          <!-- Hide Actions cell if showActions=false -->
+          <td
+            *ngIf="showActions"
+            class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-sm font-medium"
+          >
             <div class="flex items-center justify-end gap-1 sm:gap-2">
               @if (showView) {
               <button
@@ -204,7 +221,6 @@
                 </svg>
               </button>
               }
-
               <button
                 (click)="onEdit(item)"
                 class="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 p-1 sm:p-1.5 rounded transition-colors"
@@ -224,7 +240,6 @@
                   ></path>
                 </svg>
               </button>
-
               <button
                 (click)="onDelete(item)"
                 class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200 p-1 sm:p-1.5 rounded transition-colors"
@@ -251,6 +266,7 @@
     </table>
   </div>
 
+  <!-- Empty state: hide CTA if showCreateButton=false -->
   <div *ngIf="data.length === 0" class="text-center py-12">
     <svg
       class="mx-auto h-12 w-12 text-gray-400"
@@ -271,7 +287,7 @@
     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
       Get started by creating a new {{ title.toLowerCase().slice(0, -1) }}.
     </p>
-    <div class="mt-6">
+    <div class="mt-6" *ngIf="showCreateButton">
       <button
         (click)="onCreate()"
         class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"

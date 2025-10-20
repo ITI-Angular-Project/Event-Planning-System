@@ -1,10 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [RouterLink],
 })
 export class Home implements AfterViewInit {
   @ViewChildren('animate') elements!: QueryList<ElementRef>;

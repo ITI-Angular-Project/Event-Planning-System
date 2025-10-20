@@ -47,45 +47,7 @@ export class AuthService {
     return swapped.split('').reverse().join('');
   }
 
-  registerUser(userData: Omit<User, 'id'>): boolean {
-    const email = (userData.email ?? '').toLowerCase().trim();
-    const role: AppRole = this.normalizeRole(userData.role);
-    const key = role === 'guest' ? this.guestAccountsKey : this.usersKey;
 
-    const users: User[] = JSON.parse(localStorage.getItem(key) || '[]');
-    if (users.some((u) => (u.email ?? '').toLowerCase() === email)) return false;
-
-    const newUser: User = {
-      id: users.length ? users[users.length - 1].id + 1 : 1,
-      ...userData,
-      email,
-      role,
-      password: this.encryptText(userData.password),
-    };
-
-    users.push(newUser);
-    localStorage.setItem(key, JSON.stringify(users));
-    return true;
-  }
-
-  login(email: string, password: string): boolean {
-    const e = (email ?? '').toLowerCase().trim();
-
-    const staff: User[]  = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
-    const guests: User[] = JSON.parse(localStorage.getItem(this.guestAccountsKey) || '[]');
-
-    const all: User[] = [...staff, ...guests].map(u => ({ ...u, role: this.normalizeRole(u.role) }));
-
-    const user = all.find(
-      (u) => (u.email ?? '').toLowerCase() === e && this.decryptText(u.password) === password
-    );
-
-    if (user) {
-      localStorage.setItem(this.loggedKey, JSON.stringify(user));
-      return true;
-    }
-    return false;
-  }
 registerUser(userData: Omit<User, 'id'>): boolean {
   const key = userData.role === 'guest' ? 'guests' : 'users';
   const users: User[] = JSON.parse(localStorage.getItem(key) || '[]');

@@ -1,8 +1,25 @@
+export interface TaskComment {
+  author: string;
+  text: string;
+  createdAt: string;
+}
+
+export type TaskPriority = 'low' | 'medium' | 'high' | 'critical';
+export type TaskStatus   = 'not-started' | 'in-progress' | 'completed';
+
 export interface Task {
-  id: string;
+  id: number;
+  eventId: number;
+
   title: string;
+  description?: string;
   assignedTo: string;
-  dueDate: string;
-  priority: 'low' | 'medium' | 'high';
-  status: 'pending' | 'in-progress' | 'completed' | 'overdue';
+
+  priority: TaskPriority;
+  deadline: string;
+  status: TaskStatus;
+
+  comments: TaskComment[];
+  createdAt: string;
+  updatedAt: string;
 }

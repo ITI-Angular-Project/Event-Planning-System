@@ -2,7 +2,7 @@ import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { StatCard } from '../../../shared/components/stat-card/stat-card';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartData, ChartOptions, ChartTypeRegistry } from 'chart.js';
+import { ChartData, ChartOptions} from 'chart.js';
 
 import { Event } from '../../../core/models/events';
 import { Guest } from '../../../core/models/guests';

@@ -1,13 +1,16 @@
-<section class="relative bg-white dark:bg-[#0a0a0a] text-black dark:text-white py-5 overflow-hidden transition-colors duration-500">
+<section
+  class="relative bg-white dark:bg-[#0a0a0a] text-black dark:text-white py-5 overflow-hidden transition-colors duration-500"
+>
   <div class="pb-5 anton-regular">
-   <p class="text-gray-400 max-w-xl mx-auto text-center">Connect Sphere</p>
-   <h1
-   #animate
-   class="fade-in text-center text-5xl md:text-6xl font-extrabold tracking-wide py-8 bg-gradient-to-t to-transparent dark:to-transparent w-full transition-colors duration-500"
-   >
-   UPCOMING EVENTS
-  </h1>
+    <p class="text-gray-400 max-w-xl mx-auto text-center">Connect Sphere</p>
+    <h1
+      #animate
+      class="fade-in text-center text-5xl md:text-6xl font-extrabold tracking-wide py-8 bg-gradient-to-t to-transparent dark:to-transparent w-full transition-colors duration-500"
+    >
+      UPCOMING EVENTS
+    </h1>
   </div>
+
   <!-- 🎥 Hero Video Section -->
   <div class="relative w-full h-[90vh] overflow-hidden">
     <video
@@ -27,70 +30,79 @@
       class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent flex flex-col justify-center items-end text-center pr-8 pb-32 md:pr-20"
     >
       @if (event) {
-        <div id="hero-content" class="max-w-lg space-y-2 animate-fade-in">
-          <p class="text-gray-300 uppercase tracking-widest text-xs md:text-sm">
-            {{ event.date }} · {{ event.time }}
-          </p>
-          <h1
-            class="text-3xl md:text-2xl font-black text-white drop-shadow-2xl tracking-tight font-[Poppins] leading-tight uppercase"
-          >
-            {{ event.title }}
-          </h1>
+      <div id="hero-content" class="max-w-lg space-y-2 animate-fade-in">
+        <p class="text-gray-300 uppercase tracking-widest text-xs md:text-sm">
+          {{ event.date }} · {{ event.time }}
+        </p>
+        <h1
+          class="text-3xl md:text-2xl font-black text-white drop-shadow-2xl tracking-tight font-[Poppins] leading-tight uppercase"
+        >
+          {{ event.title }}
+        </h1>
 
-         <p class="text-gray-400 text-sm md:text-base grid grid-row-2">
-            <span>[live + replay]</span><span>-----</span>
-          </p>
-          <p class="text-gray-400 md:text-base grid grid-row-2 gap-0">
-            <span>{{ event.speaker[0] }}</span><span>{{ event.speaker[1] }}</span>
-          </p>
+        <p class="text-gray-400 text-sm md:text-base grid grid-row-2">
+          <span>[live + replay]</span><span>-----</span>
+        </p>
 
-          <button
-            class="border border-gray-300 bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all duration-300 backdrop-blur-sm"
-          >
-            {{ event.buttonText }}
-          </button>
-        </div>
+        <!-- Safe speaker block -->
+        @for (sp of event.speaker; track $index) {
+        <p class="text-gray-400 md:text-base grid grid-row-2 gap-0">
+          <span>{{ sp[0] }}</span>
+          @if (sp.length > 1) {
+          <span>{{ sp[1] }}</span>
+          }
+        </p>
+        }
+
+        <button
+          class="border border-gray-300 bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all duration-300 backdrop-blur-sm"
+        >
+          {{ buttonText }}
+        </button>
+      </div>
       }
     </div>
 
-    <!-- 🎬 Speaker Thumbnails under the video -->
+    <!-- 🎬 Thumbnails: latest 4 with distinct categories -->
     <div
       id="thumbs"
       class="absolute bottom-[-100px] left-0 right-0 flex justify-center gap-2 px-6 md:px-16 opacity-0"
     >
-      @for (item of videos; track item.id) {
+      @for (item of featuredEvents; track item.id) {
+      <div
+        class="relative min-w-[280px] rounded-xl overflow-hidden group cursor-pointer transform transition-transform duration-500 hover:scale-105 shadow-lg"
+        (click)="goToEvent(item.id)"
+        tabindex="0"
+        role="button"
+        aria-label="Open event details"
+      >
+        <img
+          [src]="item.thumbnail || 'assets/events/speaker-1.jpg'"
+          [alt]="item.title"
+          class="w-full h-44 object-cover group-hover:opacity-80"
+        />
+        <!-- Title overlay -->
         <div
-  class="relative min-w-[280px] rounded-xl overflow-hidden group cursor-pointer transform transition-transform duration-500 hover:scale-105 shadow-lg"
->
-  <img
-    [src]="item.thumbnail"
-    [alt]="item.title"
-    class="w-full h-44 object-cover group-hover:opacity-80"
-  />
-
-  <!-- Title overlay -->
-  <div
-    class="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-  >
-    {{ item.title }}
-  </div>
-</div>
+          class="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          {{ item.title }}
+        </div>
+      </div>
       }
     </div>
   </div>
-  <div class="flex justify-center mt-12">
-<button
-    class="relative cursor-pointer hidden md:block text-sm font-semibold uppercase border-2 border-orange-500 text-orange-500 px-5 py-2 rounded-md overflow-hidden transition-all duration-500 group"
-  >
-    <span
-      class="absolute inset-0 bg-orange-500 translate-x-[-100%] translate-y-[100%] group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-700 ease-out"
-    ></span>
-    <span
-      class="relative z-10 group-hover:text-white transition duration-300"
-    >
-      SMORE EVENTS
-    </span>
-  </button>
 
+  <div class="flex justify-center mt-12">
+    <button
+      class="relative cursor-pointer hidden md:block text-sm font-semibold uppercase border-2 border-orange-500 text-orange-500 px-5 py-2 rounded-md overflow-hidden transition-all duration-500 group"
+      routerLink="/events"
+    >
+      <span
+        class="absolute inset-0 bg-orange-500 translate-x-[-100%] translate-y-[100%] group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-700 ease-out"
+      ></span>
+      <span class="relative z-10 group-hover:text-white transition duration-300">
+        MORE EVENTS
+      </span>
+    </button>
   </div>
 </section>

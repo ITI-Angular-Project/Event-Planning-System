@@ -12,7 +12,6 @@ import { EventDetails } from './pages/dashboard/events/event-details/event-detai
 import { Tasks } from './pages/dashboard/tasks/tasks';
 import { Guests } from './pages/dashboard/guests/guests';
 import { Expenses } from './pages/dashboard/expenses/expenses';
-import { Reports } from './pages/dashboard/reports/reports';
 import { Users } from './pages/dashboard/users/users';
 import { Profile as ProfileDashboard } from './pages/dashboard/profile/profile';
 
@@ -33,15 +32,15 @@ import { Profile } from './pages/public/profile/profile';
 import { GuestFeedback } from './pages/public/guest-portal/guest-feedback/guest-feedback';
 
 export const routes: Routes = [
-  { path: 'login', component: Login, canMatch: [authPageGuard]},
-  { path: 'register', component: Register, canMatch: [authPageGuard]},
+  { path: 'login', component: Login, canMatch: [authPageGuard] },
+  { path: 'register', component: Register, canMatch: [authPageGuard] },
   {
     path: '',
     component: PublicLayout,
     children: [
       { path: '', component: MainPage },
-      { path: 'events-page', component: EventsPage },
-      { path: 'details/:id', component: HomeEvent },
+      { path: 'events', component: EventsPage },
+      { path: 'events/:id', component: HomeEvent },
       { path: 'contact', component: ContactComponent },
       { path: 'about', component: About },
       { path: 'profile', component: Profile },
@@ -80,10 +79,6 @@ export const routes: Routes = [
       {
         path: 'expenses',
         component: Expenses,
-      },
-      {
-        path: 'reports',
-        component: Reports,
       },
       {
         path: 'users',

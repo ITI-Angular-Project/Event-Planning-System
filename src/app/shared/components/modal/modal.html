@@ -1,4 +1,4 @@
-@if (show) {
+@if (open) {
   <!-- Overlay -->
   <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn"
@@ -7,13 +7,14 @@
     <!-- Modal box -->
     <div
       class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-[90%] sm:w-[500px] p-6 relative"
-      (click)="$event.stopPropagation()" 
+      (click)="$event.stopPropagation()"
     >
       <!-- Close button -->
       <button
         type="button"
-        (click)="cancel.emit()"
+        (click)="onClickCloseButton()"
         class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+        aria-label="Close"
       >
         ✕
       </button>
@@ -23,23 +24,23 @@
         {{ title || 'Modal Title' }}
       </h3>
 
-      <!-- Custom projected content -->
+      <!-- Projected content (your form, etc.) -->
       <ng-content></ng-content>
 
-      <!-- Default confirmation layout -->
+      <!-- Optional default confirm/cancel layout if 'message' is provided -->
       @if (message) {
         <p class="text-gray-600 dark:text-gray-300 mb-6">
           {{ message }}
         </p>
         <div class="flex justify-center gap-3">
           <button
-            (click)="confirm.emit()"
+            (click)="onClickConfirm()"
             class="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 transition"
           >
             {{ confirmText || 'Confirm' }}
           </button>
           <button
-            (click)="cancel.emit()"
+            (click)="onClickCancel()"
             class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition"
           >
             {{ cancelText || 'Cancel' }}

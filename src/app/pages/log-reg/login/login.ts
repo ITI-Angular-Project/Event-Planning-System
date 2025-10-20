@@ -169,4 +169,3 @@ export class Login {
     }, 1400);
   }
 }
-}

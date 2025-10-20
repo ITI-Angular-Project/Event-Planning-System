@@ -17,6 +17,11 @@ export class Table implements OnInit {
   @Input() subtitle: string = '';
   @Input() columns: TableColumn[] = [];
   @Input() data: any[] = [];
+
+  /* NEW: allow hiding Create button & Actions column */
+  @Input() showCreateButton: boolean = true;
+  @Input() showActions: boolean = true;
+
   @Input() createButtonText: string = 'Create';
   @Input() showFilters: boolean = true;
   @Input() showPagination: boolean = true;
@@ -49,19 +54,15 @@ export class Table implements OnInit {
   onCreate(): void {
     this.create.emit();
   }
-
   onView(item: any): void {
     this.view.emit(item);
   }
-
   onEdit(item: any): void {
     this.edit.emit(item);
   }
-
   onDelete(item: any): void {
     this.delete.emit(item);
   }
-
   onSearch(event: any): void {
     this.search.emit(event.target.value);
   }
@@ -94,9 +95,7 @@ export class Table implements OnInit {
     const start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
     const end = Math.min(this.totalPages, start + maxVisible - 1);
 
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
+    for (let i = start; i <= end; i++) pages.push(i);
     return pages;
   }
 
@@ -120,18 +119,14 @@ export class Table implements OnInit {
 
   getFormattedDate(item: any, key: string): string {
     const value = this.getNestedValue(item, key);
-    if (value) {
-      return new Date(value).toLocaleDateString();
-    }
-    return '';
+    return value ? new Date(value).toLocaleDateString() : '';
   }
 
   getFormattedTime(item: any, key: string): string {
     const value = this.getNestedValue(item, key);
-    if (value) {
-      return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    return '';
+    return value
+      ? new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : '';
   }
 
   getBadgeClass(item: any, key: string): string {
@@ -148,14 +143,25 @@ export class Table implements OnInit {
     return badgeClasses[value] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
   }
 
+  /** Status chip classes (supports both event statuses and GUEST statuses) */
   getStatusClass(item: any, key: string): string {
-    const value = String(this.getNestedValue(item, key)).toLowerCase();
+    const value = String(this.getNestedValue(item, key) ?? '').toLowerCase();
 
+    // Guest statuses
+    if (value === 'accepted')
+      return 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300';
+    if (value === 'invited')
+      return 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300';
+    if (value === 'pending')
+      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300';
+    if (value === 'declined') return 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300';
+
+    // Event statuses (keep existing)
     switch (value) {
       case 'completed':
         return 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300';
       case 'in-progress':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 pulse-dot';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300';
       case 'up-coming':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300';
       case 'cancelled':
@@ -166,17 +172,16 @@ export class Table implements OnInit {
     }
   }
 
-  formatStatusLabel(status: string): string {
-    if (!status) return '';
-    return status
-      .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
-
   getStatusDotClass(item: any, key: string): string {
-    const value = String(this.getNestedValue(item, key)).toLowerCase();
+    const value = String(this.getNestedValue(item, key) ?? '').toLowerCase();
 
+    // Guest statuses
+    if (value === 'accepted') return 'bg-green-500';
+    if (value === 'invited') return 'bg-blue-500';
+    if (value === 'pending') return 'bg-yellow-500';
+    if (value === 'declined') return 'bg-red-500';
+
+    // Event statuses
     switch (value) {
       case 'completed':
         return 'bg-green-500';
@@ -192,7 +197,19 @@ export class Table implements OnInit {
     }
   }
 
+  formatStatusLabel(status: string): string {
+    if (!status) return '';
+    return status
+      .split(/[-_\s]/g)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  }
+
   trackByFn(index: number, item: any): any {
     return item.id || index;
+  }
+
+  getDateClass(item: any, key: string): string {
+    return item?.__overdue ? 'text-red-600 dark:text-red-400 font-semibold' : '';
   }
 }

@@ -77,7 +77,7 @@ export class EventDetails implements OnInit {
 
     // not logged in → redirect then come back
     if (!this.auth.isLoggedIn()) {
-      const returnUrl = `/details/${this.eventID}?register=1`;
+      const returnUrl = `/events/${this.eventID}?register=1`;
       this.router.navigate(['/login'], { queryParams: { returnUrl } });
       this.toast?.show('info', 'Please login to register for this event.');
       return;

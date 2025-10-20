@@ -1,8 +1,5 @@
 <div
-  class="relative group bg-white border border-gray-200 rounded-2xl shadow-md
-         dark:bg-[#0a0a0a] dark:border-gray-800
-         hover:shadow-2xl hover:-translate-y-1
-         transition-all duration-500 overflow-hidden"
+  class="relative group bg-white border border-gray-200 rounded-2xl shadow-md dark:bg-[#0a0a0a] dark:border-gray-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
 >
   <!-- 🟠 Image -->
   <img
@@ -15,8 +12,7 @@
   <div class="p-5 space-y-3">
     <div class="flex justify-between items-center">
       <span
-        class="bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full
-               dark:bg-orange-600 dark:text-white"
+        class="bg-orange-100 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full dark:bg-orange-600 dark:text-white"
       >
         {{ event.category }}
       </span>
@@ -27,16 +23,12 @@
     </div>
 
     <h5
-      class="text-lg font-bold tracking-tight text-gray-900
-             dark:text-gray-100 group-hover:text-orange-500
-             transition-colors duration-300"
+      class="text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100 group-hover:text-orange-500 transition-colors duration-300"
     >
       {{ event.title }}
     </h5>
 
-    <p
-      class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3"
-    >
+    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
       {{ event.description }}
     </p>
 
@@ -46,28 +38,15 @@
         {{ event.location }}
       </p>
       <p
-  class="absolute top-3 right-3 flex items-center gap-2
-         text-[13px] font-medium
-         bg-white/30 dark:bg-black/40
-         backdrop-blur-md
-         px-3 py-1.5 rounded-full shadow-lg
-         border border-white/40 dark:border-white/20
-         text-black dark:text-white
-         hover:bg-white/40 dark:hover:bg-black/50
-         transition-all duration-300"
->
-  <i class="fa-solid fa-user text-black dark:text-white text-sm"></i>
-  {{ event.guestIds.length }} / 300
-</p>
-
-
+        class="absolute top-3 right-3 flex items-center gap-2 text-[13px] font-medium bg-white/30 dark:bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-white/40 dark:border-white/20 text-black dark:text-white hover:bg-white/40 dark:hover:bg-black/50 transition-all duration-300"
+      >
+        <i class="fa-solid fa-user text-black dark:text-white text-sm"></i>
+        {{ event.guestIds.length }} / 300
+      </p>
 
       <a
-        routerLink="/details/{{ event.id }}"
-        class="px-3 py-2 border border-orange-500 text-orange-500 bg-transparent
-               text-sm font-semibold rounded-lg shadow-sm
-               hover:bg-orange-500 hover:text-white hover:shadow-lg hover:scale-105
-               transition-all duration-300"
+        routerLink="/events/{{ event.id }}"
+        class="px-3 py-2 border border-orange-500 text-orange-500 bg-transparent text-sm font-semibold rounded-lg shadow-sm hover:bg-orange-500 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300"
       >
         View Details
       </a>

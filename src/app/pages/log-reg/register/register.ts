@@ -51,14 +51,6 @@ export class Register {
     return;
   }
 
-    const newUser: Omit<User, 'id'> = {
-      name: this.name.trim(),
-      email: this.email.trim().toLowerCase(),
-      phone: this.phone.trim(),
-      password: this.password.trim(),
-      role: (this.role || 'guest').toLowerCase(),
-    };
-
   const newUser: Omit<User, 'id'> = {
     name: this.name.trim(),
     email: this.email.trim().toLowerCase(),
