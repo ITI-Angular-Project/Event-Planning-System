@@ -1,6 +1,5 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Table, TableColumn, TableFilter } from '../../../shared/components/table/table';
 import { Modal } from '../../../shared/components/modal/modal';
 import { DataService } from '../../../core/services/dataService/data-service';
@@ -11,6 +10,7 @@ import { ToastService } from '../../../core/services/toastService/toast-service'
 // ng2-charts / Chart.js
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
+import { FormsModule } from '@angular/forms';
 
 type Row = Expense & { eventName: string };
 
