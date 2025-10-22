@@ -245,7 +245,6 @@ if (!localStorage.getItem('events')) {
   localStorage.setItem('expenses', JSON.stringify(expenses));
   localStorage.setItem('feedback', JSON.stringify(feedback));
   localStorage.setItem('settings', JSON.stringify(settings));
-  localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
   localStorage.setItem('dashboard', JSON.stringify(dashboard));
 
   console.log('✅ Event Planning System data initialized successfully.');
