@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { EventsService } from '../../../core/services/events-service/events-service';
 import { DataService } from '../../../core/services/dataService/data-service';
 import { AuthService } from '../../../core/services/authService/auth';
@@ -9,7 +11,7 @@ import { Ievents } from '../../../core/models/ievents';
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [],
+  imports: [CommonModule], // pipes + Angular control flow
   templateUrl: './event-details.html',
   styleUrls: ['./event-details.css'],
 })
@@ -45,6 +47,37 @@ export class EventDetails implements OnInit {
 
     const end = new Date(e.endDate);
     return !isNaN(end.getTime()) && new Date() > end;
+  }
+
+  /** هل الحدث مكتمل؟ (نستخدمها لإظهار الفيدباك فقط عند الاكتمال) */
+  get eventCompleted(): boolean {
+    const s = (this.event?.status ?? '').toLowerCase();
+    return s === 'completed';
+  }
+
+  /** متوسط التقييم وعدد التقييمات من DataService.feedback() */
+  get avgFeedback() {
+    const res = { avg: 0, count: 0 };
+    if (!this.event) return res;
+
+    const all = this.dataService.feedback(); // signal<Array<Feedback>>
+    if (!Array.isArray(all) || all.length === 0) return res;
+
+    const list = all.filter(
+      (f: any) =>
+        f &&
+        Number(f.eventId) === this.eventID &&
+        typeof f.rating === 'number' &&
+        !isNaN(f.rating)
+    );
+
+    const count = list.length;
+    if (!count) return res;
+
+    const sum = list.reduce((acc: number, f: any) => acc + Number(f.rating || 0), 0);
+    const avg = sum / count;
+
+    return { avg: Math.round(avg * 10) / 10, count }; // 1 decimal place
   }
 
   private nextId(list: { id: number }[]): number {

@@ -1,9 +1,7 @@
 <app-loader></app-loader>
-<!-- <app-loader></app-loader> -->
 <div
   class="bg-white dark:bg-[#0a0a0a] text-black dark:text-white pt-16 transition-colors duration-500"
 >
-  <!-- 🌟 Hero Section -->
   <section class="text-center mb-24 animate-fadeInUpSlow">
     <div class="flex justify-center mb-6 animate-float">
       <div
@@ -27,12 +25,11 @@
     <p
       class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
     >
-      We are a passionate team crafting event management tools that make
-      organizing your occasions smart, simple, and memorable.
+      We are a passionate team crafting event management tools that make organizing your occasions
+      smart, simple, and memorable.
     </p>
   </section>
 
-  <!-- 👥 Team Section -->
   <section class="container mx-auto mb-24 px-4">
     <h2
       class="anton-regular text-3xl sm:text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-14 animate-fadeInUpSlow"
@@ -45,7 +42,7 @@
       <div
         *ngFor="let member of teamMembers; let i = index"
         class="group bg-white dark:bg-[#111] rounded-2xl shadow-lg p-6 text-center transform transition-all duration-500 hover:scale-[1.04] hover:shadow-2xl animate-fadeInUpSlow"
-        [style.animation-delay]="(0.4 + i * 0.15) + 's'"
+        [style.animation-delay]="0.4 + i * 0.15 + 's'"
       >
         <div class="relative w-28 h-28 mx-auto mb-5">
           <img
@@ -68,7 +65,6 @@
     </div>
   </section>
 
-  <!-- 📊 Stats Section -->
   <section
     class="container mx-auto bg-gray-50 dark:bg-[#0a0a0a] rounded-2xl shadow-xl p-10 transition-all duration-500"
   >
@@ -84,7 +80,9 @@
         class="stat-card text-center p-6 rounded-xl bg-white dark:bg-[#0f0f0f] shadow-md hover:shadow-lg transition-all duration-500 animate-fadeInUpSlow"
         style="animation-delay: 0.8s"
       >
-        <div class="stat-value text-3xl font-bold text-orange-500 dark:text-orange-400 mb-2">150+</div>
+        <div class="stat-value text-3xl font-bold text-orange-500 dark:text-orange-400 mb-2">
+          {{ totalEvents() }}+
+        </div>
         <div class="stat-label text-gray-600 dark:text-gray-400">Events</div>
       </div>
 
@@ -92,7 +90,9 @@
         class="stat-card text-center p-6 rounded-xl bg-white dark:bg-[#0f0f0f] shadow-md hover:shadow-lg transition-all duration-500 animate-fadeInUpSlow"
         style="animation-delay: 0.9s"
       >
-        <div class="stat-value text-3xl font-bold text-green-500 dark:text-green-400 mb-2">5000+</div>
+        <div class="stat-value text-3xl font-bold text-green-500 dark:text-green-400 mb-2">
+          {{ totalGuests() }}+
+        </div>
         <div class="stat-label text-gray-600 dark:text-gray-400">Guests</div>
       </div>
 
@@ -100,7 +100,9 @@
         class="stat-card text-center p-6 rounded-xl bg-white dark:bg-[#0f0f0f] shadow-md hover:shadow-lg transition-all duration-500 animate-fadeInUpSlow"
         style="animation-delay: 1s"
       >
-        <div class="stat-value text-3xl font-bold text-orange-500 dark:text-orange-400 mb-2">₩1.2M+</div>
+        <div class="stat-value text-3xl font-bold text-orange-500 dark:text-orange-400 mb-2">
+          ₩1.2M+
+        </div>
         <div class="stat-label text-gray-600 dark:text-gray-400">Saved</div>
       </div>
 
@@ -108,7 +110,9 @@
         class="stat-card text-center p-6 rounded-xl bg-white dark:bg-[#0f0f0f] shadow-md hover:shadow-lg transition-all duration-500 animate-fadeInUpSlow"
         style="animation-delay: 1.1s"
       >
-        <div class="stat-value text-3xl font-bold text-yellow-500 dark:text-yellow-400 mb-2">4.8/5</div>
+        <div class="stat-value text-3xl font-bold text-yellow-500 dark:text-yellow-400 mb-2">
+          4.8/5
+        </div>
         <div class="stat-label text-gray-600 dark:text-gray-400">Rating</div>
       </div>
     </div>
